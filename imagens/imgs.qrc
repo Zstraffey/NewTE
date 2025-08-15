@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="imgs">
+    <file>imagem_direita.jpg</file>
+    <file>senha_direita.png</file>
+    <file>logo_new_te.png</file>
+    <file>logo new te.png</file>
+  </qresource>
+</RCC>
