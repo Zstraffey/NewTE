@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QMessageBox, QWidget
+from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QMessageBox, QWidget, QPushButton
 from PyQt5.uic import loadUi
 
 import mysql.connector as mc
@@ -13,22 +13,27 @@ class TelaInicial(QMainWindow):
         loadUi("../design/NOVODASH.ui",self)
 
         self.stack = self.findChild(QWidget, "stackedwidget_btns_da_sidebar")
-        #self.stackList = {"btn_home", "btn_chat","btn_config","btn_cadastro","btn_perfil"}
-
-        #for i, botao in enumerate(self.stackList, start=0):
-        #    print(i, botao)
-        #    botao.clicked.connect(lambda: self.mudarTela(i))
-
-        self.btn_home.clicked.connect(lambda: self.mudarTela(0))
-        self.btn_chat.clicked.connect(lambda: self.mudarTela(1))
-        self.btn_config.clicked.connect(lambda: self.mudarTela(2))
-        self.btn_cadastro.clicked.connect(lambda: self.mudarTela(3))
-        self.btn_perfil.clicked.connect(lambda: self.mudarTela(4))
-
         self.dashboardStack = self.findChild(QWidget, "stacked_widget_botoes_principais_do_dashboard")
-        self.btn_rendimento_do_dash.clicked.connect(lambda : self.mudarDashboard(0))
-        self.btn_func_do_dash.clicked.connect(lambda: self.mudarDashboard(1))
-        self.btn_calendario_do_dash.clicked.connect(lambda: self.mudarDashboard(2))
+
+        self.stackList = [
+            self.findChild(QPushButton, "btn_home"),
+            self.findChild(QPushButton, "btn_chat"),
+            self.findChild(QPushButton, "btn_config"),
+            self.findChild(QPushButton, "btn_cadastro"),
+            self.findChild(QPushButton, "btn_perfil"),
+        ]
+
+        self.dashboardList = [
+            self.findChild(QPushButton, "btn_rendimento_do_dash"),
+            self.findChild(QPushButton, "btn_func_do_dash"),
+            self.findChild(QPushButton, "btn_calendario_do_dash"),
+        ]
+
+        for i, botao in enumerate(self.stackList, start=0):
+            botao.clicked.connect(lambda _, idx=i: self.mudarTela(idx))
+
+        for i, botao in enumerate(self.dashboardList, start=0):
+            botao.clicked.connect(lambda _, idx=i: self.mudarDashboard(idx))
 
     def mudarTela(self, index):
         self.stack.setCurrentIndex(index)
