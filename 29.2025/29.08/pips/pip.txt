@@ -1,0 +1,2 @@
+pip install QT-PyQt_PySide-Custom_Widgets
+pip install matplotlib
