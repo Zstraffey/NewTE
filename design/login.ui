@@ -214,7 +214,7 @@ color: rgb(0, 0, 0);</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="../imagens/imgs.qrc">:/imgs/imagem_direita.jpg</pixmap>
+     <pixmap resource="imagens/imgs.qrc">:/imgs/imagem_direita.jpg</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -245,7 +245,7 @@ color: rgb(0, 0, 0);</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="../imagens/imgs.qrc">:/imgs/logo_new_te.png</pixmap>
+     <pixmap resource="imagens/imgs.qrc">:/imgs/logo_new_te.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -429,43 +429,6 @@ color: rgb(0, 0, 0);</string>
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; text-decoration: underline; color:#2b94c8;&quot;&gt;Política de Privacidade&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="trocar">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>440</y>
-      <width>231</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Inter</family>
-      <pointsize>12</pointsize>
-      <weight>75</weight>
-      <italic>false</italic>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="whatsThis">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton { background: transparent; border: none; }</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <zorder>logar</zorder>
    <zorder>new_te</zorder>
    <zorder>usuario</zorder>
@@ -481,7 +444,6 @@ color: rgb(0, 0, 0);</string>
    <zorder>termos_servico</zorder>
    <zorder>politica_privacidade</zorder>
    <zorder>txt_4</zorder>
-   <zorder>trocar</zorder>
   </widget>
  </widget>
  <tabstops>
@@ -490,8 +452,40 @@ color: rgb(0, 0, 0);</string>
   <tabstop>logar</tabstop>
  </tabstops>
  <resources>
-  <include location="../imagens/imgs.qrc"/>
   <include location="imagens/imgs.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>logar</sender>
+   <signal>clicked()</signal>
+   <receiver>usuario</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>195</x>
+     <y>430</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>228</x>
+     <y>329</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>logar</sender>
+   <signal>clicked()</signal>
+   <receiver>senha</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>181</x>
+     <y>426</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>198</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
