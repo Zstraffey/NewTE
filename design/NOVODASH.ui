@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1155</width>
-    <height>799</height>
+    <width>1265</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -143,6 +143,9 @@ QPushButton:icon {
            <height>500</height>
           </size>
          </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <property name="spacing">
            <number>0</number>
@@ -159,7 +162,7 @@ QPushButton:icon {
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item>
+          <item alignment="Qt::AlignTop">
            <widget class="QFrame" name="frame">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -180,7 +183,7 @@ QPushButton:icon {
              <string notr="true">QPushButton{
     text-align: left;
     padding: 5px 6px;
-font: 63 12pt &quot;Inter 18pt SemiBold&quot;;
+	font: 63 12pt &quot;Inter 18pt SemiBold&quot;;
 }
 
 </string>
@@ -225,7 +228,7 @@ font: 63 12pt &quot;Inter 18pt SemiBold&quot;;
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
-                <item>
+                <item alignment="Qt::AlignHCenter">
                  <widget class="QPushButton" name="foto_func">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -273,14 +276,14 @@ border-radius: 40px;
                </layout>
               </widget>
              </item>
-             <item>
+             <item alignment="Qt::AlignHCenter|Qt::AlignTop">
               <widget class="QLabel" name="nome_func">
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;nome_func&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>
-             <item>
+             <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
               <widget class="QLabel" name="carg_func">
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;carg_func&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -312,6 +315,9 @@ border-radius: 40px;
              </item>
              <item>
               <widget class="QPushButton" name="btn_home">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string>Tela Inicial</string>
                </property>
@@ -344,6 +350,9 @@ border-radius: 40px;
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string>Chat</string>
                </property>
@@ -370,6 +379,9 @@ border-radius: 40px;
              </item>
              <item>
               <widget class="QPushButton" name="btn_config">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string>Configurações</string>
                </property>
@@ -396,6 +408,9 @@ border-radius: 40px;
              </item>
              <item>
               <widget class="QPushButton" name="btn_cadastro">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string>Cadastar</string>
                </property>
@@ -422,6 +437,9 @@ border-radius: 40px;
              </item>
              <item>
               <widget class="QPushButton" name="btn_perfil">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string>Perfil</string>
                </property>
@@ -465,7 +483,7 @@ border-radius: 40px;
             </property>
            </spacer>
           </item>
-          <item>
+          <item alignment="Qt::AlignBottom">
            <widget class="QFrame" name="frame_2">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -483,9 +501,14 @@ border-radius: 40px;
              <string notr="true">QPushButton{
     text-align: left;
     padding: 5px 6px;
-font: 63 12pt &quot;Inter 18pt SemiBold&quot;;
-   border-radius: 6px;
-border: none;
+	font: 63 12pt &quot;Inter 18pt SemiBold&quot;;
+    border-radius: 6px;
+	border: none;
+}
+QPushButton:checked {
+    background-color: #100917;
+	border-left: 5px solid #FFFFFF;
+	font-weight: bold;  
 }</string>
             </property>
             <property name="frameShape">
@@ -497,6 +520,9 @@ border: none;
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <item>
               <widget class="QPushButton" name="btn_ajuda">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string>Ajuda</string>
                </property>
@@ -523,6 +549,9 @@ border: none;
              </item>
              <item>
               <widget class="QPushButton" name="btn_info">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string>Info</string>
                </property>
@@ -549,6 +578,9 @@ border: none;
              </item>
              <item>
               <widget class="QPushButton" name="btn_sair">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string>Sair</string>
                </property>
@@ -585,12 +617,12 @@ border: none;
     <item>
      <widget class="QStackedWidget" name="stackedwidget_btns_da_sidebar">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="page_dashboard">
        <layout class="QVBoxLayout" name="verticalLayout_43">
         <item>
-         <widget class="QWidget" name="dashboard_sidebar" native="true">
+         <widget class="QWidget" name="dashbaord_sidebar" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -896,7 +928,7 @@ QLineEdit:checked {
            <item>
             <widget class="QStackedWidget" name="stacked_widget_botoes_principais_do_dashboard">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="rendimento_page">
               <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -1346,6 +1378,9 @@ QComboBox:checked {
                                <width>140</width>
                                <height>16777215</height>
                               </size>
+                             </property>
+                             <property name="cursor">
+                              <cursorShape>PointingHandCursor</cursorShape>
                              </property>
                              <property name="editable">
                               <bool>false</bool>
@@ -1958,6 +1993,9 @@ QComboBox:checked {
                                <height>16777215</height>
                               </size>
                              </property>
+                             <property name="cursor">
+                              <cursorShape>PointingHandCursor</cursorShape>
+                             </property>
                              <property name="editable">
                               <bool>false</bool>
                              </property>
@@ -2159,24 +2197,22 @@ QCalendarWidget {
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_45">
-                    <property name="topMargin">
-                     <number>0</number>
+                   <widget class="QLabel" name="newte_4">
+                    <property name="geometry">
+                     <rect>
+                      <x>9</x>
+                      <y>0</y>
+                      <width>111</width>
+                      <height>59</height>
+                     </rect>
                     </property>
-                    <property name="bottomMargin">
-                     <number>0</number>
+                    <property name="styleSheet">
+                     <string notr="true">font: 22pt &quot;Palanquin Dark&quot;;</string>
                     </property>
-                    <item alignment="Qt::AlignLeft">
-                     <widget class="QLabel" name="newte_4">
-                      <property name="styleSheet">
-                       <string notr="true">font: 22pt &quot;Palanquin Dark&quot;;</string>
-                      </property>
-                      <property name="text">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;New TE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;New TE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
                   </widget>
                  </item>
                 </layout>
@@ -2284,6 +2320,9 @@ QLineEdit:checked {
                         <width>200</width>
                         <height>16777215</height>
                        </size>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true"/>
@@ -2494,7 +2533,7 @@ font: 63 11pt &quot;Inter 18pt SemiBold&quot;;
                                 <string notr="true">font: 63 10pt &quot;Inter 24pt SemiBold&quot;;</string>
                                </property>
                                <property name="text">
-                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Cadastro&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Cadastro&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                                </property>
                               </widget>
                              </item>
@@ -2550,7 +2589,7 @@ Line{
                             </property>
                             <layout class="QVBoxLayout" name="verticalLayout_18">
                              <item>
-                              <widget class="QLabel" name="label_3">
+                              <widget class="QLabel" name="lbl_nome">
                                <property name="maximumSize">
                                 <size>
                                  <width>200</width>
@@ -2563,7 +2602,7 @@ Line{
                               </widget>
                              </item>
                              <item>
-                              <widget class="QLineEdit" name="lineEdit_3">
+                              <widget class="QLineEdit" name="lineEdit_nome">
                                <property name="minimumSize">
                                 <size>
                                  <width>0</width>
@@ -2576,6 +2615,70 @@ Line{
                               </widget>
                              </item>
                              <item>
+                              <widget class="Line" name="line_7">
+                               <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLabel" name="lbl_email">
+                               <property name="text">
+                                <string>Email Pessoal</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLineEdit" name="lineEdit_email">
+                               <property name="inputMask">
+                                <string/>
+                               </property>
+                               <property name="cursorPosition">
+                                <number>0</number>
+                               </property>
+                               <property name="placeholderText">
+                                <string>Email1234@gmail.com</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="Line" name="line_1">
+                               <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLabel" name="lbl_telefone">
+                               <property name="text">
+                                <string>Telefone</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLineEdit" name="lineEdit_telefone">
+                               <property name="inputMask">
+                                <string>(00)00000-0000;_</string>
+                               </property>
+                               <property name="cursorPosition">
+                                <number>1</number>
+                               </property>
+                               <property name="placeholderText">
+                                <string>telefone</string>
+                               </property>
+                               <property name="cursorMoveStyle">
+                                <enum>Qt::VisualMoveStyle</enum>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLabel" name="mensagem_apagar_apos_ler___IMPORTANTE">
+                               <property name="text">
+                                <string>ADICIONAR MASCARA NOS CAMPOS DE NUMERO</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
                               <widget class="Line" name="line_2">
                                <property name="orientation">
                                 <enum>Qt::Horizontal</enum>
@@ -2583,37 +2686,70 @@ Line{
                               </widget>
                              </item>
                              <item>
-                              <widget class="QLabel" name="label_10">
+                              <widget class="QLabel" name="lbl_endereco">
                                <property name="text">
-                                <string>Email Pessoal</string>
+                                <string>Endereço</string>
                                </property>
                               </widget>
                              </item>
                              <item>
-                              <widget class="QLineEdit" name="lineEdit_5">
+                              <widget class="QLineEdit" name="lineEdit_endereco">
                                <property name="placeholderText">
-                                <string>Email1234@gmail.com</string>
+                                <string>Rua Tapaxanas</string>
                                </property>
                               </widget>
                              </item>
                              <item>
-                              <widget class="Line" name="line_3">
+                              <widget class="Line" name="line_6">
                                <property name="orientation">
                                 <enum>Qt::Horizontal</enum>
                                </property>
                               </widget>
                              </item>
                              <item>
-                              <widget class="QLabel" name="label_11">
+                              <widget class="QLabel" name="lbl_cpf">
                                <property name="text">
-                                <string>Telefone</string>
+                                <string>CPF</string>
                                </property>
                               </widget>
                              </item>
                              <item>
-                              <widget class="QLineEdit" name="lineEdit_6">
+                              <widget class="QLineEdit" name="lineEdit_cpf">
+                               <property name="inputMask">
+                                <string>000.000.000-00;_</string>
+                               </property>
                                <property name="placeholderText">
-                                <string>(11) 12345-6789</string>
+                                <string>000.000.000-00</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="Line" name="line_5">
+                               <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLabel" name="lbl_rg">
+                               <property name="text">
+                                <string>RG</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLineEdit" name="lineEdit_rg">
+                               <property name="inputMask">
+                                <string>00.000.000-0;_</string>
+                               </property>
+                               <property name="placeholderText">
+                                <string>00.000.000-0</string>
+                               </property>
+                               <property name="cursorMoveStyle">
+                                <enum>Qt::LogicalMoveStyle</enum>
+                               </property>
+                               <property name="clearButtonEnabled">
+                                <bool>false</bool>
                                </property>
                               </widget>
                              </item>
@@ -2625,77 +2761,17 @@ Line{
                               </widget>
                              </item>
                              <item>
-                              <widget class="QLabel" name="label_12">
-                               <property name="text">
-                                <string>Endereço</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLineEdit" name="lineEdit_7">
-                               <property name="placeholderText">
-                                <string>Rua Tapaxanas</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="Line" name="line_9">
-                               <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLabel" name="label_13">
-                               <property name="text">
-                                <string>CPF</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLineEdit" name="lineEdit_8">
-                               <property name="placeholderText">
-                                <string>000.000.000-00</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="Line" name="line_8">
-                               <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLabel" name="label_14">
-                               <property name="text">
-                                <string>RG</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLineEdit" name="lineEdit_10">
-                               <property name="placeholderText">
-                                <string>00.000.000-0</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="Line" name="line_7">
-                               <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLabel" name="label_15">
+                              <widget class="QLabel" name="lbl_depto">
                                <property name="text">
                                 <string>Depto</string>
                                </property>
                               </widget>
                              </item>
                              <item>
-                              <widget class="QComboBox" name="comboBox">
+                              <widget class="QComboBox" name="comboBox_depto">
+                               <property name="cursor">
+                                <cursorShape>PointingHandCursor</cursorShape>
+                               </property>
                                <property name="styleSheet">
                                 <string notr="true">	color: #000000;
     background-color: rgb(255, 255, 255);
@@ -2717,21 +2793,24 @@ Line{
                               </widget>
                              </item>
                              <item>
-                              <widget class="Line" name="line_6">
+                              <widget class="Line" name="line_3">
                                <property name="orientation">
                                 <enum>Qt::Horizontal</enum>
                                </property>
                               </widget>
                              </item>
                              <item>
-                              <widget class="QLabel" name="label_16">
+                              <widget class="QLabel" name="lbl_cargo">
                                <property name="text">
                                 <string>Cargo Empresarial</string>
                                </property>
                               </widget>
                              </item>
                              <item>
-                              <widget class="QComboBox" name="comboBox_2">
+                              <widget class="QComboBox" name="comboBox_cargo">
+                               <property name="cursor">
+                                <cursorShape>PointingHandCursor</cursorShape>
+                               </property>
                                <property name="styleSheet">
                                 <string notr="true">	color: #000000;
 	background-color: rgb(255, 255, 255);
@@ -2767,6 +2846,9 @@ Line{
                         <verstretch>0</verstretch>
                        </sizepolicy>
                       </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
                       <layout class="QVBoxLayout" name="verticalLayout_20">
                        <property name="leftMargin">
                         <number>0</number>
@@ -2783,7 +2865,7 @@ Line{
                        <item>
                         <widget class="QWidget" name="foto_func_2" native="true">
                          <property name="sizePolicy">
-                          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
@@ -2804,6 +2886,9 @@ Line{
                           <string notr="true">QPushButton{
 	
 	background-color: rgb(114, 48, 255);
+	border-radius: 7px;
+   
+
 
 }
 #foto_func_2{
@@ -2811,100 +2896,109 @@ Line{
     border-radius: 6px;
     border: 3px solid #5a5a5a;
 
-}</string>
+}
+QPushButton:hover {
+    background-color: #dddddd;
+}
+</string>
                          </property>
                          <layout class="QVBoxLayout" name="verticalLayout_19">
                           <property name="topMargin">
                            <number>9</number>
                           </property>
-                          <item>
-                           <widget class="QPushButton" name="pushButton_3">
-                            <property name="text">
-                             <string>PushButton</string>
-                            </property>
+                          <item alignment="Qt::AlignTop">
+                           <widget class="QWidget" name="widget_5" native="true">
+                            <layout class="QVBoxLayout" name="verticalLayout_23">
+                             <property name="leftMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="topMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="rightMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="bottomMargin">
+                              <number>0</number>
+                             </property>
+                             <item alignment="Qt::AlignTop">
+                              <widget class="QPushButton" name="pushButton_4">
+                               <property name="cursor">
+                                <cursorShape>PointingHandCursor</cursorShape>
+                               </property>
+                               <property name="text">
+                                <string/>
+                               </property>
+                               <property name="icon">
+                                <iconset resource="../imagens/imgs.qrc">
+                                 <normaloff>:/imgs/imagem_direita.jpg</normaloff>:/imgs/imagem_direita.jpg</iconset>
+                               </property>
+                               <property name="iconSize">
+                                <size>
+                                 <width>216</width>
+                                 <height>216</height>
+                                </size>
+                               </property>
+                              </widget>
+                             </item>
+                             <item alignment="Qt::AlignTop">
+                              <widget class="QLabel" name="label_17">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="text">
+                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Foto do Funcionario&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                               </property>
+                              </widget>
+                             </item>
+                            </layout>
                            </widget>
                           </item>
                           <item>
                            <widget class="QPushButton" name="pushButton_2">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>16777215</width>
+                              <height>60</height>
+                             </size>
+                            </property>
+                            <property name="cursor">
+                             <cursorShape>PointingHandCursor</cursorShape>
+                            </property>
                             <property name="text">
-                             <string>PushButton</string>
+                             <string>Selecionar foto</string>
                             </property>
                            </widget>
                           </item>
                          </layout>
                         </widget>
                        </item>
-                      </layout>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QWidget" name="widget_pessoas_solicitar_4" native="true">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>150</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton{
-
-	color: #000000;
-   	border-radius: 7px;
-    border: 4px solid ;
-
-
-}</string>
-                   </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_17">
-                    <property name="topMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <widget class="QWidget" name="solicitar_ajuda_4" native="true">
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>60</height>
-                       </size>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">	border-radius: 7px;
-    border: 4px solid #ff0000;
-
-</string>
-                      </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_50">
-                       <property name="spacing">
-                        <number>0</number>
-                       </property>
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
                        <item>
+                        <spacer name="verticalSpacer_2">
+                         <property name="orientation">
+                          <enum>Qt::Vertical</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>20</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                       <item alignment="Qt::AlignBottom">
                         <widget class="QPushButton" name="cancelar">
                          <property name="sizePolicy">
-                          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
@@ -2915,47 +3009,51 @@ Line{
                            <height>50</height>
                           </size>
                          </property>
+                         <property name="cursor">
+                          <cursorShape>PointingHandCursor</cursorShape>
+                         </property>
+                         <property name="toolTip">
+                          <string>quando o botao for checkado, aparecer uma mensagem perguntando se ele confirma a açao, independente da açao, desmarca o botao</string>
+                         </property>
+                         <property name="whatsThis">
+                          <string/>
+                         </property>
                          <property name="styleSheet">
-                          <string notr="true">background-color:  rgb(255, 20, 20);
-</string>
+                          <string notr="true">
+QPushButton{
+	border-radius: 7px;
+    border: 4px solid #aaaaaa;
+	background-color:  #aaaaaa;
+
+}
+
+QPushButton:hover {
+    background-color: #888888;
+}
+
+QPushButton:checked {
+    background-color: #444444;
+    
+}</string>
                          </property>
                          <property name="text">
                           <string>Cancelar</string>
                          </property>
+                         <property name="shortcut">
+                          <string>Return</string>
+                         </property>
+                         <property name="checkable">
+                          <bool>true</bool>
+                         </property>
+                         <property name="checked">
+                          <bool>false</bool>
+                         </property>
                         </widget>
                        </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QWidget" name="pessoas_online_4" native="true">
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>60</height>
-                       </size>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">	border-radius: 7px;
-    border: 4px solid #00ff00;</string>
-                      </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_49">
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
                        <item>
                         <widget class="QPushButton" name="confirmar">
                          <property name="sizePolicy">
-                          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
@@ -2966,12 +3064,30 @@ Line{
                            <height>50</height>
                           </size>
                          </property>
+                         <property name="cursor">
+                          <cursorShape>PointingHandCursor</cursorShape>
+                         </property>
                          <property name="styleSheet">
-                          <string notr="true">background-color:  rgb(20, 255, 20);
-</string>
+                          <string notr="true">QPushButton{
+	border-radius: 7px;
+    border: 4px solid #3D8AFF;
+	background-color:  #3D8AFF;
+
+}
+
+QPushButton:hover {
+    background-color: rgb(48, 110, 202);
+}
+QPushButton:checked {
+    background-color: rgb(31, 70, 129);
+    
+}</string>
                          </property>
                          <property name="text">
                           <string>Confirmar</string>
+                         </property>
+                         <property name="checkable">
+                          <bool>true</bool>
                          </property>
                         </widget>
                        </item>
@@ -3045,7 +3161,7 @@ Line{
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="../imagens/imgs.qrc">:/imgs/imagem_direita.jpg</pixmap>
+              <pixmap resource="../imagens/imgs.qrc">:/imgs/logo new te.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -3241,6 +3357,9 @@ border-radius: 75px;
                   <width>200</width>
                   <height>200</height>
                  </size>
+                </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="text">
                  <string>Editar Perfil</string>
