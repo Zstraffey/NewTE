@@ -6,6 +6,10 @@ from PyQt5.uic import loadUi
 import dashboard
 import mysql.connector as mc
 
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 import imgs_rc
 
 class Login(QMainWindow):
@@ -69,8 +73,34 @@ class EsqueciSenha(QMainWindow):
     def __init__(self):
         super(EsqueciSenha,self).__init__()
         loadUi("../design/senha.ui",self)
-        #self.logar.clicked.connect()
         self.trocar.clicked.connect(self.trocartela)
+        self.enviar.clicked.connect(self.requisitarSenha)
+
+    def requisitarSenha(self):
+        def mudarTexto(text, color):
+            return f'<html><head/><body><p align="center"><span style=" font-size:11pt; color:#{color};">{text}</span></p></body></html>'
+
+        self.verificacao.setText(mudarTexto("Enviando Email...", "ffffff"))
+
+        sender_email = "newtetcc2025@gmail.com"
+        app_password = "bboq pkqm nexm riyv"
+        receiver_email = self.usuario.text()
+
+        # Create the email
+        message = MIMEMultipart()
+        message["From"] = sender_email
+        message["To"] = receiver_email
+        message["Subject"] = "Test Email from Python"
+
+        # Email body
+        body = "Hello! This is a test email sent from Python."
+        message.attach(MIMEText(body, "plain"))
+
+        # Connect to Gmail SMTP server
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(sender_email, app_password)
+            server.sendmail(sender_email, receiver_email, message.as_string())
+            self.verificacao.setText(mudarTexto("Email enviado!", "9999ff"))
 
     def trocartela(self):
         login=Login()

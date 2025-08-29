@@ -91,7 +91,7 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>260</y>
+      <y>250</y>
       <width>341</width>
       <height>20</height>
      </rect>
@@ -197,7 +197,7 @@ color: rgb rgb(0, 0, 0)</string>
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>220</y>
+      <y>210</y>
       <width>261</width>
       <height>41</height>
      </rect>
@@ -295,7 +295,7 @@ color: rgb rgb(0, 0, 0)</string>
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>280</y>
+      <y>270</y>
       <width>341</width>
       <height>20</height>
      </rect>
@@ -463,6 +463,27 @@ color: rgb rgb(0, 0, 0)</string>
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="verificacao">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>300</y>
+      <width>341</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Inter</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
    <zorder>separacao</zorder>
    <zorder>enviar</zorder>
    <zorder>txt_3</zorder>
@@ -479,6 +500,7 @@ color: rgb rgb(0, 0, 0)</string>
    <zorder>politica_privacidade</zorder>
    <zorder>txt_5</zorder>
    <zorder>trocar</zorder>
+   <zorder>verificacao</zorder>
   </widget>
  </widget>
  <tabstops>

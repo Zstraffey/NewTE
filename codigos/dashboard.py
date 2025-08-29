@@ -3,32 +3,9 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QMessageBox, QWidget
 from PyQt5.uic import loadUi
 
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-
 import mysql.connector as mc
 
 import imgs_rc
-
-sender_email = "newtetcc2025@gmail.com"
-app_password = "bboq pkqm nexm riyv"
-receiver_email = "migmig.zimmer@gmail.com"
-
-# Create the email
-message = MIMEMultipart()
-message["From"] = sender_email
-message["To"] = receiver_email
-message["Subject"] = "Test Email from Python"
-
-# Email body
-body = "Hello! This is a test email sent from Python."
-message.attach(MIMEText(body, "plain"))
-
-# Connect to Gmail SMTP server
-with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-    server.login(sender_email, app_password)
-    server.sendmail(sender_email, receiver_email, message.as_string())
 
 class TelaInicial(QMainWindow):
     def __init__(self):
