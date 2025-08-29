@@ -28,10 +28,8 @@ class Login(QMainWindow):
             senha = self.senha.text()
 
             if email == "" or senha == "":
-                QMessageBox.warning(None, "oi", "Por favor, preencha todos os campos.")
+                QMessageBox.warning(None, "Aviso", "Por favor, preencha todos os campos.")
                 return
-
-            self.logarAplicativo()
 
             mydb = mc.connect(
                 host="localhost",
@@ -48,14 +46,15 @@ class Login(QMainWindow):
             result = mycursor.fetchone()
 
             if result == None:
-                QMessageBox.warning(None, "oi", "Usuário ou senha incorretos.")
+                QMessageBox.warning(None, "Aviso", "Usuário ou senha incorretos.")
             else:
-                QMessageBox.information(None, "oi", "Logado com sucesso!")
+                QMessageBox.information(None, "Bem-Vindo!", "Logado com sucesso!")
+                self.logarAplicativo()
 
 
         except mc.Error as e:
             (
-                QMessageBox.warning(None, "oi", f'Erro ao conectar no banco de dados.'))
+                QMessageBox.warning(None, "Erro", f'Erro ao conectar no banco de dados.'))
 
     def mudartela(self):
         createacc=EsqueciSenha()
