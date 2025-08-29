@@ -92,7 +92,6 @@ class Login(QMainWindow):
         self.main.show()
         self.widget.hide()
 
-
 class EsqueciSenha(QMainWindow):
     def __init__(self, stacked_widget):
         super().__init__()

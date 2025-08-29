@@ -339,9 +339,9 @@ color: rgb rgb(0, 0, 0)</string>
    <widget class="QLabel" name="txt_6">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>120</x>
       <y>440</y>
-      <width>221</width>
+      <width>211</width>
       <height>31</height>
      </rect>
     </property>
@@ -354,7 +354,7 @@ color: rgb rgb(0, 0, 0)</string>
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;Esqueceu sua senha? &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;Lembrou da senha? &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="termos_servico">
