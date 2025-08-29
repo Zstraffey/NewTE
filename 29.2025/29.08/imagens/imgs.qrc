@@ -1,0 +1,19 @@
+<RCC>
+  <qresource prefix="imgs">
+    <file>downloads.png</file>
+    <file>list.png</file>
+    <file>imgs.qrc</file>
+    <file>chat.png</file>
+    <file>setting.png</file>
+    <file>info.png</file>
+    <file>question.png</file>
+    <file>home.png</file>
+    <file>logout.png</file>
+    <file>more.png</file>
+    <file>user.png</file>
+    <file>imagem_direita.jpg</file>
+    <file>senha_direita.png</file>
+    <file>logo_new_te.png</file>
+    <file>logo new te.png</file>
+  </qresource>
+</RCC>
