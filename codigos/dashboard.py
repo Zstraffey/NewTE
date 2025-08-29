@@ -1,19 +1,17 @@
-import sys
-from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QMessageBox, QWidget, QPushButton
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton
 from PyQt5.uic import loadUi
 
-import mysql.connector as mc
-
-import imgs_rc
-
+import imgs_rc  # your resources
 class TelaInicial(QMainWindow):
-    def __init__(self):
-        super(TelaInicial,self).__init__()
-        loadUi("../design/NOVODASH.ui",self)
+    def __init__(self, stacked_widget):
+        super().__init__()
+        loadUi("../design/NOVODASH.ui", self)
+        self.widget = stacked_widget
 
         self.stack = self.findChild(QWidget, "stackedwidget_btns_da_sidebar")
         self.dashboardStack = self.findChild(QWidget, "stacked_widget_botoes_principais_do_dashboard")
+
+        self.btn_sair.clicked.connect(self.logOut)
 
         self.stackList = [
             self.findChild(QPushButton, "btn_home"),
@@ -29,14 +27,21 @@ class TelaInicial(QMainWindow):
             self.findChild(QPushButton, "btn_calendario_do_dash"),
         ]
 
-        for i, botao in enumerate(self.stackList, start=0):
-            botao.clicked.connect(lambda _, idx=i: self.mudarTela(idx))
+        # Use partial to bind index safely
+        from functools import partial
+        for i, botao in enumerate(self.stackList):
+            botao.clicked.connect(partial(self.mudarTela, i))
 
-        for i, botao in enumerate(self.dashboardList, start=0):
-            botao.clicked.connect(lambda _, idx=i: self.mudarDashboard(idx))
+        for i, botao in enumerate(self.dashboardList):
+            botao.clicked.connect(partial(self.mudarDashboard, i))
 
     def mudarTela(self, index):
         self.stack.setCurrentIndex(index)
 
     def mudarDashboard(self, index):
         self.dashboardStack.setCurrentIndex(index)
+
+    def logOut(self):
+        self.close()
+        self.widget.setCurrentIndex(0)
+        self.widget.show()
