@@ -20,7 +20,6 @@ class Login(QMainWindow):
         self.senha.setEchoMode(QtWidgets.QLineEdit.Password)
 
         self.trocar.clicked.connect(self.mudartela)
-        #self.createaccbutton.clicked.connect(self.gotocreate)
 
     def loginfunction(self):
         try:
@@ -65,7 +64,6 @@ class Login(QMainWindow):
         self.main = dashboard.TelaInicial()
         self.main.show()
 
-        # Close this login window
         widget.close()
 
 class EsqueciSenha(QMainWindow):
