@@ -23,7 +23,7 @@ class Login(QMainWindow):
         #self.createaccbutton.clicked.connect(self.gotocreate)
 
     def loginfunction(self):
-        # try:
+        try:
             email = self.usuario.text()
             senha = self.senha.text()
 
@@ -33,29 +33,29 @@ class Login(QMainWindow):
 
             self.logarAplicativo()
 
+            mydb = mc.connect(
+                host="localhost",
+                user="root",
+                password="",
+                database="newte",
+                use_pure=True
+            )
 
-            # mydb = mc.connect(
-                #    host="localhost",
-                # user="root",
-                # password="",
-                # database="newte",
-                # use_pure=True
-            # )
+            mycursor = mydb.cursor()
+            query = "SELECT email, senha from usuario where email like '" + email + "' and senha like '" + senha + "'"
+            mycursor.execute(query)
 
-            # mycursor = mydb.cursor()
-            # query = "SELECT email, senha from usuario where email like '" + email + "' and senha like '" + senha + "'"
-            # mycursor.execute(query)
+            result = mycursor.fetchone()
 
-            # result = mycursor.fetchone()
+            if result == None:
+                QMessageBox.warning(None, "oi", "Usuário ou senha incorretos.")
+            else:
+                QMessageBox.information(None, "oi", "Logado com sucesso!")
 
-            #if result == None:
-            #    QMessageBox.warning(None, "oi", "Usuário ou senha incorretos.")
-            #else:
-            #    QMessageBox.information(None, "oi", "Logado com sucesso!")
 
-            #except mc.Error as e:
-                #  (
-            #    QMessageBox.warning(None, "oi", f'Erro ao conectar no banco de dados.'))
+        except mc.Error as e:
+            (
+                QMessageBox.warning(None, "oi", f'Erro ao conectar no banco de dados.'))
 
     def mudartela(self):
         createacc=EsqueciSenha()
