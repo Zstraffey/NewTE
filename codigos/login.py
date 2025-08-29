@@ -1,14 +1,44 @@
 import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
+from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.uic import loadUi
 import mysql.connector as mc
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+
 import dashboard
 import imgs_rc  # your resources
 
+class EmailSender(QThread):
+    finished = pyqtSignal(str)
+
+    def __init__(self, receiver_email):
+        super().__init__()
+        self.receiver_email = receiver_email
+
+    def run(self):
+        try:
+            sender_email = "newtetcc2025@gmail.com"
+            app_password = "bboq pkqm nexm riyv"
+
+            # Create the email
+            message = MIMEMultipart()
+            message["From"] = sender_email
+            message["To"] = self.receiver_email
+            message["Subject"] = "Test Email from Python"
+            message.attach(MIMEText("Hello! This is a test email sent from Python.", "plain"))
+
+            # Connect and send
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+                server.login(sender_email, app_password)
+                server.sendmail(sender_email, self.receiver_email, message.as_string())
+
+            self.finished.emit("Email enviado!")
+
+        except Exception as e:
+            self.finished.emit(f"Erro ao enviar: {str(e)}")
 
 class Login(QMainWindow):
     def __init__(self, stacked_widget):
@@ -76,22 +106,16 @@ class EsqueciSenha(QMainWindow):
         def mudarTexto(text, color):
             return f'<html><head/><body><p align="center"><span style=" font-size:11pt; color:#{color};">{text}</span></p></body></html>'
 
+        receiverEmail = self.usuario.text()
+        if not receiverEmail:
+            self.verificacao.setText(mudarTexto("Digite um email válido!", "ff0000"))
+            return
+
         self.verificacao.setText(mudarTexto("Enviando Email...", "ffffff"))
 
-        sender_email = "newtetcc2025@gmail.com"
-        app_password = "bboq pkqm nexm riyv"
-        receiver_email = self.usuario.text()
-
-        message = MIMEMultipart()
-        message["From"] = sender_email
-        message["To"] = receiver_email
-        message["Subject"] = "Test Email from Python"
-        message.attach(MIMEText("Hello! This is a test email sent from Python.", "plain"))
-
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(sender_email, app_password)
-            server.sendmail(sender_email, receiver_email, message.as_string())
-            self.verificacao.setText(mudarTexto("Email enviado!", "9999ff"))
+        self.email_thread = EmailSender(receiverEmail)
+        self.email_thread.finished.connect(lambda msg: self.verificacao.setText(mudarTexto(msg, "9999ff")))
+        self.email_thread.start()
 
     def trocartela(self):
         login = Login(self.widget)
