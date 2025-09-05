@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="imgs">
+    <file>more (1).png</file>
+    <file>trespontos.png</file>
     <file>downloads.png</file>
     <file>list.png</file>
     <file>imgs.qrc</file>
