@@ -85,9 +85,8 @@ class EmailSender(QThread):
                     Requisição de Recuperação de Senha
                 </div>
 
-                <p>Este e-mail é automaticamente gerado, não responda.</p>
+                <p>Este e-mail é automaticamente gerado, não responda. Se você não solicitou esta recuperação, por favor, ignore este e-mail</p>
                 <p>O seu código de segurança é: <span class="code">{str(passCode)}</span></p>
-                <p>Se você não solicitou esta recuperação, por favor, ignore este e-mail.</p>
             </body>
             </html>
             """
