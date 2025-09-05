@@ -5,8 +5,12 @@ from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.uic import loadUi
 import mysql.connector as mc
 import smtplib
-from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+import os
+
+import random
 
 import dashboard
 import imgs_rc  # your resources
@@ -20,15 +24,82 @@ class EmailSender(QThread):
 
     def run(self):
         try:
+            passCode = random.randint(100000, 999999)
+
             sender_email = "newtetcc2025@gmail.com"
             app_password = "bboq pkqm nexm riyv"
 
-            # Create the email
-            message = MIMEMultipart()
+            message = MIMEMultipart("related")
             message["From"] = sender_email
             message["To"] = self.receiver_email
-            message["Subject"] = "Test Email from Python"
-            message.attach(MIMEText("Hello! This is a test email sent from Python.", "plain"))
+            message["Subject"] = "New TE - Recuperação de Senha"
+
+            html_content = f"""
+            <html>
+            <head>
+                <style>
+                    body {{
+                        font-family: Arial, sans-serif;
+                    }}
+                    .header {{
+                        background-color: #6a1b9a;  /* Cor de fundo roxa */
+                        color: white;
+                        padding: 20px;
+                        text-align: center;
+                        font-size: 24px;
+                        font-weight: bold;
+                    }}
+                    .sub-header {{
+                        font-size: 16px;
+                        color: #333;
+                        text-align: center;
+                        margin-top: 10px;
+                    }}
+                    .code {{
+                        font-size: 20px;
+                        font-weight: bold;
+                        color: #333;
+                        background-color: #f0f0f0;
+                        padding: 10px;
+                        border-radius: 5px;
+                    }}
+                    .centered-img {{
+                        display: block;
+                        margin-left: auto;
+                        margin-right: auto;
+                        width: 5%; /* Ajuste a largura da imagem conforme necessário */
+                    }}
+                </style>
+            </head>
+            <body>
+                <!-- Cabeçalho -->
+                
+               <img src="cid:logo_image" alt="Logo da Empresa" class="centered-img" />
+               
+                <div class="header">
+                    New TE - Onboarding Digital
+                </div>
+
+                <!-- Subcabeçalho -->
+                <div class="sub-header">
+                    Requisição de Recuperação de Senha
+                </div>
+
+                <p>Este e-mail é automaticamente gerado, não responda.</p>
+                <p>O seu código de segurança é: <span class="code">{str(passCode)}</span></p>
+                <p>Se você não solicitou esta recuperação, por favor, ignore este e-mail.</p>
+            </body>
+            </html>
+            """
+
+            message.attach(MIMEText(html_content, "html"))
+            image_path = "../imagens/logo_new_te.png"
+            if os.path.exists(image_path):
+                with open(image_path, 'rb') as img_file:
+                    img = MIMEImage(img_file.read())
+                    img.add_header('Content-ID', '<logo_image>')
+                    img.add_header('Content-Disposition', 'inline',filename="image.jpg")
+                    message.attach(img)
 
             # Connect and send
             with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
