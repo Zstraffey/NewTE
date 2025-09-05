@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="imgs">
+    <file>send (1).png</file>
+    <file>send.png</file>
     <file>more (1).png</file>
     <file>trespontos.png</file>
     <file>downloads.png</file>
