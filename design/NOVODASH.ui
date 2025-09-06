@@ -617,7 +617,7 @@ QPushButton:checked {
     <item>
      <widget class="QStackedWidget" name="stackedwidget_btns_da_sidebar">
       <property name="currentIndex">
-       <number>1</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="page_dashboard">
        <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -2224,12 +2224,16 @@ QCalendarWidget {
          <number>10</number>
         </property>
         <item>
-         <widget class="QWidget" name="dashbaord_sidebar_3" native="true">
+         <widget class="QWidget" name="chat_widget" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 75 10pt &quot;Inter 18pt&quot;;
+	font-weight: bold;</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <property name="spacing">
@@ -2284,7 +2288,7 @@ QCalendarWidget {
                <number>0</number>
               </property>
               <item alignment="Qt::AlignTop">
-               <widget class="QWidget" name="widget_18" native="true">
+               <widget class="QWidget" name="pesquisa_dos_cntts" native="true">
                 <property name="styleSheet">
                  <string notr="true">QPushButton {
    
@@ -2324,7 +2328,7 @@ background-color: #6c6c6c;
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_25">
                  <item>
-                  <widget class="QLineEdit" name="lineedit_campo_pesquisa_3">
+                  <widget class="QLineEdit" name="lineedit_pesquisa">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                      <horstretch>0</horstretch>
@@ -2356,8 +2360,14 @@ background-color: #6c6c6c;
               </item>
               <item>
                <widget class="QScrollArea" name="scrollArea">
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
                 <property name="widgetResizable">
                  <bool>true</bool>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                 </property>
                 <widget class="QWidget" name="scrollAreaWidgetContents">
                  <property name="geometry">
@@ -2365,71 +2375,122 @@ background-color: #6c6c6c;
                    <x>0</x>
                    <y>0</y>
                    <width>250</width>
-                   <height>702</height>
+                   <height>718</height>
                   </rect>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_28">
                   <item>
-                   <widget class="QPushButton" name="pushButton_11">
-                    <property name="text">
-                     <string>PushButton</string>
+                   <widget class="QWidget" name="template_contato" native="true">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>70</height>
+                     </size>
                     </property>
+                    <property name="styleSheet">
+                     <string notr="true"/>
+                    </property>
+                    <layout class="QHBoxLayout" name="horizontalLayout_9">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>5</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>5</number>
+                     </property>
+                     <item>
+                      <widget class="QLabel" name="foto_cntt">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>60</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="text">
+                        <string/>
+                       </property>
+                       <property name="pixmap">
+                        <pixmap resource="../imagens/imgs.qrc">:/imgs/logo_new_te.png</pixmap>
+                       </property>
+                       <property name="scaledContents">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="widget_27" native="true">
+                       <layout class="QVBoxLayout" name="verticalLayout_30">
+                        <property name="spacing">
+                         <number>6</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>9</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>9</number>
+                        </property>
+                        <item>
+                         <widget class="QLabel" name="nome_salvo">
+                          <property name="text">
+                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;NOME_CONTATO&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="ultima_mensagem">
+                          <property name="styleSheet">
+                           <string notr="true">font-weight: normal ;</string>
+                          </property>
+                          <property name="text">
+                           <string>ultima_mensagem</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                    </layout>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_10">
-                    <property name="text">
-                     <string>PushButton</string>
+                   <spacer name="verticalSpacer_3">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
                     </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_9">
-                    <property name="text">
-                     <string>PushButton</string>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>40</height>
+                     </size>
                     </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_8">
-                    <property name="text">
-                     <string>PushButton</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_7">
-                    <property name="text">
-                     <string>PushButton</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_6">
-                    <property name="text">
-                     <string>PushButton</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_5">
-                    <property name="text">
-                     <string>PushButton</string>
-                    </property>
-                   </widget>
+                   </spacer>
                   </item>
                  </layout>
                 </widget>
                </widget>
               </item>
-              <item>
-               <widget class="QWidget" name="widget_19" native="true"/>
-              </item>
              </layout>
             </widget>
            </item>
            <item>
-            <widget class="Line" name="line_8">
+            <widget class="Line" name="separacao">
              <property name="styleSheet">
               <string notr="true">background-color: rgb(255, 255, 255);</string>
              </property>
@@ -2439,8 +2500,11 @@ background-color: #6c6c6c;
             </widget>
            </item>
            <item>
-            <widget class="QStackedWidget" name="stackedWidget">
-             <widget class="QWidget" name="page_3">
+            <widget class="QStackedWidget" name="stacked_local_chat">
+             <property name="currentIndex">
+              <number>1</number>
+             </property>
+             <widget class="QWidget" name="page_pcopia_d_template_chat">
               <layout class="QHBoxLayout" name="horizontalLayout_7">
                <item>
                 <widget class="QWidget" name="widget_23" native="true">
@@ -2461,7 +2525,7 @@ background-color: #6c6c6c;
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QWidget" name="btns_principais_do_dashboard_2" native="true">
+                   <widget class="QWidget" name="cabecario_contato" native="true">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -2516,7 +2580,7 @@ background-color: rgb(108, 108, 108);
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QWidget" name="widget_20" native="true">
+                      <widget class="QWidget" name="cabecario_contato_2" native="true">
                        <property name="styleSheet">
                         <string notr="true">
 QPushButton {
@@ -2547,7 +2611,7 @@ QPushButton:hover {
                          <number>0</number>
                         </property>
                         <item>
-                         <widget class="QPushButton" name="btn_calendario_do_dash_2">
+                         <widget class="QPushButton" name="infos_contato">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                             <horstretch>0</horstretch>
@@ -2589,7 +2653,7 @@ padding: 10px;</string>
                          </widget>
                         </item>
                         <item>
-                         <widget class="QPushButton" name="pushButton_3">
+                         <widget class="QPushButton" name="config_conversa">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -2610,7 +2674,7 @@ padding: 10px;</string>
                           </property>
                           <property name="icon">
                            <iconset resource="../imagens/imgs.qrc">
-                            <normaloff>:/imgs/trespontos.png</normaloff>:/imgs/trespontos.png</iconset>
+                            <normaloff>:/imgs/more (1).png</normaloff>:/imgs/more (1).png</iconset>
                           </property>
                           <property name="iconSize">
                            <size>
@@ -2639,20 +2703,39 @@ padding: 10px;</string>
                       <number>0</number>
                      </property>
                      <item>
-                      <spacer name="verticalSpacer_3">
-                       <property name="orientation">
-                        <enum>Qt::Vertical</enum>
+                      <widget class="QWidget" name="local_chat" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
                        </property>
-                       <property name="sizeHint" stdset="0">
+                       <property name="minimumSize">
                         <size>
-                         <width>20</width>
-                         <height>40</height>
+                         <width>0</width>
+                         <height>600</height>
                         </size>
                        </property>
-                      </spacer>
+                       <layout class="QVBoxLayout" name="verticalLayout_49">
+                        <item>
+                         <widget class="QLabel" name="podeapagar_2">
+                          <property name="text">
+                           <string>oi</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="podeapagar">
+                          <property name="text">
+                           <string>futuro chat legal</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
                      </item>
                      <item>
-                      <widget class="QWidget" name="btns_principais_do_dashboard_3" native="true">
+                      <widget class="QWidget" name="campo_escrever_mensagem" native="true">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                          <horstretch>0</horstretch>
@@ -2707,7 +2790,7 @@ background-color: rgb(108, 108, 108);
                          <number>0</number>
                         </property>
                         <item alignment="Qt::AlignVCenter">
-                         <widget class="QWidget" name="widget_24" native="true">
+                         <widget class="QWidget" name="campo_escrever_mensagem_2" native="true">
                           <property name="styleSheet">
                            <string notr="true">
 QLineEdit{
@@ -2718,7 +2801,9 @@ QLineEdit{
     border-radius: 6px;
 	border: none;
 }
-</string>
+QPushButton:hover {
+    background-color: #4a4a4a;
+}</string>
                           </property>
                           <layout class="QHBoxLayout" name="horizontalLayout_8">
                            <property name="leftMargin">
@@ -2731,7 +2816,7 @@ QLineEdit{
                             <number>9</number>
                            </property>
                            <item>
-                            <widget class="QLineEdit" name="lineEdit_nome_2">
+                            <widget class="QLineEdit" name="lineEdit_mensagem">
                              <property name="sizePolicy">
                               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                                <horstretch>0</horstretch>
@@ -2762,7 +2847,7 @@ QLineEdit{
                             </widget>
                            </item>
                            <item>
-                            <widget class="QPushButton" name="pushButton_12">
+                            <widget class="QPushButton" name="btn_enviar">
                              <property name="sizePolicy">
                               <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
                                <horstretch>0</horstretch>
@@ -2791,6 +2876,9 @@ QLineEdit{
                                <height>25</height>
                               </size>
                              </property>
+                             <property name="shortcut">
+                              <string>Return</string>
+                             </property>
                             </widget>
                            </item>
                           </layout>
@@ -2806,7 +2894,7 @@ QLineEdit{
                 </widget>
                </item>
                <item>
-                <widget class="QStackedWidget" name="stackedWidget_2">
+                <widget class="QStackedWidget" name="stacked_escondido">
                  <property name="minimumSize">
                   <size>
                    <width>200</width>
@@ -2819,21 +2907,202 @@ QLineEdit{
                    <height>16777215</height>
                   </size>
                  </property>
-                 <widget class="QWidget" name="page_7">
+                 <property name="currentIndex">
+                  <number>0</number>
+                 </property>
+                 <widget class="QWidget" name="page_infocontato">
                   <property name="styleSheet">
                    <string notr="true">background-color: #6c6c6c;</string>
                   </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_47">
+                   <item>
+                    <widget class="QFrame" name="frame_3">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="layoutDirection">
+                      <enum>Qt::LeftToRight</enum>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton{
+    text-align: left;
+    padding: 5px 6px;
+	font: 63 12pt &quot;Inter 18pt SemiBold&quot;;
+}
+
+</string>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Raised</enum>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_44">
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QWidget" name="widget_28" native="true">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>80</height>
+                         </size>
+                        </property>
+                        <property name="autoFillBackground">
+                         <bool>false</bool>
+                        </property>
+                        <layout class="QVBoxLayout" name="verticalLayout_45">
+                         <property name="leftMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>0</number>
+                         </property>
+                         <item alignment="Qt::AlignHCenter">
+                          <widget class="QPushButton" name="foto_func_contato">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="minimumSize">
+                            <size>
+                             <width>80</width>
+                             <height>80</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>80</width>
+                             <height>80</height>
+                            </size>
+                           </property>
+                           <property name="cursor">
+                            <cursorShape>PointingHandCursor</cursorShape>
+                           </property>
+                           <property name="layoutDirection">
+                            <enum>Qt::LeftToRight</enum>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">QPushButton{
+text-aling:center;
+	background-color: rgb(60, 37, 00) ;
+border-radius: 40px;
+
+}</string>
+                           </property>
+                           <property name="text">
+                            <string/>
+                           </property>
+                           <property name="iconSize">
+                            <size>
+                             <width>80</width>
+                             <height>80</height>
+                            </size>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                      <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+                       <widget class="QLabel" name="nome_func_contato">
+                        <property name="text">
+                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;nome_func&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
+                       <widget class="QLabel" name="carg_func_contato">
+                        <property name="text">
+                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;carg_func&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="Line" name="line_9">
+                        <property name="styleSheet">
+                         <string notr="true">Line{
+
+	background-color: rgb(255, 255, 255);
+
+}</string>
+                        </property>
+                        <property name="frameShadow">
+                         <enum>QFrame::Plain</enum>
+                        </property>
+                        <property name="lineWidth">
+                         <number>1</number>
+                        </property>
+                        <property name="midLineWidth">
+                         <number>1</number>
+                        </property>
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="verticalSpacer_4">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
                  </widget>
-                 <widget class="QWidget" name="page_8">
+                 <widget class="QWidget" name="page_infoconfig">
                   <property name="styleSheet">
                    <string notr="true">background-color: #6c6c6c;</string>
                   </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_50">
+                   <item alignment="Qt::AlignTop">
+                    <widget class="QLabel" name="titulo">
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Configurações &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;do Chat&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </widget>
                 </widget>
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="page_4"/>
+             <widget class="QWidget" name="page_vazia"/>
             </widget>
            </item>
           </layout>
@@ -4300,8 +4569,8 @@ border-radius: 40px;
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="rendimen_func_calen"/>
-  <buttongroup name="btns_sidebar"/>
   <buttongroup name="cancelar_confirmar"/>
+  <buttongroup name="btns_sidebar"/>
+  <buttongroup name="rendimen_func_calen"/>
  </buttongroups>
 </ui>
