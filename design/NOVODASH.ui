@@ -2343,7 +2343,7 @@ background-color: #6c6c6c;
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>220</width>
+                     <width>230</width>
                      <height>16777215</height>
                     </size>
                    </property>
@@ -2735,7 +2735,7 @@ padding: 10px;</string>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QWidget" name="campo_escrever_mensagem" native="true">
+                      <widget class="QWidget" name="campo_escrever_mensagem_2" native="true">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                          <horstretch>0</horstretch>
@@ -2790,7 +2790,7 @@ background-color: rgb(108, 108, 108);
                          <number>0</number>
                         </property>
                         <item alignment="Qt::AlignVCenter">
-                         <widget class="QWidget" name="campo_escrever_mensagem_2" native="true">
+                         <widget class="QWidget" name="campo_escrever_mensagem" native="true">
                           <property name="styleSheet">
                            <string notr="true">
 QLineEdit{
@@ -3111,19 +3111,22 @@ border-radius: 40px;
        </layout>
       </widget>
       <widget class="QWidget" name="page_config">
-       <widget class="QLabel" name="label_2">
-        <property name="geometry">
-         <rect>
-          <x>70</x>
-          <y>270</y>
-          <width>741</width>
-          <height>221</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:72pt;&quot;&gt;CONFIGURAÇÔES&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:72pt;&quot;&gt;CONFIGURAÇÔES&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>PushButton</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="page_cadastro">
        <property name="styleSheet">
@@ -3164,7 +3167,7 @@ border-radius: 40px;
             <number>0</number>
            </property>
            <item>
-            <widget class="QWidget" name="dashbaord_sidebar_2" native="true">
+            <widget class="QWidget" name="widget_20" native="true">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
@@ -3341,7 +3344,7 @@ QLineEdit:checked {
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_2">
+                     <widget class="QLineEdit" name="lineedit_campo_pesquisacadastro">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                         <horstretch>0</horstretch>
@@ -3378,7 +3381,7 @@ QLineEdit:checked {
                </widget>
               </item>
               <item>
-               <widget class="QWidget" name="widget_geral_dashboard_4" native="true">
+               <widget class="QWidget" name="widget_19" native="true">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -3479,7 +3482,7 @@ font: 63 11pt &quot;Inter 18pt SemiBold&quot;;
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QWidget" name="foto_func_5" native="true">
+                        <widget class="QWidget" name="widget_18" native="true">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                            <horstretch>0</horstretch>
@@ -3519,7 +3522,7 @@ font: 63 11pt &quot;Inter 18pt SemiBold&quot;;
                            <number>0</number>
                           </property>
                           <item>
-                           <widget class="QFrame" name="frame_dashboard_4">
+                           <widget class="QFrame" name="titulo_cadastro">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                               <horstretch>0</horstretch>
@@ -3555,7 +3558,7 @@ font: 63 11pt &quot;Inter 18pt SemiBold&quot;;
                               <number>0</number>
                              </property>
                              <item>
-                              <widget class="QLabel" name="lbl_dashboard_4">
+                              <widget class="QLabel" name="titulo_cadastro_2">
                                <property name="sizePolicy">
                                 <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
                                  <horstretch>0</horstretch>
@@ -3580,7 +3583,7 @@ font: 63 11pt &quot;Inter 18pt SemiBold&quot;;
                            </widget>
                           </item>
                           <item>
-                           <widget class="QWidget" name="widget_13" native="true">
+                           <widget class="QWidget" name="local_cadastro" native="true">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                               <horstretch>0</horstretch>
@@ -3619,7 +3622,7 @@ Line{
 	background-color: rgb(255, 255, 255);
 	max-height:2px;
 }
-#widget_13{
+#local_cadastro{
 
     border-radius: 6px;
     border: 3px solid #5a5a5a;
@@ -3657,7 +3660,7 @@ Line{
                               </widget>
                              </item>
                              <item>
-                              <widget class="Line" name="line_7">
+                              <widget class="Line" name="separacao_8">
                                <property name="orientation">
                                 <enum>Qt::Horizontal</enum>
                                </property>
@@ -3684,7 +3687,7 @@ Line{
                               </widget>
                              </item>
                              <item>
-                              <widget class="Line" name="line_1">
+                              <widget class="Line" name="separacao_2">
                                <property name="orientation">
                                 <enum>Qt::Horizontal</enum>
                                </property>
@@ -3714,7 +3717,7 @@ Line{
                               </widget>
                              </item>
                              <item>
-                              <widget class="Line" name="line_2">
+                              <widget class="Line" name="separacao_3">
                                <property name="orientation">
                                 <enum>Qt::Horizontal</enum>
                                </property>
@@ -3735,7 +3738,7 @@ Line{
                               </widget>
                              </item>
                              <item>
-                              <widget class="Line" name="line_6">
+                              <widget class="Line" name="separacao_6">
                                <property name="orientation">
                                 <enum>Qt::Horizontal</enum>
                                </property>
@@ -3759,7 +3762,7 @@ Line{
                               </widget>
                              </item>
                              <item>
-                              <widget class="Line" name="line_5">
+                              <widget class="Line" name="separacao_7">
                                <property name="orientation">
                                 <enum>Qt::Horizontal</enum>
                                </property>
@@ -3789,7 +3792,7 @@ Line{
                               </widget>
                              </item>
                              <item>
-                              <widget class="Line" name="line_4">
+                              <widget class="Line" name="separacao_4">
                                <property name="orientation">
                                 <enum>Qt::Horizontal</enum>
                                </property>
@@ -3828,7 +3831,7 @@ Line{
                               </widget>
                              </item>
                              <item>
-                              <widget class="Line" name="line_3">
+                              <widget class="Line" name="separacao_5">
                                <property name="orientation">
                                 <enum>Qt::Horizontal</enum>
                                </property>
@@ -3898,7 +3901,7 @@ Line{
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QWidget" name="foto_func_2" native="true">
+                        <widget class="QWidget" name="campo_foto_novo_func" native="true">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                            <horstretch>0</horstretch>
@@ -3926,7 +3929,7 @@ Line{
 
 
 }
-#foto_func_2{
+#campo_foto_novo_func{
 
     border-radius: 6px;
     border: 3px solid #5a5a5a;
@@ -3957,7 +3960,7 @@ QPushButton:hover {
                               <number>0</number>
                              </property>
                              <item alignment="Qt::AlignTop">
-                              <widget class="QPushButton" name="pushButton_4">
+                              <widget class="QPushButton" name="foto_novo_func">
                                <property name="cursor">
                                 <cursorShape>PointingHandCursor</cursorShape>
                                </property>
@@ -3993,7 +3996,7 @@ QPushButton:hover {
                            </widget>
                           </item>
                           <item>
-                           <widget class="QPushButton" name="pushButton_2">
+                           <widget class="QPushButton" name="btn_selecionar_foto">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                               <horstretch>0</horstretch>
@@ -4018,7 +4021,7 @@ QPushButton:hover {
                         </widget>
                        </item>
                        <item>
-                        <spacer name="verticalSpacer_2">
+                        <spacer name="separador">
                          <property name="orientation">
                           <enum>Qt::Vertical</enum>
                          </property>
@@ -4031,7 +4034,7 @@ QPushButton:hover {
                         </spacer>
                        </item>
                        <item alignment="Qt::AlignBottom">
-                        <widget class="QPushButton" name="cancelar">
+                        <widget class="QPushButton" name="btn_cancelar">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -4086,7 +4089,7 @@ QPushButton:hover {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="confirmar">
+                        <widget class="QPushButton" name="btn_confirmar">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -4161,7 +4164,7 @@ QPushButton:hover {
          <number>0</number>
         </property>
         <item>
-         <widget class="QWidget" name="widget_3" native="true">
+         <widget class="QWidget" name="foto_fundodoperfill" native="true">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -4191,7 +4194,7 @@ QPushButton:hover {
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="label_8">
+            <widget class="QLabel" name="foto_aqui">
              <property name="text">
               <string/>
              </property>
@@ -4228,7 +4231,7 @@ QPushButton:hover {
             <number>0</number>
            </property>
            <item alignment="Qt::AlignTop">
-            <widget class="QWidget" name="widget_7" native="true">
+            <widget class="QWidget" name="foto_dofunc" native="true">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -4267,7 +4270,7 @@ QPushButton:hover {
                <number>0</number>
               </property>
               <item alignment="Qt::AlignLeft|Qt::AlignTop">
-               <widget class="QPushButton" name="foto_func_3">
+               <widget class="QPushButton" name="foto_funcionario">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -4315,13 +4318,13 @@ border-radius: 75px;
             </widget>
            </item>
            <item alignment="Qt::AlignTop">
-            <widget class="QWidget" name="widget_8" native="true">
+            <widget class="QWidget" name="informacoes" native="true">
              <layout class="QVBoxLayout" name="verticalLayout_10">
               <property name="topMargin">
                <number>23</number>
               </property>
               <item alignment="Qt::AlignVCenter">
-               <widget class="QLabel" name="label_4">
+               <widget class="QLabel" name="nome_funcionario">
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
@@ -4334,7 +4337,7 @@ border-radius: 75px;
                </widget>
               </item>
               <item alignment="Qt::AlignVCenter">
-               <widget class="QLabel" name="label_5">
+               <widget class="QLabel" name="cargo_func">
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
@@ -4347,7 +4350,7 @@ border-radius: 75px;
                </widget>
               </item>
               <item alignment="Qt::AlignTop">
-               <widget class="QLabel" name="label_9">
+               <widget class="QLabel" name="sobre_mim">
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
@@ -4380,7 +4383,7 @@ border-radius: 75px;
                <number>30</number>
               </property>
               <item>
-               <widget class="QPushButton" name="pushButton">
+               <widget class="QPushButton" name="btn_editar_perfil">
                 <property name="minimumSize">
                  <size>
                   <width>200</width>
@@ -4436,7 +4439,7 @@ border-radius: 75px;
             <number>0</number>
            </property>
            <item>
-            <widget class="QWidget" name="widget_10" native="true">
+            <widget class="QWidget" name="local_experiencias" native="true">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -4445,7 +4448,7 @@ border-radius: 75px;
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_13">
               <item>
-               <widget class="QLabel" name="label_6">
+               <widget class="QLabel" name="titulo_experiencias">
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
@@ -4453,12 +4456,12 @@ border-radius: 75px;
                  </size>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Experienciasadfafadsfasdfasfasdfasdfasfadfa&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Experiencias&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                </widget>
               </item>
               <item alignment="Qt::AlignTop">
-               <widget class="QLabel" name="label_7">
+               <widget class="QLabel" name="experiencias">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -4488,68 +4491,126 @@ border-radius: 75px;
              </layout>
             </widget>
            </item>
-           <item>
-            <widget class="QWidget" name="widget_11" native="true">
+           <item alignment="Qt::AlignRight">
+            <widget class="QWidget" name="local_outros_funcs" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <layout class="QVBoxLayout" name="verticalLayout_8">
-              <property name="spacing">
-               <number>0</number>
-              </property>
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
               <item>
-               <widget class="QPushButton" name="foto_func_4">
+               <widget class="QWidget" name="template_outros_funcs" native="true">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>80</width>
-                  <height>80</height>
+                  <width>478</width>
+                  <height>98</height>
                  </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="cursor">
-                 <cursorShape>PointingHandCursor</cursorShape>
-                </property>
-                <property name="layoutDirection">
-                 <enum>Qt::LeftToRight</enum>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">QPushButton{
+                 <string notr="true">#template_outros_funcs{
+background-color: rgb(108, 108, 108);
+border-radius: 15px;
+
+}</string>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_10">
+                 <property name="leftMargin">
+                  <number>7</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="foto_outros_funcs">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>80</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>80</width>
+                     <height>80</height>
+                    </size>
+                   </property>
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
+                   </property>
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton{
 text-aling:center;
 	background-color: rgb(60, 37, 00) ;
 border-radius: 40px;
 
 }</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>4000</width>
+                     <height>4000</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="info_outros_funcs" native="true">
+                   <layout class="QVBoxLayout" name="verticalLayout_51">
+                    <property name="spacing">
+                     <number>8</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="nome_outros_funcs">
+                      <property name="text">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;nome_func&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="cargo_outros_funcs">
+                      <property name="text">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;cargo_func&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
                 </property>
-                <property name="text">
-                 <string>outros funcionarios;</string>
-                </property>
-                <property name="iconSize">
+                <property name="sizeHint" stdset="0">
                  <size>
-                  <width>4000</width>
-                  <height>4000</height>
+                  <width>20</width>
+                  <height>40</height>
                  </size>
                 </property>
-               </widget>
+               </spacer>
               </item>
              </layout>
             </widget>
@@ -4570,7 +4631,7 @@ border-radius: 40px;
  <connections/>
  <buttongroups>
   <buttongroup name="cancelar_confirmar"/>
-  <buttongroup name="btns_sidebar"/>
   <buttongroup name="rendimen_func_calen"/>
+  <buttongroup name="btns_sidebar"/>
  </buttongroups>
 </ui>
