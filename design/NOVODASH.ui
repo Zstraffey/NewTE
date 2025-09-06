@@ -617,7 +617,7 @@ QPushButton:checked {
     <item>
      <widget class="QStackedWidget" name="stackedwidget_btns_da_sidebar">
       <property name="currentIndex">
-       <number>4</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="page_dashboard">
        <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -2502,7 +2502,7 @@ background-color: #6c6c6c;
            <item>
             <widget class="QStackedWidget" name="stacked_local_chat">
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_pcopia_d_template_chat">
               <layout class="QHBoxLayout" name="horizontalLayout_7">
