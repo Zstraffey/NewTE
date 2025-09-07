@@ -617,7 +617,7 @@ QPushButton:checked {
     <item>
      <widget class="QStackedWidget" name="stackedwidget_btns_da_sidebar">
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="page_dashboard">
        <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -928,7 +928,7 @@ QLineEdit:checked {
            <item>
             <widget class="QStackedWidget" name="stacked_widget_botoes_principais_do_dashboard">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="rendimento_page">
               <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -1164,7 +1164,7 @@ QPushButton:hover {
                            </sizepolicy>
                           </property>
                           <property name="cursor">
-                           <cursorShape>PointingHandCursor</cursorShape>
+                           <cursorShape>ArrowCursor</cursorShape>
                           </property>
                           <property name="styleSheet">
                            <string notr="true">QPushButton {
@@ -1427,6 +1427,9 @@ QComboBox:checked {
                     <layout class="QVBoxLayout" name="verticalLayout_39">
                      <item>
                       <widget class="QTableWidget" name="substitua_tabela_aqui">
+                       <property name="cursor" stdset="0">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                       </property>
                        <property name="styleSheet">
                         <string notr="true">/* ======================= */
 /* Tabela geral */
@@ -1923,7 +1926,7 @@ QPushButton:hover {
                            </sizepolicy>
                           </property>
                           <property name="cursor">
-                           <cursorShape>PointingHandCursor</cursorShape>
+                           <cursorShape>ArrowCursor</cursorShape>
                           </property>
                           <property name="styleSheet">
                            <string notr="true">QPushButton {
@@ -2189,7 +2192,11 @@ QCalendarWidget {
                     </property>
                     <layout class="QVBoxLayout" name="verticalLayout_42">
                      <item>
-                      <widget class="QCalendarWidget" name="substitua_calendario_aqui"/>
+                      <widget class="QCalendarWidget" name="substitua_calendario_aqui">
+                       <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                       </property>
+                      </widget>
                      </item>
                     </layout>
                    </widget>
@@ -2387,6 +2394,9 @@ background-color: #6c6c6c;
                       <height>70</height>
                      </size>
                     </property>
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true"/>
                     </property>
@@ -2417,6 +2427,9 @@ background-color: #6c6c6c;
                          <height>16777215</height>
                         </size>
                        </property>
+                       <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                       </property>
                        <property name="text">
                         <string/>
                        </property>
@@ -2430,6 +2443,9 @@ background-color: #6c6c6c;
                      </item>
                      <item>
                       <widget class="QWidget" name="widget_27" native="true">
+                       <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                       </property>
                        <layout class="QVBoxLayout" name="verticalLayout_30">
                         <property name="spacing">
                          <number>6</number>
@@ -2448,6 +2464,9 @@ background-color: #6c6c6c;
                         </property>
                         <item>
                          <widget class="QLabel" name="nome_salvo">
+                          <property name="cursor">
+                           <cursorShape>PointingHandCursor</cursorShape>
+                          </property>
                           <property name="text">
                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;NOME_CONTATO&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                           </property>
@@ -2455,6 +2474,9 @@ background-color: #6c6c6c;
                         </item>
                         <item>
                          <widget class="QLabel" name="ultima_mensagem">
+                          <property name="cursor">
+                           <cursorShape>PointingHandCursor</cursorShape>
+                          </property>
                           <property name="styleSheet">
                            <string notr="true">font-weight: normal ;</string>
                           </property>
@@ -2908,7 +2930,7 @@ QPushButton:hover {
                   </size>
                  </property>
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>1</number>
                  </property>
                  <widget class="QWidget" name="page_infocontato">
                   <property name="styleSheet">
@@ -4514,6 +4536,9 @@ border-radius: 75px;
                   <height>98</height>
                  </size>
                 </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">#template_outros_funcs{
 background-color: rgb(108, 108, 108);
@@ -4572,6 +4597,9 @@ border-radius: 40px;
                  </item>
                  <item>
                   <widget class="QWidget" name="info_outros_funcs" native="true">
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
+                   </property>
                    <layout class="QVBoxLayout" name="verticalLayout_51">
                     <property name="spacing">
                      <number>8</number>
@@ -4581,6 +4609,9 @@ border-radius: 40px;
                     </property>
                     <item>
                      <widget class="QLabel" name="nome_outros_funcs">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;nome_func&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
@@ -4588,6 +4619,9 @@ border-radius: 40px;
                     </item>
                     <item>
                      <widget class="QLabel" name="cargo_outros_funcs">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;cargo_func&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
