@@ -14,6 +14,8 @@ import random
 
 import dashboard
 import imgs_rc  # your resources
+from codigos.classes import bancoDados
+
 
 class EmailSender(QThread):
     finished = pyqtSignal(str)
@@ -130,27 +132,24 @@ class Login(QMainWindow):
             QMessageBox.warning(None, "Aviso", "Por favor, preencha todos os campos.")
             return
 
-        try:
-            mydb = mc.connect(
-                host="localhost",
-                user="root",
-                password="",
-                database="newte",
-                use_pure=True
-            )
-            mycursor = mydb.cursor()
-            query = "SELECT email, senha FROM usuario WHERE email = %s AND senha = %s"
-            mycursor.execute(query, (email, senha))
-            result = mycursor.fetchone()
+        db = bancoDados().conectar()
+        if not db:
+            return
 
-            if result is None:
-                QMessageBox.warning(None, "Aviso", "Usuário ou senha incorretos.")
-            else:
-                QMessageBox.information(None, "Bem-Vindo!", "Logado com sucesso!")
-                self.logarAplicativo()
+        cursor = db.cursor()
 
-        except mc.Error:
-            QMessageBox.warning(None, "Erro", "Erro ao conectar no banco de dados.")
+        query = "SELECT email, senha FROM usuario WHERE email = %s AND senha = %s"
+        cursor.execute(query, (email, senha))
+        result = cursor.fetchone()
+
+        if result is None:
+            QMessageBox.warning(None, "Aviso", "Usuário ou senha incorretos.")
+        else:
+            QMessageBox.information(None, "Bem-Vindo!", "Logado com sucesso!")
+            self.logarAplicativo()
+
+        cursor.close()
+        db.close()
 
     def mudartela(self):
         createacc = EsqueciSenha(self.widget)
