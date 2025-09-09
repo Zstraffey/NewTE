@@ -3,7 +3,6 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.uic import loadUi
-import mysql.connector as mc
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -13,8 +12,7 @@ import os
 import random
 
 import dashboard
-import imgs_rc  # your resources
-from codigos.classes import bancoDados
+from codigos.classes import conectar
 
 
 class EmailSender(QThread):
@@ -132,7 +130,7 @@ class Login(QMainWindow):
             QMessageBox.warning(None, "Aviso", "Por favor, preencha todos os campos.")
             return
 
-        db = bancoDados().conectar()
+        db = conectar()
         cursor = db.cursor()
 
         query = "SELECT email, senha FROM usuario WHERE email = %s AND senha = %s"
