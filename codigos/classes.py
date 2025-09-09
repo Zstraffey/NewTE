@@ -18,8 +18,7 @@ class bancoDados:
             )
 
             return mydb
-
         except mc.Error:
             QMessageBox.warning(None, "Erro", "Erro ao conectar no banco de dados.")
 
-        return False
+            return False

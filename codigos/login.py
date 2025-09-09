@@ -133,6 +133,9 @@ class Login(QMainWindow):
             return
 
         db = bancoDados().conectar()
+        if not db:
+            return
+
         cursor = db.cursor()
 
         query = "SELECT email, senha FROM usuario WHERE email = %s AND senha = %s"
