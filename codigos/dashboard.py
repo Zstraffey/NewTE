@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout
 from PyQt5.uic import loadUi
+import classes
 
 import imgs_rc  # your resources
 class TelaInicial(QMainWindow):
@@ -34,6 +35,30 @@ class TelaInicial(QMainWindow):
 
         for i, botao in enumerate(self.dashboardList):
             botao.clicked.connect(partial(self.mudarDashboard, i))
+
+        scrollArea = self.usuarios_chat
+        scrollArea.setWidgetResizable(True)
+
+        container = self.usuarios_chat.widget()
+        layout = container.layout()
+
+        # garante que tenha layout
+        if not layout:
+            print("oi")
+            newlayout = QVBoxLayout()
+            newlayout.setContentsMargins(0, 0, 0, 0)
+            newlayout.setSpacing(0)
+            container.setLayout(newlayout)
+        else:
+            layout.setContentsMargins(0, 0, 0, 0)
+            layout.setSpacing(0)
+
+        users = ["Alice", "Bob", "Charlie", "Dave", "Matheus", "Leo", "Yslan"]
+
+        # cria os botões/widgets
+        for user in users:
+            btn = classes.usuarioChat(user)
+            layout.addWidget(btn)
 
     def mudarTela(self, index):
         self.stack.setCurrentIndex(index)
