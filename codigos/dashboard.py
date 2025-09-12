@@ -39,6 +39,7 @@ class TelaInicial(QMainWindow):
         container = self.usuarios_chat.widget()
         self.usuarios_chat.setWidgetResizable(True)
 
+
         layout = container.layout()
 
         users = ["Alice", "Bob", "Charlie", "Dave",]
