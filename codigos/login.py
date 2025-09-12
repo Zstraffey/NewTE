@@ -108,6 +108,34 @@ class EmailSender(QThread):
 
             self.finished.emit("Email enviado! Aguarde...")
 
+            print("oi")
+
+            db = bancoDados().conectar()
+            if not db:
+                return
+
+            cursor = db.cursor()
+
+            query = f"""
+                DELETE FROM recuperacao_senha WHERE email_usuario = '{self.receiver_email}';
+            """
+            cursor.execute(query)
+
+            print("ola")
+
+            query = f"""
+                INSERT INTO recuperacao_senha
+                (email_usuario, codigo) 
+                VALUES ('{self.receiver_email}', '{passCode}');
+            """
+            cursor.execute(query)
+
+            print("eba")
+
+            db.commit()
+            cursor.close()
+            db.close()
+
         except Exception as e:
             self.finished.emit(f"Erro ao enviar: {str(e)}")
             print(f"Erro ao enviar: {str(e)}")
