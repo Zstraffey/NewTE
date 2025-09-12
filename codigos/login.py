@@ -16,7 +16,6 @@ import dashboard
 import imgs_rc  # your resources
 from codigos.classes import bancoDados
 
-
 class EmailSender(QThread):
     finished = pyqtSignal(str)
 
