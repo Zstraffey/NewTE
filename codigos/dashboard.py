@@ -41,7 +41,7 @@ class TelaInicial(QMainWindow):
 
         layout = container.layout()
 
-        users = ["Alice", "Bob", "Charlie", "Dave"]
+        users = ["Alice", "Bob", "Charlie", "Dave",]
 
         for user in users:
             btn = classes.usuarioChat(user)
