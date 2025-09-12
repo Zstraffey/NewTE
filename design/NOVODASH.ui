@@ -2698,9 +2698,12 @@ background-color: #6c6c6c;
                    <height>718</height>
                   </rect>
                  </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_28">
+                 <layout class="QVBoxLayout" name="verticalLayout_28" stretch="">
                   <property name="spacing">
                    <number>0</number>
+                  </property>
+                  <property name="sizeConstraint">
+                   <enum>QLayout::SetNoConstraint</enum>
                   </property>
                   <property name="leftMargin">
                    <number>0</number>

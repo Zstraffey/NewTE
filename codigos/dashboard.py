@@ -42,7 +42,6 @@ class TelaInicial(QMainWindow):
         container = self.usuarios_chat.widget()
         layout = container.layout()
 
-        # garante que tenha layout
         if not layout:
             print("oi")
             newlayout = QVBoxLayout()
@@ -55,7 +54,6 @@ class TelaInicial(QMainWindow):
 
         users = ["Alice", "Bob", "Charlie", "Dave", "Matheus", "Leo", "Yslan"]
 
-        # cria os botões/widgets
         for user in users:
             btn = classes.usuarioChat(user)
             layout.addWidget(btn)
