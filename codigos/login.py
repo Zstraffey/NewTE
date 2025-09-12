@@ -106,7 +106,7 @@ class EmailSender(QThread):
                 server.login(sender_email, app_password)
                 server.sendmail(sender_email, self.receiver_email, message.as_string())
 
-            self.finished.emit("Email enviado!")
+            self.finished.emit("Email enviado! Aguarde...")
 
         except Exception as e:
             self.finished.emit(f"Erro ao enviar: {str(e)}")

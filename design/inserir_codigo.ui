@@ -53,7 +53,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>380</y>
+      <y>420</y>
       <width>231</width>
       <height>41</height>
      </rect>
@@ -105,14 +105,14 @@
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:11pt; color:#ffffff;&quot;&gt;Para recuperar sua senha, digite seu Email,&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:11pt; color:#ffffff;&quot;&gt;Insira o código de 6 dígitos&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="usuario">
+   <widget class="QLineEdit" name="codigo">
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>330</y>
+      <y>300</y>
       <width>231</width>
       <height>31</height>
      </rect>
@@ -138,7 +138,7 @@ color: rgb rgb(0, 0, 0)</string>
      <string/>
     </property>
     <property name="placeholderText">
-     <string>Insira seu email</string>
+     <string>Insira o código</string>
     </property>
    </widget>
    <widget class="QLabel" name="txt_3">
@@ -248,33 +248,11 @@ color: rgb rgb(0, 0, 0)</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="txt_4">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>485</y>
-      <width>351</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Inter</family>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;Clicando em confirmar, você concorda com os nossos &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="separacao">
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>460</y>
+      <y>490</y>
       <width>261</width>
       <height>21</height>
      </rect>
@@ -309,14 +287,14 @@ color: rgb rgb(0, 0, 0)</string>
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:11pt; color:#ffffff;&quot;&gt;e espere a confirmação de indentidade.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:11pt; color:#ffffff;&quot;&gt;e  redifina a sua senha.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="clique_aqui">
     <property name="geometry">
      <rect>
       <x>250</x>
-      <y>446</y>
+      <y>476</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -339,8 +317,8 @@ color: rgb rgb(0, 0, 0)</string>
    <widget class="QLabel" name="txt_6">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>440</y>
+      <x>100</x>
+      <y>470</y>
       <width>211</width>
       <height>31</height>
      </rect>
@@ -354,83 +332,14 @@ color: rgb rgb(0, 0, 0)</string>
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;Lembrou da senha? &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="termos_servico">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>500</y>
-      <width>121</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Inter</family>
-     </font>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; text-decoration: underline; color:#2b94c8;&quot;&gt;Termos de Serviço&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="politica_privacidade">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>500</y>
-      <width>161</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Inter</family>
-     </font>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; text-decoration: underline; color:#2b94c8;&quot;&gt;Política de Privacidade&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="txt_5">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>500</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Inter</family>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;e&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;Não recebeu o código? &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="trocar">
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>440</y>
+      <y>470</y>
       <width>231</width>
       <height>31</height>
      </rect>
@@ -463,48 +372,90 @@ color: rgb rgb(0, 0, 0)</string>
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="verificacao">
+   <widget class="QLineEdit" name="senha1">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>300</y>
-      <width>341</width>
-      <height>20</height>
+      <x>100</x>
+      <y>340</y>
+      <width>231</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Inter</family>
-      <pointsize>10</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
+      <pointsize>9</pointsize>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
      </font>
     </property>
+    <property name="whatsThis">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 7px;           /* Raio da borda (ajuste conforme necessário) */
+background-color: rgb(255, 255, 255);
+    padding: 3px 12px;             /* Espaçamento interno */
+color: rgb rgb(0, 0, 0)</string>
+    </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string/>
+    </property>
+    <property name="placeholderText">
+     <string>Insira a nova senha</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="senha2">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>380</y>
+      <width>231</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Inter</family>
+      <pointsize>9</pointsize>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+     </font>
+    </property>
+    <property name="whatsThis">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 7px;           /* Raio da borda (ajuste conforme necessário) */
+background-color: rgb(255, 255, 255);
+    padding: 3px 12px;             /* Espaçamento interno */
+color: rgb rgb(0, 0, 0)</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="placeholderText">
+     <string>Repita a senha</string>
     </property>
    </widget>
    <zorder>separacao</zorder>
    <zorder>enviar</zorder>
    <zorder>txt_3</zorder>
-   <zorder>usuario</zorder>
+   <zorder>codigo</zorder>
    <zorder>logo</zorder>
    <zorder>txt_2</zorder>
    <zorder>txt_7</zorder>
    <zorder>img_direita</zorder>
-   <zorder>txt_4</zorder>
    <zorder>txt</zorder>
    <zorder>txt_6</zorder>
    <zorder>clique_aqui</zorder>
-   <zorder>termos_servico</zorder>
-   <zorder>politica_privacidade</zorder>
-   <zorder>txt_5</zorder>
    <zorder>trocar</zorder>
-   <zorder>verificacao</zorder>
+   <zorder>senha1</zorder>
+   <zorder>senha2</zorder>
   </widget>
  </widget>
  <tabstops>
-  <tabstop>usuario</tabstop>
+  <tabstop>codigo</tabstop>
   <tabstop>enviar</tabstop>
  </tabstops>
  <resources>
