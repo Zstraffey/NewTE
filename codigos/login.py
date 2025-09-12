@@ -147,11 +147,46 @@ class Codigo(QMainWindow):
         self.widget = stacked_widget
 
         self.trocar.clicked.connect(self.mudartela)
+        self.enviar.clicked.connect(self.trocarsenha)
 
     def mudartela(self):
         createacc = EsqueciSenha(self.widget)
         self.widget.addWidget(createacc)
         self.widget.setCurrentIndex(self.widget.currentIndex() - 1)
+
+    def trocarsenha(self):
+        db = bancoDados().conectar()
+        if not db:
+            return
+
+        cursor = db.cursor()
+
+        query = "SELECT codigo FROM recuperacao_senha WHERE email_usuario = %s AND codigo = %s"
+        cursor.execute(query, (self.email.text(), self.codigo.text()))
+        result = cursor.fetchone()
+
+        if result is None:
+            QMessageBox.warning(None, "Aviso", "Email ou código incorreto.")
+        else:
+            if self.senha1.text() != self.senha2.text():
+                QMessageBox.warning(None, "Aviso", "As senhas não se coincidem.")
+                return
+
+            query = f"""
+                 UPDATE usuario SET senha = '{self.senha1.text()}' WHERE email = '{self.email.text()}';
+            """
+            cursor.execute(query)
+
+            query = f"""
+                DELETE FROM recuperacao_senha WHERE email_usuario = '{self.email.text()}';
+            """
+            cursor.execute(query)
+            db.commit()
+
+            QMessageBox.information(None, "Sucesso", "Senha trocada com sucesso!")
+
+        cursor.close()
+        db.close()
 
 class Login(QMainWindow):
     def __init__(self, stacked_widget):
@@ -187,7 +222,7 @@ class Login(QMainWindow):
             QMessageBox.warning(None, "Aviso", "Usuário ou senha incorretos.")
         else:
             QMessageBox.information(None, "Bem-Vindo!", "Logado com sucesso!")
-            self.logarAplicativo()
+            #self.logarAplicativo()
 
         cursor.close()
         db.close()

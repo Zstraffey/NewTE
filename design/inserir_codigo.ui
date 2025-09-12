@@ -438,7 +438,7 @@ color: rgb rgb(0, 0, 0)</string>
      <string>Repita a senha</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="senha1_2">
+   <widget class="QLineEdit" name="email">
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -485,7 +485,7 @@ color: rgb rgb(0, 0, 0)</string>
    <zorder>trocar</zorder>
    <zorder>senha1</zorder>
    <zorder>senha2</zorder>
-   <zorder>senha1_2</zorder>
+   <zorder>email</zorder>
   </widget>
  </widget>
  <tabstops>
