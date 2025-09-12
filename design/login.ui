@@ -432,10 +432,10 @@ color: rgb(0, 0, 0);</string>
    <widget class="QPushButton" name="trocar">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>440</y>
-      <width>231</width>
-      <height>31</height>
+      <x>246</x>
+      <y>445</y>
+      <width>81</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">

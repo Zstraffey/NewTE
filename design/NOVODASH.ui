@@ -179,7 +179,7 @@ QPushButton:icon {
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>341</height>
+              <height>356</height>
              </size>
             </property>
             <property name="layoutDirection">
@@ -620,7 +620,7 @@ QPushButton:checked {
     <item>
      <widget class="QStackedWidget" name="stackedwidget_btns_da_sidebar">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page_dashboard">
        <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -1057,8 +1057,8 @@ border-radius:15px;}</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>515</width>
-                             <height>275</height>
+                             <width>496</width>
+                             <height>230</height>
                             </rect>
                            </property>
                            <property name="maximumSize">
@@ -2669,7 +2669,7 @@ background-color: #6c6c6c;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>160</width>
+                   <width>235</width>
                    <height>40</height>
                   </size>
                  </property>
@@ -4996,7 +4996,7 @@ border-radius: 40px;
  <connections/>
  <buttongroups>
   <buttongroup name="btns_sidebar"/>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="cancelar_confirmar"/>
+  <buttongroup name="rendimen_func_calen"/>
  </buttongroups>
 </ui>
