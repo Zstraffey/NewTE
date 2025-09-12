@@ -110,6 +110,20 @@ class EmailSender(QThread):
 
         except Exception as e:
             self.finished.emit(f"Erro ao enviar: {str(e)}")
+            print(f"Erro ao enviar: {str(e)}")
+
+class Codigo(QMainWindow):
+    def __init__(self, stacked_widget):
+        super().__init__()
+        loadUi("../design/inserir_codigo.ui", self)
+        self.widget = stacked_widget
+
+        self.trocar.clicked.connect(self.mudartela)
+
+    def mudartela(self):
+        createacc = EsqueciSenha(self.widget)
+        self.widget.addWidget(createacc)
+        self.widget.setCurrentIndex(self.widget.currentIndex() - 1)
 
 class Login(QMainWindow):
     def __init__(self, stacked_widget):
@@ -167,6 +181,7 @@ class EsqueciSenha(QMainWindow):
         self.widget = stacked_widget
 
         self.trocar.clicked.connect(self.trocartela)
+        self.codigo.clicked.connect(self.telacodigo)
         self.enviar.clicked.connect(self.requisitarSenha)
 
     def requisitarSenha(self):
@@ -178,6 +193,21 @@ class EsqueciSenha(QMainWindow):
             self.verificacao.setText(mudarTexto("Digite um email válido!", "ff0000"))
             return
 
+        db = bancoDados().conectar()
+        if not db:
+            return
+
+        cursor = db.cursor()
+        query = f"SELECT email FROM usuario WHERE email = '{receiverEmail}'"
+        cursor.execute(query)
+        result = cursor.fetchone()
+
+        if result is None:
+            self.verificacao.setText(mudarTexto("Esse email não está cadastrado!", "ff0000"))
+            return
+        cursor.close()
+        db.close()
+
         self.verificacao.setText(mudarTexto("Enviando Email...", "ffffff"))
 
         self.email_thread = EmailSender(receiverEmail)
@@ -186,6 +216,11 @@ class EsqueciSenha(QMainWindow):
 
     def trocartela(self):
         login = Login(self.widget)
+        self.widget.addWidget(login)
+        self.widget.setCurrentIndex(self.widget.currentIndex() - 1)
+
+    def telacodigo(self):
+        login = Codigo(self.widget)
         self.widget.addWidget(login)
         self.widget.setCurrentIndex(self.widget.currentIndex() + 1)
 
@@ -201,7 +236,6 @@ def main():
     stacked_widget.show()
 
     sys.exit(app.exec_())
-
 
 if __name__ == "__main__":
     main()
