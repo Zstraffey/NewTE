@@ -5,11 +5,16 @@ import classes
 import mysql.connector as mc
 
 import imgs_rc  # your resources
+from codigos.classes import Session, bancoDados
+
+
 class TelaInicial(QMainWindow):
     def __init__(self, stacked_widget):
         super().__init__()
         loadUi("../design/NOVODASH.ui", self)
         self.widget = stacked_widget
+
+        print(Session.current_user)
 
         self.stack = self.findChild(QWidget, "stackedwidget_btns_da_sidebar")
         self.dashboardStack = self.findChild(QWidget, "stacked_widget_botoes_principais_do_dashboard")
@@ -58,6 +63,23 @@ class TelaInicial(QMainWindow):
         self.usuarios_chat.setMaximumHeight(717)
 
         self.btn_confirmar.clicked.connect(self.cadastrarUsuario)
+
+    def updateChat(self):
+        db = classes.bancoDados().conectar()
+        if not db:
+            return
+        cursor = db.cursor()
+
+        cursor.execute("SELECT sender, message FROM messages ORDER BY id ASC")
+        results = cursor.fetchall()
+
+        for sender, msg in results:
+            bubble = classes.ChatBubble(msg, self.chat,sender="me" if sender == "Alice" else "other")
+            self.vbox.addWidget(bubble)
+
+        self.vbox.addStretch()
+        cursor.close()
+        db.close()
 
     def mudarTela(self, index):
         self.stack.setCurrentIndex(index)

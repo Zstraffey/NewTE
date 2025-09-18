@@ -14,7 +14,8 @@ import random
 
 import dashboard
 import imgs_rc  # your resources
-from codigos.classes import bancoDados
+from codigos.classes import bancoDados, Session
+
 
 class EmailSender(QThread):
     finished = pyqtSignal(str)
@@ -202,8 +203,6 @@ class Login(QMainWindow):
         email = self.usuario.text()
         senha = self.senha.text()
 
-        self.logarAplicativo()
-
         if not email or not senha:
             QMessageBox.warning(None, "Aviso", "Por favor, preencha todos os campos.")
             return
@@ -214,15 +213,22 @@ class Login(QMainWindow):
 
         cursor = db.cursor()
 
-        query = "SELECT email, senha FROM usuario WHERE email = %s AND senha = %s"
+        query = "SELECT id_user, nome, email, senha FROM usuario WHERE email = %s AND senha = %s"
         cursor.execute(query, (email, senha))
         result = cursor.fetchone()
 
         if result is None:
             QMessageBox.warning(None, "Aviso", "Usuário ou senha incorretos.")
         else:
+            print(result)
+            Session.current_user = {
+                "id_user": result[0],
+                "nome": result[1],
+                "email": result[2]
+            }
+            print(Session.current_user)
             QMessageBox.information(None, "Bem-Vindo!", "Logado com sucesso!")
-            #self.logarAplicativo()
+            self.logarAplicativo()
 
         cursor.close()
         db.close()

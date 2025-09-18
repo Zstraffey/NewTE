@@ -1,6 +1,7 @@
 import mysql.connector as mc
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QLabel
+from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 
 class usuarioChat(QWidget):
@@ -11,6 +12,36 @@ class usuarioChat(QWidget):
         self.nome_salvo.setText(username)
         # Connect the button to shared callback with username
         # self.pushButton.clicked.connect(lambda: callback(username))
+
+class Session:
+    current_user = None
+
+class ChatBubble(QWidget):
+    def __init__(self, text, layout, sender="me"):
+        super().__init__()
+
+        label = QLabel(text)
+        label.setWordWrap(True)
+        label.setStyleSheet("""
+            QLabel {
+                border-radius: 10px;
+                padding: 8px;
+                font-size: 14px;
+            }
+        """)
+
+        if sender == "me":
+            # Align right
+            layout.addStretch()
+            label.setStyleSheet(label.styleSheet() +
+                                "background-color: lightgreen;")
+            layout.addWidget(label, alignment=Qt.AlignRight)
+        else:
+            # Align left
+            label.setStyleSheet(label.styleSheet() +
+                                "background-color: lightblue;")
+            layout.addWidget(label, alignment=Qt.AlignLeft)
+            layout.addStretch()
 
 class bancoDados:
     def __init__(self):
