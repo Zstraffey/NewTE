@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1241</width>
+    <width>1228</width>
     <height>800</height>
    </rect>
   </property>
@@ -2693,9 +2693,9 @@ background-color: #6c6c6c;
               <property name="geometry">
                <rect>
                 <x>10</x>
-                <y>60</y>
-                <width>248</width>
-                <height>20</height>
+                <y>66</y>
+                <width>241</width>
+                <height>711</height>
                </rect>
               </property>
               <property name="sizePolicy">
@@ -2733,15 +2733,18 @@ background-color: #6c6c6c;
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>248</width>
-                 <height>20</height>
+                 <width>241</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>4</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_17">
                 <property name="spacing">
@@ -2995,13 +2998,13 @@ padding: 10px;</string>
                         <property name="geometry">
                          <rect>
                           <x>0</x>
-                          <y>613</y>
-                          <width>494</width>
-                          <height>20</height>
+                          <y>10</y>
+                          <width>481</width>
+                          <height>611</height>
                          </rect>
                         </property>
                         <property name="sizePolicy">
-                         <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                           <horstretch>0</horstretch>
                           <verstretch>0</verstretch>
                          </sizepolicy>
@@ -3028,26 +3031,47 @@ padding: 10px;</string>
                          <bool>true</bool>
                         </property>
                         <property name="alignment">
-                         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                         <set>Qt::AlignHCenter|Qt::AlignTop</set>
                         </property>
                         <widget class="QWidget" name="scrollAreaWidgetContents_2">
                          <property name="geometry">
                           <rect>
                            <x>0</x>
                            <y>0</y>
-                           <width>494</width>
-                           <height>20</height>
+                           <width>481</width>
+                           <height>16</height>
                           </rect>
                          </property>
                          <property name="sizePolicy">
-                          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                            <horstretch>0</horstretch>
                            <verstretch>4</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>0</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>16777215</height>
+                          </size>
+                         </property>
+                         <property name="layoutDirection">
+                          <enum>Qt::LeftToRight</enum>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true"/>
+                         </property>
                          <layout class="QVBoxLayout" name="verticalLayout_28">
                           <property name="spacing">
                            <number>0</number>
+                          </property>
+                          <property name="sizeConstraint">
+                           <enum>QLayout::SetDefaultConstraint</enum>
                           </property>
                           <property name="leftMargin">
                            <number>0</number>
@@ -3240,7 +3264,7 @@ QPushButton:hover {
                   </size>
                  </property>
                  <property name="currentIndex">
-                  <number>1</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="page_infocontato">
                   <property name="styleSheet">

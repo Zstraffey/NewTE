@@ -1,7 +1,7 @@
 import mysql.connector as mc
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QLabel, QSizePolicy, QVBoxLayout
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.uic import loadUi
 
 class Session:
@@ -9,21 +9,56 @@ class Session:
     loaded_chat = 0
 
 class ChatBubble(QWidget):
-    def __init__(self, text, layout, sender="me", max_width=400):
+    def __init__(self, text, sender="me", max_width=300):
         super().__init__()
-        label = QLabel(text)
-        label.setWordWrap(True)
-        label.setMaximumWidth(max_width)  # wrap text at this width
-        label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
+        self.max_width = max_width
+
+        self.label = QLabel(text, self)
+        self.label.setWordWrap(True)
+        self.label.setMaximumWidth(self.max_width)
+        self.label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
+
+        # Styling
         if sender == "me":
-            label.setStyleSheet("background-color: lightgreen; padding: 8px; border-radius: 10px; color: black;")
-            layout.addStretch()  # pushes bubble up
-            layout.addWidget(label, alignment=Qt.AlignRight)
+            self.label.setStyleSheet("""
+                QLabel {
+                    background-color: lightgreen;
+                    padding: 6px;
+                    border-radius: 10px;
+                    color: black;
+                }
+            """)
+            alignment = Qt.AlignRight | Qt.AlignTop
         else:
-            label.setStyleSheet("background-color: lightblue; padding: 8px; border-radius: 10px; color: black;")
-            layout.addWidget(label, alignment=Qt.AlignLeft)
-            layout.addStretch()  # pushes bubble down if needed
+            self.label.setStyleSheet("""
+                QLabel {
+                    background-color: lightblue;
+                    padding: 6px;
+                    border-radius: 10px;
+                    color: black;
+                }
+            """)
+            alignment = Qt.AlignLeft | Qt.AlignTop
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        layout.addWidget(self.label, alignment=alignment)
+
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+
+    def sizeHint(self):
+        hint = self.label.sizeHint()
+        return QSize(hint.width(), hint.height())
+
+    #def resizeEvent(self, event):
+    #    super().resizeEvent(event)
+    #    needed = self.label.sizeHint().height()
+    #    if self.height() != needed:
+    #        self.setMinimumHeight(needed)
+    #        self.resize(self.width(), needed)
 
 class bancoDados:
     def __init__(self):

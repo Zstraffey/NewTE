@@ -1,4 +1,5 @@
 import mysql
+from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout, QFormLayout, QMessageBox
 from PyQt5.uic import loadUi
 import mysql.connector as mc
@@ -59,9 +60,12 @@ class TelaInicial(QMainWindow):
 
         users = self.updateUserList()
 
+
         def callback(user):
             Session.loaded_chat = user["id_user"]
             self.infos_contato.setText(user["nome"])
+
+            self.clearLayout(self.chat.widget().layout())
             self.updateChat()
 
         for user in users:
@@ -71,32 +75,8 @@ class TelaInicial(QMainWindow):
 
         layout.addStretch()
 
-        container.setMinimumHeight(70 * len(users))
-        self.usuarios_chat.setFixedHeight(
-            min(70 * len(users), 717)
-        )
-        self.usuarios_chat.setMaximumHeight(717)
-
         self.btn_confirmar.clicked.connect(self.cadastrarUsuario)
         self.btn_enviar.clicked.connect(self.sendMessage)
-
-    def sendMessage(self):
-        text = self.lineEdit_mensagem.text()
-        db = bancoDados().conectar()
-
-        query = f"""
-        INSERT INTO mensagens_chat
-        (remetente_id, destinatario_id, mensagem) 
-        VALUES ({Session.current_user["id_user"]}, {Session.loaded_chat}, '{text}');
-        """
-
-        try:
-            cursor = db.cursor()
-            cursor.execute(query)
-            db.commit()
-            self.updateChat()
-        except mc.Error as err:
-            print("Error:", err)
 
     def updateUserList(self):
         db = bancoDados().conectar()
@@ -125,68 +105,94 @@ class TelaInicial(QMainWindow):
 
         return users
 
-    def updateChat(self):
-        def clearLayout(layout):
-            if layout is not None:
-                while layout.count():
-                    item = layout.takeAt(0)
-                    widget = item.widget()
-                    if widget is not None:
-                        widget.deleteLater()  # safely deletes the widget
-                    else:
-                        clearLayout(item.layout())  # if it’s a nested layout
+    def clearLayout(self, layout):
+        if layout is not None:
+            while layout.count():
+                item = layout.takeAt(0)
+                widget = item.widget()
+                if widget is not None:
+                    widget.deleteLater()  # safely deletes the widget
+                else:
+                    self.clearLayout(item.layout())  # if it’s a nested layout
 
+    def sendMessage(self):
+        text = self.lineEdit_mensagem.text()
+        db = bancoDados().conectar()
+
+        query = f"""
+          INSERT INTO mensagens_chat
+          (remetente_id, destinatario_id, mensagem) 
+          VALUES ({Session.current_user["id_user"]}, {Session.loaded_chat}, '{text}');
+          """
+        try:
+            cursor = db.cursor()
+            cursor.execute(query)
+            db.commit()
+            cursor.close()
+            db.close()
+
+            # ✅ Just update chat, scroll handled in updateChat
+            self.updateChat()
+        except mc.Error as err:
+            print("Error:", err)
+
+    def updateChat(self):
         db = bancoDados().conectar()
         if not db:
             return
         cursor = db.cursor()
 
         query = f"""
-    SELECT * 
-    FROM mensagens_chat
-    WHERE 
-        (remetente_id = {Session.current_user["id_user"]} 
-         AND destinatario_id = {Session.loaded_chat})
-    OR 
-        (remetente_id = {Session.loaded_chat} 
-         AND destinatario_id = {Session.current_user["id_user"]})
-    ORDER BY data_envio ASC;
-"""
-
-        print(query)
-
+        SELECT * 
+        FROM mensagens_chat
+        WHERE 
+            (remetente_id = {Session.current_user["id_user"]} 
+             AND destinatario_id = {Session.loaded_chat})
+        OR 
+            (remetente_id = {Session.loaded_chat} 
+             AND destinatario_id = {Session.current_user["id_user"]})
+        ORDER BY data_envio ASC;
+        """
         cursor.execute(query)
         results = cursor.fetchall()
 
-        print(results)
-
-        container = self.chat.widget()
         self.chat.setWidgetResizable(True)
-
+        container = self.chat.widget()
         layout = container.layout()
-        clearLayout(layout)
+        layout.setAlignment(Qt.AlignTop)
 
-        defaultPos = 613
-        self.chat.setGeometry(self.chat.x(), 613, self.chat.width(), self.chat.height())
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(5)
+        layout.addStretch()
+
+        container.setMinimumHeight(self.chat.viewport().height())
 
         for row in results:
-            bubble = ChatBubble(row[3], layout,sender="me" if row[1] == Session.current_user["id_user"] else "other")
-            new_y = max(20, self.chat.y() - 30)
-            self.chat.setGeometry(self.chat.x(), new_y, self.chat.width(), self.chat.height())
+            print(row)
+            bubble = ChatBubble(
+                row[3],
+                sender="me" if row[1] == Session.current_user["id_user"] else "other"
+            )
+            layout.insertWidget(layout.count() - 1, bubble)
+            bubble.adjustSize()
 
-            layout.addWidget(bubble)
+        #container.setMinimumHeight(self.chat.viewport().height())
 
-        print(len(results))
-
-        container.setMinimumHeight(30 * len(results))
-        self.chat.setFixedHeight(
-            min(30 * len(results), 620)
-        )
         self.chat.setMaximumHeight(620)
 
-        layout.addStretch()
+        # ✅ Scroll after all bubbles are laid out
+        self.scrollToBottom()
+
         cursor.close()
         db.close()
+
+    def scrollToBottom(self):
+        # Delay slightly to ensure layout has fully recalculated
+        QTimer.singleShot(50, self._scrollToBottomImmediate)
+
+    def _scrollToBottomImmediate(self):
+        sb = self.chat.verticalScrollBar()
+        sb.setValue(sb.maximum())
 
     def mudarTela(self, index):
         self.stack.setCurrentIndex(index)
