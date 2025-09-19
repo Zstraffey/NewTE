@@ -3,6 +3,7 @@ from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout, QFormLayout, QMessageBox
 from PyQt5.uic import loadUi
 import mysql.connector as mc
+import sys
 from functools import partial
 
 import imgs_rc  # your resources
@@ -24,7 +25,7 @@ class TelaInicial(QMainWindow):
         loadUi("../design/NOVODASH.ui", self)
         self.widget = stacked_widget
 
-        print(Session.current_user)
+        self.last_message_id = 0
 
         self.stack = self.findChild(QWidget, "stackedwidget_btns_da_sidebar")
         self.dashboardStack = self.findChild(QWidget, "stacked_widget_botoes_principais_do_dashboard")
@@ -60,13 +61,17 @@ class TelaInicial(QMainWindow):
 
         users = self.updateUserList()
 
-
         def callback(user):
             Session.loaded_chat = user["id_user"]
             self.infos_contato.setText(user["nome"])
+            self.last_message_id = 0
 
             self.clearLayout(self.chat.widget().layout())
             self.updateChat()
+
+        self.chat_timer = QTimer(self)
+        self.chat_timer.timeout.connect(self.chatLoop)
+        self.chat_timer.start(2000)  # call updateChat every 2 seconds
 
         for user in users:
             btn = usuarioChat(user)
@@ -83,11 +88,7 @@ class TelaInicial(QMainWindow):
         if not db:
             return
 
-        print("oi")
-
         cursor = db.cursor()
-        print("eba")
-        print(Session.current_user["id_user"])
 
         query = "SELECT id_user, nome FROM usuario WHERE id_user != %s"
         cursor.execute(query, (Session.current_user["id_user"],))
@@ -131,10 +132,13 @@ class TelaInicial(QMainWindow):
             cursor.close()
             db.close()
 
-            # ✅ Just update chat, scroll handled in updateChat
             self.updateChat()
         except mc.Error as err:
             print("Error:", err)
+
+    def chatLoop(self):
+        if Session.loaded_chat > 0:
+            self.updateChat()
 
     def updateChat(self):
         db = bancoDados().conectar()
@@ -143,45 +147,48 @@ class TelaInicial(QMainWindow):
         cursor = db.cursor()
 
         query = f"""
-        SELECT * 
-        FROM mensagens_chat
-        WHERE 
-            (remetente_id = {Session.current_user["id_user"]} 
-             AND destinatario_id = {Session.loaded_chat})
-        OR 
-            (remetente_id = {Session.loaded_chat} 
-             AND destinatario_id = {Session.current_user["id_user"]})
-        ORDER BY data_envio ASC;
-        """
+             SELECT *
+             FROM mensagens_chat
+             WHERE id_mensagem > {self.last_message_id} AND (
+                 (remetente_id = {Session.current_user["id_user"]} AND destinatario_id = {Session.loaded_chat})
+                 OR
+                 (remetente_id = {Session.loaded_chat} AND destinatario_id = {Session.current_user["id_user"]})
+             )
+             ORDER BY data_envio ASC;
+         """
         cursor.execute(query)
         results = cursor.fetchall()
 
-        self.chat.setWidgetResizable(True)
-        container = self.chat.widget()
-        layout = container.layout()
-        layout.setAlignment(Qt.AlignTop)
+        if results:
+            self.last_message_id = results[len(results)-1][0]
 
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(5)
-        layout.addStretch()
+            self.chat.setWidgetResizable(True)
+            container = self.chat.widget()
+            layout = container.layout()
+            layout.setAlignment(Qt.AlignTop)
 
-        container.setMinimumHeight(self.chat.viewport().height())
+            layout.setContentsMargins(0, 0, 0, 0)
+            layout.setSpacing(5)
 
-        for row in results:
-            print(row)
-            bubble = ChatBubble(
-                row[3],
-                sender="me" if row[1] == Session.current_user["id_user"] else "other"
-            )
-            layout.insertWidget(layout.count() - 1, bubble)
-            bubble.adjustSize()
+            if layout.count() == 0:
+                layout.addStretch()
 
-        #container.setMinimumHeight(self.chat.viewport().height())
+            container.setMinimumHeight(self.chat.viewport().height())
 
-        self.chat.setMaximumHeight(620)
+            for row in results:
+                bubble = ChatBubble(
+                    row[3],
+                    sender="me" if row[1] == Session.current_user["id_user"] else "other"
+                )
+                layout.insertWidget(layout.count() - 1, bubble)
+                bubble.adjustSize()
 
-        # ✅ Scroll after all bubbles are laid out
-        self.scrollToBottom()
+            #container.setMinimumHeight(self.chat.viewport().height())
+
+            self.chat.setMaximumHeight(620)
+
+            # ✅ Scroll after all bubbles are laid out
+            self.scrollToBottom()
 
         cursor.close()
         db.close()
