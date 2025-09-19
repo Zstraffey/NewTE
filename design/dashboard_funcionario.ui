@@ -321,7 +321,7 @@ border-radius: 40px;
                 <font>
                  <family>Inter 28pt SemiBold</family>
                  <pointsize>12</pointsize>
-                 <weight>7</weight>
+                 <weight>8</weight>
                  <italic>false</italic>
                  <bold>false</bold>
                 </font>
@@ -984,7 +984,7 @@ QLineEdit:checked {
            <item>
             <widget class="QStackedWidget" name="stacked_widget_botoes_principais_do_dashboard">
              <property name="currentIndex">
-              <number>2</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="rendimento_page">
               <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -1266,7 +1266,7 @@ background-color:rgb(79, 79, 79);</string>
                                     <font>
                                      <family>Inter 28pt SemiBold</family>
                                      <pointsize>8</pointsize>
-                                     <weight>7</weight>
+                                     <weight>8</weight>
                                      <italic>false</italic>
                                      <bold>false</bold>
                                     </font>
@@ -1628,7 +1628,7 @@ background-color: rgb(108, 108, 108);
                                        <font>
                                         <family>Inter 28pt SemiBold</family>
                                         <pointsize>18</pointsize>
-                                        <weight>7</weight>
+                                        <weight>8</weight>
                                         <italic>false</italic>
                                         <bold>false</bold>
                                        </font>
@@ -2077,7 +2077,7 @@ border-radius: 9px;</string>
                      <font>
                       <family>Inter 28pt SemiBold</family>
                       <pointsize>8</pointsize>
-                      <weight>7</weight>
+                      <weight>8</weight>
                       <italic>false</italic>
                       <bold>false</bold>
                      </font>
@@ -2277,8 +2277,7 @@ QComboBox:checked {
                               <cursorShape>PointingHandCursor</cursorShape>
                              </property>
                              <property name="styleSheet">
-                              <string notr="true">
-</string>
+                              <string notr="true"/>
                              </property>
                              <property name="editable">
                               <bool>false</bool>
@@ -2520,7 +2519,7 @@ border-radius: 9px;</string>
                            <font>
                             <family>Inter 18pt SemiBold</family>
                             <pointsize>10</pointsize>
-                            <weight>7</weight>
+                            <weight>8</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
@@ -2646,7 +2645,7 @@ border-radius: 9px;</string>
                      <font>
                       <family>Inter 28pt SemiBold</family>
                       <pointsize>8</pointsize>
-                      <weight>7</weight>
+                      <weight>8</weight>
                       <italic>false</italic>
                       <bold>false</bold>
                      </font>

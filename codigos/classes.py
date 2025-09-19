@@ -9,22 +9,36 @@ class Session:
     loaded_chat = 0
 
 class ChatBubble(QWidget):
-    def __init__(self, text, layout, sender="me", max_width=400):
+    def __init__(self, text, sender="me", max_width=300):
         super().__init__()
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+
         label = QLabel(text)
         label.setWordWrap(True)
-        label.setMaximumWidth(max_width)  # wrap text at this width
-        label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        label.setMaximumWidth(max_width)
+        label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
 
+        # Styling
         if sender == "me":
-            label.setStyleSheet("background-color: lightgreen; padding: 8px; border-radius: 10px; color: black;")
-            layout.addStretch()  # pushes bubble up
+            label.setStyleSheet("""
+                QLabel { background-color: lightgreen; padding: 8px; border-radius: 10px; color: black; }
+            """)
             layout.addWidget(label, alignment=Qt.AlignRight)
         else:
-            label.setStyleSheet("background-color: lightblue; padding: 8px; border-radius: 10px; color: black;")
+            label.setStyleSheet("""
+                QLabel { background-color: lightblue; padding: 8px; border-radius: 10px; color: black; }
+            """)
             layout.addWidget(label, alignment=Qt.AlignLeft)
-            layout.addStretch()  # pushes bubble down if needed
 
+        # This is the crucial part:
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.setMinimumHeight(1)  # allow vertical growth
+        label.adjustSize()        # make label compute proper height
+        self.adjustSize()
 class bancoDados:
     def __init__(self):
         print("inicializado banco de dados")

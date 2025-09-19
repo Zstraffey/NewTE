@@ -166,21 +166,23 @@ class TelaInicial(QMainWindow):
         layout = container.layout()
         clearLayout(layout)
 
-        defaultPos = 613
-        self.chat.setGeometry(self.chat.x(), 613, self.chat.width(), self.chat.height())
+        self.chat.setGeometry(self.chat.x(), 620, self.chat.width(), self.chat.height())
 
         for row in results:
-            bubble = ChatBubble(row[3], layout,sender="me" if row[1] == Session.current_user["id_user"] else "other")
-            new_y = max(20, self.chat.y() - 30)
+            bubble = ChatBubble(
+                row[3],
+                sender="me" if row[1] == Session.current_user["id_user"] else "other"
+            )
+
+            new_y = max(20, self.chat.y() - 35)
             self.chat.setGeometry(self.chat.x(), new_y, self.chat.width(), self.chat.height())
 
             layout.addWidget(bubble)
-
         print(len(results))
 
-        container.setMinimumHeight(30 * len(results))
+        container.setMinimumHeight(35 * len(results))
         self.chat.setFixedHeight(
-            min(30 * len(results), 620)
+            min(35 * len(results), 620)
         )
         self.chat.setMaximumHeight(620)
 
