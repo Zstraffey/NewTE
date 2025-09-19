@@ -88,11 +88,7 @@ class TelaInicial(QMainWindow):
         if not db:
             return
 
-        print("oi")
-
         cursor = db.cursor()
-        print("eba")
-        print(Session.current_user["id_user"])
 
         query = "SELECT id_user, nome FROM usuario WHERE id_user != %s"
         cursor.execute(query, (Session.current_user["id_user"],))
@@ -149,8 +145,6 @@ class TelaInicial(QMainWindow):
         if not db:
             return
         cursor = db.cursor()
-
-        print(self.last_message_id)
 
         query = f"""
              SELECT *
