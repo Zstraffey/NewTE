@@ -1,6 +1,6 @@
 import mysql.connector as mc
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QLabel
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QLabel, QSizePolicy, QVBoxLayout
 from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 
@@ -9,29 +9,21 @@ class Session:
     loaded_chat = 0
 
 class ChatBubble(QWidget):
-    def __init__(self, text, layout, sender="me"):
+    def __init__(self, text, layout, sender="me", max_width=400):
         super().__init__()
-
         label = QLabel(text)
         label.setWordWrap(True)
-        label.setStyleSheet("""
-            QLabel {
-                border-radius: 10px;
-                padding: 8px;
-                font-size: 14px;
-                color: black;
-            }
-        """)
-        label.setAutoFillBackground(True)
+        label.setMaximumWidth(max_width)  # wrap text at this width
+        label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         if sender == "me":
-            layout.addStretch()
-            label.setStyleSheet("background-color: lightgreen; padding: 5px; border-radius: 8px; color: black;")
+            label.setStyleSheet("background-color: lightgreen; padding: 8px; border-radius: 10px; color: black;")
+            layout.addStretch()  # pushes bubble up
             layout.addWidget(label, alignment=Qt.AlignRight)
         else:
-            label.setStyleSheet("background-color: lightblue; padding: 5px; border-radius: 8px; color: black;")
+            label.setStyleSheet("background-color: lightblue; padding: 8px; border-radius: 10px; color: black;")
             layout.addWidget(label, alignment=Qt.AlignLeft)
-            layout.addStretch()
+            layout.addStretch()  # pushes bubble down if needed
 
 class bancoDados:
     def __init__(self):

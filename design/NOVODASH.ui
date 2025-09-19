@@ -2692,9 +2692,9 @@ background-color: #6c6c6c;
              <widget class="QScrollArea" name="usuarios_chat">
               <property name="geometry">
                <rect>
-                <x>0</x>
+                <x>10</x>
                 <y>60</y>
-                <width>251</width>
+                <width>248</width>
                 <height>20</height>
                </rect>
               </property>
@@ -2733,7 +2733,7 @@ background-color: #6c6c6c;
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>251</width>
+                 <width>248</width>
                  <height>20</height>
                 </rect>
                </property>

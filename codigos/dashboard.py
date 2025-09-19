@@ -78,6 +78,25 @@ class TelaInicial(QMainWindow):
         self.usuarios_chat.setMaximumHeight(717)
 
         self.btn_confirmar.clicked.connect(self.cadastrarUsuario)
+        self.btn_enviar.clicked.connect(self.sendMessage)
+
+    def sendMessage(self):
+        text = self.lineEdit_mensagem.text()
+        db = bancoDados().conectar()
+
+        query = f"""
+        INSERT INTO mensagens_chat
+        (remetente_id, destinatario_id, mensagem) 
+        VALUES ({Session.current_user["id_user"]}, {Session.loaded_chat}, '{text}');
+        """
+
+        try:
+            cursor = db.cursor()
+            cursor.execute(query)
+            db.commit()
+            self.updateChat()
+        except mc.Error as err:
+            print("Error:", err)
 
     def updateUserList(self):
         db = bancoDados().conectar()
