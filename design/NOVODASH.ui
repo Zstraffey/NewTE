@@ -2669,7 +2669,7 @@ background-color: #6c6c6c;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>235</width>
+                   <width>160</width>
                    <height>40</height>
                   </size>
                  </property>
@@ -2995,9 +2995,9 @@ padding: 10px;</string>
                         <property name="geometry">
                          <rect>
                           <x>0</x>
-                          <y>214</y>
+                          <y>554</y>
                           <width>494</width>
-                          <height>421</height>
+                          <height>81</height>
                          </rect>
                         </property>
                         <property name="sizePolicy">
@@ -3036,7 +3036,7 @@ padding: 10px;</string>
                            <x>0</x>
                            <y>0</y>
                            <width>494</width>
-                           <height>421</height>
+                           <height>81</height>
                           </rect>
                          </property>
                          <property name="sizePolicy">
@@ -3062,23 +3062,9 @@ padding: 10px;</string>
                            <number>0</number>
                           </property>
                           <item>
-                           <widget class="QPushButton" name="pushButton_3">
-                            <property name="text">
-                             <string>PushButton</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
                            <widget class="QPushButton" name="pushButton_2">
                             <property name="text">
                              <string>a</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QPushButton" name="pushButton_4">
-                            <property name="text">
-                             <string>PushButton</string>
                             </property>
                            </widget>
                           </item>
@@ -4995,8 +4981,8 @@ border-radius: 40px;
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="btns_sidebar"/>
-  <buttongroup name="cancelar_confirmar"/>
   <buttongroup name="rendimen_func_calen"/>
+  <buttongroup name="cancelar_confirmar"/>
+  <buttongroup name="btns_sidebar"/>
  </buttongroups>
 </ui>

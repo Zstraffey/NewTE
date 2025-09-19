@@ -4,17 +4,9 @@ from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QLab
 from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 
-class usuarioChat(QWidget):
-    def __init__(self, username):#, callback):
-        super().__init__()
-        loadUi("../design/templates/contatos.ui", self)  # your .ui file with a QPushButton
-
-        self.nome_salvo.setText(username)
-        # Connect the button to shared callback with username
-        # self.pushButton.clicked.connect(lambda: callback(username))
-
 class Session:
     current_user = None
+    loaded_chat = 0
 
 class ChatBubble(QWidget):
     def __init__(self, text, layout, sender="me"):

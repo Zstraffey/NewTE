@@ -7,6 +7,19 @@ import mysql.connector as mc
 import imgs_rc  # your resources
 from codigos.classes import Session, bancoDados
 
+class usuarioChat(QWidget):
+    def __init__(self, user):#, callback):
+        print(user)
+        super().__init__()
+        loadUi("../design/templates/contatos.ui", self)  # your .ui file with a QPushButton
+
+        self.nome_salvo.setText(user["nome"])
+        print("yooo")
+        # Connect the button to shared callback with username
+        self.pushButton.clicked.connect(lambda: self.callback(user["id_user"]))
+
+    def callback(self, id):
+        Session.loaded_chat = id
 
 class TelaInicial(QMainWindow):
     def __init__(self, stacked_widget):
@@ -48,10 +61,10 @@ class TelaInicial(QMainWindow):
 
         layout = container.layout()
 
-        users = ["Alice", "Bob", "Charlie", "Dave",]
+        users = self.updateUserList()
 
         for user in users:
-            btn = classes.usuarioChat(user)
+            btn = usuarioChat(user)
             layout.addWidget(btn)
 
         layout.addStretch()
@@ -63,6 +76,35 @@ class TelaInicial(QMainWindow):
         self.usuarios_chat.setMaximumHeight(717)
 
         self.btn_confirmar.clicked.connect(self.cadastrarUsuario)
+
+    def updateUserList(self):
+        db = bancoDados().conectar()
+        if not db:
+            return
+
+        print("oi")
+
+        cursor = db.cursor()
+        print("eba")
+        print(Session.current_user["id_user"])
+
+        query = "SELECT id_user, nome, email FROM usuario WHERE id_user != %s"
+        cursor.execute(query, (Session.current_user["id_user"],))
+        results = cursor.fetchall()
+
+        users = []
+
+        #matheus@example.com
+
+        for id_user ,nome, email in results:
+            users.append({
+                "id_user": id_user,
+                "nome": nome,
+                "email": email
+            })
+
+        return users
+
 
     def updateChat(self):
         db = classes.bancoDados().conectar()

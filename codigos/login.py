@@ -220,13 +220,11 @@ class Login(QMainWindow):
         if result is None:
             QMessageBox.warning(None, "Aviso", "Usuário ou senha incorretos.")
         else:
-            print(result)
             Session.current_user = {
-                "id_user": result[0],
+                "id_user": int(result[0]),
                 "nome": result[1],
                 "email": result[2]
             }
-            print(Session.current_user)
             QMessageBox.information(None, "Bem-Vindo!", "Logado com sucesso!")
             self.logarAplicativo()
 
