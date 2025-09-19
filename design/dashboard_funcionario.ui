@@ -858,7 +858,7 @@ QPushButton:checked {
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>66</width>
+                     <width>98</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -883,7 +883,7 @@ QPushButton:checked {
                   <widget class="QPushButton" name="pushButton">
                    <property name="minimumSize">
                     <size>
-                     <width>60</width>
+                     <width>98</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -984,7 +984,7 @@ QLineEdit:checked {
            <item>
             <widget class="QStackedWidget" name="stacked_widget_botoes_principais_do_dashboard">
              <property name="currentIndex">
-              <number>4</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="rendimento_page">
               <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -1082,7 +1082,7 @@ background-color: rgb(108, 108, 108);
                               </size>
                              </property>
                              <property name="styleSheet">
-                              <string notr="true">#widget_24 {background-color: transparent;
+                              <string notr="true">#local_licoes_menagens_nao_lidas{background-color: transparent;
 
 }</string>
                              </property>
@@ -1419,7 +1419,7 @@ QProgressBar::chunk {
                           </property>
                           <property name="styleSheet">
                            <string notr="true">
-#widget_18{border-radius:15px;
+#local_agenda{border-radius:15px;
 background-color: rgb(108, 108, 108);
 }
 </string>
@@ -1732,7 +1732,7 @@ background-color: rgb(108, 108, 108);
                               </property>
                               <property name="styleSheet">
                                <string notr="true">
-#widget_82
+#tirar_duvidas
 {border-radius:15px;
 background-color: rgb(108, 108, 108);
 }
@@ -2303,7 +2303,7 @@ QPushButton:hover {
                            </size>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">#solicitar_ajuda{
+                           <string notr="true">#visualizar_pessoas{
 background-color: rgb(108, 108, 108);
 border-radius:15px;
 }</string>
@@ -2865,8 +2865,7 @@ QComboBox:checked {
                               <cursorShape>PointingHandCursor</cursorShape>
                              </property>
                              <property name="styleSheet">
-                              <string notr="true">
-</string>
+                              <string notr="true"/>
                              </property>
                              <property name="editable">
                               <bool>false</bool>
@@ -2963,7 +2962,7 @@ QComboBox:checked {
                         <string notr="true">QWidget{
 background-color: rgb(109, 109, 109);
 }
-#template_cursos{
+#template_cursos_substituir{
 	
     border-radius: 6px;
     border: 3px solid rgb(255, 111, 111);}</string>
