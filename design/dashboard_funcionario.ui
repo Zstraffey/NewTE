@@ -404,7 +404,7 @@ border-radius: 40px;
                </property>
                <property name="icon">
                 <iconset resource="../imagens/imgs.qrc">
-                 <normaloff>:/imgs/chat.png</normaloff>:/imgs/chat.png</iconset>
+                 <normaloff>:/imgs/paper_icon_circle.png</normaloff>:/imgs/paper_icon_circle.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -761,7 +761,7 @@ border-radius: 30px;
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>227</width>
+                  <width>180</width>
                   <height>37</height>
                  </size>
                 </property>
@@ -825,11 +825,17 @@ QPushButton:checked {
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>98</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="cursor">
                     <cursorShape>PointingHandCursor</cursorShape>
                    </property>
                    <property name="text">
-                    <string>Visão Geral</string>
+                    <string>Tela Inicial</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -850,6 +856,12 @@ QPushButton:checked {
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>98</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="cursor">
                     <cursorShape>PointingHandCursor</cursorShape>
                    </property>
@@ -858,6 +870,28 @@ QPushButton:checked {
                    </property>
                    <property name="shortcut">
                     <string/>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <attribute name="buttonGroup">
+                    <string notr="true">rendimen_func_calen</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton">
+                   <property name="minimumSize">
+                    <size>
+                     <width>98</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
+                   </property>
+                   <property name="text">
+                    <string>Lições</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -950,7 +984,7 @@ QLineEdit:checked {
            <item>
             <widget class="QStackedWidget" name="stacked_widget_botoes_principais_do_dashboard">
              <property name="currentIndex">
-              <number>0</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="rendimento_page">
               <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -1723,7 +1757,7 @@ border-radius:15px;}</string>
                               <property name="geometry">
                                <rect>
                                 <x>0</x>
-                                <y>-9</y>
+                                <y>0</y>
                                 <width>479</width>
                                 <height>230</height>
                                </rect>
@@ -2020,13 +2054,575 @@ border-radius: 30px;
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="page">
+             <widget class="QWidget" name="listalicoes_page">
+              <property name="styleSheet">
+               <string notr="true">Widget{
+
+}</string>
+              </property>
               <layout class="QVBoxLayout" name="verticalLayout_22">
                <item>
                 <widget class="QWidget" name="widget_29" native="true">
                  <property name="styleSheet">
-                  <string notr="true">background-color: rgb(120, 120, 120);</string>
+                  <string notr="true">background-color: rgb(60,60,60);
+border-radius: 9px;</string>
                  </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_26">
+                  <property name="spacing">
+                   <number>6</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="lbl_calendario_2">
+                    <property name="font">
+                     <font>
+                      <family>Inter 28pt SemiBold</family>
+                      <pointsize>8</pointsize>
+                      <weight>7</weight>
+                      <italic>false</italic>
+                      <bold>false</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:400;&quot;&gt;Lições&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QWidget" name="widget_calendario_funcoes_2" native="true">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>200</width>
+                      <height>50</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>50</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">
+QPushButton{
+
+
+ background-color: rgb(91, 91, 91);
+}</string>
+                    </property>
+                    <layout class="QHBoxLayout" name="horizontalLayout_44">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item alignment="Qt::AlignRight|Qt::AlignTop">
+                      <widget class="QFrame" name="frame_pesquisa_calendario_2">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">
+QLineEdit {
+	font: 75 10pt &quot;Inter 18pt&quot;;
+	font-weight: bold;
+	font-color: rgb(255, 255, 255);
+    background-color: #100917;
+    color: white;
+    padding: 5px 22px;
+    border-radius: 6px;
+    border: 3px solid #5a5a5a;
+    min-width: 110px;   /* largura mínima */
+}
+QLineEdit:hover {
+    background-color: #4a4a4a;
+}
+QLineEdit:checked {
+    background-color: #100917;
+    font-weight: bold;
+}
+</string>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::StyledPanel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Raised</enum>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_46">
+                        <item>
+                         <widget class="QLineEdit" name="pesquisa_calendario_2">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>160</width>
+                            <height>40</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>200</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true"/>
+                          </property>
+                          <property name="placeholderText">
+                           <string>Pesquisar</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item alignment="Qt::AlignRight">
+                         <widget class="QFrame" name="frame_filtro_calendario_2">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>40</width>
+                            <height>37</height>
+                           </size>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">QFrame{
+
+border: 4px solid #6c6c6c;
+}
+QFrame{
+background-color: rgb(108, 108, 108);
+border-radius: 6px;
+}
+QComboBox {
+   
+    
+	font: 75 10pt &quot;Inter 18pt&quot;;
+	font-weight: bold;
+    background-color: #6c6c6c;
+    color: white;
+    padding: 6px 22px;
+    border-radius: 6px;
+    border: none;
+    min-width: 54px;   /* largura mínima */
+}
+QComboBox:hover {
+    background-color: #4a4a4a;
+}
+QComboBox:checked {
+    background-color: #100917;
+    
+}
+</string>
+                          </property>
+                          <property name="frameShape">
+                           <enum>QFrame::StyledPanel</enum>
+                          </property>
+                          <property name="frameShadow">
+                           <enum>QFrame::Raised</enum>
+                          </property>
+                          <layout class="QHBoxLayout" name="horizontalLayout_47">
+                           <property name="spacing">
+                            <number>6</number>
+                           </property>
+                           <property name="leftMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="topMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="rightMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="bottomMargin">
+                            <number>0</number>
+                           </property>
+                           <item>
+                            <widget class="QComboBox" name="filtro_calendario_2">
+                             <property name="minimumSize">
+                              <size>
+                               <width>98</width>
+                               <height>0</height>
+                              </size>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>140</width>
+                               <height>16777215</height>
+                              </size>
+                             </property>
+                             <property name="cursor">
+                              <cursorShape>PointingHandCursor</cursorShape>
+                             </property>
+                             <property name="styleSheet">
+                              <string notr="true">
+</string>
+                             </property>
+                             <property name="editable">
+                              <bool>false</bool>
+                             </property>
+                             <property name="currentText">
+                              <string/>
+                             </property>
+                             <property name="currentIndex">
+                              <number>-1</number>
+                             </property>
+                             <property name="placeholderText">
+                              <string>Filtrosadasd</string>
+                             </property>
+                             <item>
+                              <property name="text">
+                               <string>Por Data</string>
+                              </property>
+                             </item>
+                             <item>
+                              <property name="text">
+                               <string/>
+                              </property>
+                             </item>
+                            </widget>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QWidget" name="widget_30" native="true">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(191, 191, 191);</string>
+                    </property>
+                    <layout class="QGridLayout" name="gridLayout">
+                     <item row="1" column="1">
+                      <spacer name="horizontalSpacer_3">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item row="1" column="0">
+                      <spacer name="verticalSpacer_9">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>20</width>
+                         <height>40</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item row="0" column="0">
+                      <widget class="QWidget" name="template_cursos" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>292</width>
+                         <height>153</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>292</width>
+                         <height>153</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QWidget{
+background-color: rgb(109, 109, 109);
+}
+#template_cursos{
+	
+    border-radius: 6px;
+    border: 3px solid rgb(255, 111, 111);}</string>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_39">
+                        <property name="topMargin">
+                         <number>3</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>3</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>3</number>
+                        </property>
+                        <item alignment="Qt::AlignTop">
+                         <widget class="QWidget" name="widget_32" native="true">
+                          <layout class="QHBoxLayout" name="horizontalLayout_15">
+                           <property name="topMargin">
+                            <number>0</number>
+                           </property>
+                           <item alignment="Qt::AlignLeft">
+                            <widget class="QLabel" name="label_9">
+                             <property name="text">
+                              <string>cag_func</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item alignment="Qt::AlignTop">
+                            <widget class="QLabel" name="lbl_situacao_licao">
+                             <property name="styleSheet">
+                              <string notr="true">background-color:rgb(255, 111, 111);
+border-radius: 4px;</string>
+                             </property>
+                             <property name="text">
+                              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;A Aprender&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QWidget" name="widget_34" native="true">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <layout class="QVBoxLayout" name="verticalLayout_46">
+                           <item alignment="Qt::AlignTop">
+                            <widget class="QLabel" name="label_12">
+                             <property name="text">
+                              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Como usar um torno mecânico&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item alignment="Qt::AlignTop">
+                            <widget class="QLabel" name="label_11">
+                             <property name="styleSheet">
+                              <string notr="true">
+color:rgb(217, 217, 217);</string>
+                             </property>
+                             <property name="text">
+                              <string>Descrição do curso</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <spacer name="verticalSpacer_10">
+                             <property name="orientation">
+                              <enum>Qt::Vertical</enum>
+                             </property>
+                             <property name="sizeHint" stdset="0">
+                              <size>
+                               <width>20</width>
+                               <height>40</height>
+                              </size>
+                             </property>
+                            </spacer>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QWidget" name="widget_33" native="true">
+                          <layout class="QVBoxLayout" name="verticalLayout_48">
+                           <item>
+                            <widget class="QLabel" name="label_14">
+                             <property name="text">
+                              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;tipo_curso ex:pdf;video;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="page_2">
+              <layout class="QVBoxLayout" name="verticalLayout_64">
+               <item>
+                <widget class="QWidget" name="widget_31" native="true">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(60,60,60);
+border-radius: 9px;</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_65">
+                  <item>
+                   <widget class="QWidget" name="widget_44" native="true">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(108, 108, 108);</string>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_66">
+                     <item alignment="Qt::AlignLeft|Qt::AlignTop">
+                      <widget class="QWidget" name="widget_45" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_25">
+                        <property name="leftMargin">
+                         <number>4</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>7</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_2">
+                          <property name="font">
+                           <font>
+                            <family>Inter 18pt SemiBold</family>
+                            <pointsize>10</pointsize>
+                            <weight>7</weight>
+                            <italic>false</italic>
+                            <bold>false</bold>
+                           </font>
+                          </property>
+                          <property name="cursor">
+                           <cursorShape>PointingHandCursor</cursorShape>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">font: 63 10pt &quot;Inter 18pt SemiBold&quot;;</string>
+                          </property>
+                          <property name="text">
+                           <string>Voltar</string>
+                          </property>
+                          <property name="icon">
+                           <iconset resource="../imagens/imgs.qrc">
+                            <normaloff>:/imgs/back.png</normaloff>:/imgs/back.png</iconset>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="horizontalSpacer_4">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>4000</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="label_13">
+                          <property name="styleSheet">
+                           <string notr="true">background-color:rgb(255, 111, 111);
+border-radius: 4px;</string>
+                          </property>
+                          <property name="text">
+                           <string>lbl_situacao_licao</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="widget_46" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_68">
+                        <item>
+                         <widget class="QLabel" name="label_30">
+                          <property name="text">
+                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;titulo_lbl&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="label_31">
+                          <property name="text">
+                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;descricao_lbl&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="label_32">
+                          <property name="text">
+                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#d1d1d1;&quot;&gt;meta_lbl ex:compreender o torno mecanico;saber atender o cliente; &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="widget_47" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_69">
+                        <item>
+                         <widget class="QLabel" name="label_33">
+                          <property name="text">
+                           <string>PDF;VIDEO_AULA</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
               </layout>

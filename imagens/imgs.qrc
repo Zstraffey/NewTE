@@ -1,6 +1,8 @@
 <RCC>
   <qresource prefix="imgs">
+    <file>back.png</file>
     <file>send (1).png</file>
+    <file>paper_icon_circle.png</file>
     <file>send.png</file>
     <file>more (1).png</file>
     <file>trespontos.png</file>
