@@ -1057,8 +1057,8 @@ border-radius:15px;}</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>496</width>
-                             <height>230</height>
+                             <width>515</width>
+                             <height>279</height>
                             </rect>
                            </property>
                            <property name="maximumSize">
@@ -2669,7 +2669,7 @@ background-color: #6c6c6c;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>235</width>
+                   <width>160</width>
                    <height>40</height>
                   </size>
                  </property>
@@ -2693,9 +2693,9 @@ background-color: #6c6c6c;
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>62</y>
+                <y>60</y>
                 <width>251</width>
-                <height>16</height>
+                <height>20</height>
                </rect>
               </property>
               <property name="sizePolicy">
@@ -2734,7 +2734,7 @@ background-color: #6c6c6c;
                  <x>0</x>
                  <y>0</y>
                  <width>251</width>
-                 <height>16</height>
+                 <height>20</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -2995,9 +2995,9 @@ padding: 10px;</string>
                         <property name="geometry">
                          <rect>
                           <x>0</x>
-                          <y>214</y>
+                          <y>613</y>
                           <width>494</width>
-                          <height>421</height>
+                          <height>20</height>
                          </rect>
                         </property>
                         <property name="sizePolicy">
@@ -3015,7 +3015,7 @@ padding: 10px;</string>
                         <property name="maximumSize">
                          <size>
                           <width>16777215</width>
-                          <height>717</height>
+                          <height>620</height>
                          </size>
                         </property>
                         <property name="mouseTracking">
@@ -3036,7 +3036,7 @@ padding: 10px;</string>
                            <x>0</x>
                            <y>0</y>
                            <width>494</width>
-                           <height>421</height>
+                           <height>20</height>
                           </rect>
                          </property>
                          <property name="sizePolicy">
@@ -3061,27 +3061,6 @@ padding: 10px;</string>
                           <property name="bottomMargin">
                            <number>0</number>
                           </property>
-                          <item>
-                           <widget class="QPushButton" name="pushButton_3">
-                            <property name="text">
-                             <string>PushButton</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QPushButton" name="pushButton_2">
-                            <property name="text">
-                             <string>a</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QPushButton" name="pushButton_4">
-                            <property name="text">
-                             <string>PushButton</string>
-                            </property>
-                           </widget>
-                          </item>
                          </layout>
                         </widget>
                        </widget>
@@ -4995,8 +4974,8 @@ border-radius: 40px;
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="btns_sidebar"/>
-  <buttongroup name="cancelar_confirmar"/>
   <buttongroup name="rendimen_func_calen"/>
+  <buttongroup name="cancelar_confirmar"/>
+  <buttongroup name="btns_sidebar"/>
  </buttongroups>
 </ui>

@@ -4,17 +4,9 @@ from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QLab
 from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 
-class usuarioChat(QWidget):
-    def __init__(self, username):#, callback):
-        super().__init__()
-        loadUi("../design/templates/contatos.ui", self)  # your .ui file with a QPushButton
-
-        self.nome_salvo.setText(username)
-        # Connect the button to shared callback with username
-        # self.pushButton.clicked.connect(lambda: callback(username))
-
 class Session:
     current_user = None
+    loaded_chat = 0
 
 class ChatBubble(QWidget):
     def __init__(self, text, layout, sender="me"):
@@ -27,19 +19,17 @@ class ChatBubble(QWidget):
                 border-radius: 10px;
                 padding: 8px;
                 font-size: 14px;
+                color: black;
             }
         """)
+        label.setAutoFillBackground(True)
 
         if sender == "me":
-            # Align right
             layout.addStretch()
-            label.setStyleSheet(label.styleSheet() +
-                                "background-color: lightgreen;")
+            label.setStyleSheet("background-color: lightgreen; padding: 5px; border-radius: 8px; color: black;")
             layout.addWidget(label, alignment=Qt.AlignRight)
         else:
-            # Align left
-            label.setStyleSheet(label.styleSheet() +
-                                "background-color: lightblue;")
+            label.setStyleSheet("background-color: lightblue; padding: 5px; border-radius: 8px; color: black;")
             layout.addWidget(label, alignment=Qt.AlignLeft)
             layout.addStretch()
 
