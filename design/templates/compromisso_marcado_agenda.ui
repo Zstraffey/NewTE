@@ -168,7 +168,7 @@
              <font>
               <family>Inter 28pt SemiBold</family>
               <pointsize>18</pointsize>
-              <weight>8</weight>
+              <weight>7</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
@@ -211,6 +211,23 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>460</width>
+     <height>57</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: transparent;
+background-color:transparent;</string>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
+   </property>
   </widget>
  </widget>
  <resources/>
