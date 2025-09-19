@@ -1,11 +1,11 @@
 import mysql
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout, QFormLayout, QMessageBox
 from PyQt5.uic import loadUi
-import classes
 import mysql.connector as mc
+from functools import partial
 
 import imgs_rc  # your resources
-from codigos.classes import Session, bancoDados
+from codigos.classes import Session, bancoDados, ChatBubble
 
 class usuarioChat(QWidget):
     def __init__(self, user):#, callback):
@@ -15,11 +15,7 @@ class usuarioChat(QWidget):
 
         self.nome_salvo.setText(user["nome"])
         print("yooo")
-        # Connect the button to shared callback with username
-        self.pushButton.clicked.connect(lambda: self.callback(user["id_user"]))
 
-    def callback(self, id):
-        Session.loaded_chat = id
 
 class TelaInicial(QMainWindow):
     def __init__(self, stacked_widget):
@@ -63,8 +59,14 @@ class TelaInicial(QMainWindow):
 
         users = self.updateUserList()
 
+        def callback(user):
+            Session.loaded_chat = user["id_user"]
+            self.infos_contato.setText(user["nome"])
+            self.updateChat()
+
         for user in users:
             btn = usuarioChat(user)
+            btn.pushButton.clicked.connect(partial(callback, user))
             layout.addWidget(btn)
 
         layout.addStretch()
@@ -88,7 +90,7 @@ class TelaInicial(QMainWindow):
         print("eba")
         print(Session.current_user["id_user"])
 
-        query = "SELECT id_user, nome, email FROM usuario WHERE id_user != %s"
+        query = "SELECT id_user, nome FROM usuario WHERE id_user != %s"
         cursor.execute(query, (Session.current_user["id_user"],))
         results = cursor.fetchall()
 
@@ -96,30 +98,74 @@ class TelaInicial(QMainWindow):
 
         #matheus@example.com
 
-        for id_user ,nome, email in results:
+        for id_user, nome in results:
             users.append({
                 "id_user": id_user,
                 "nome": nome,
-                "email": email
             })
 
         return users
 
-
     def updateChat(self):
-        db = classes.bancoDados().conectar()
+        def clearLayout(layout):
+            if layout is not None:
+                while layout.count():
+                    item = layout.takeAt(0)
+                    widget = item.widget()
+                    if widget is not None:
+                        widget.deleteLater()  # safely deletes the widget
+                    else:
+                        clearLayout(item.layout())  # if it’s a nested layout
+
+        db = bancoDados().conectar()
         if not db:
             return
         cursor = db.cursor()
 
-        cursor.execute("SELECT sender, message FROM messages ORDER BY id ASC")
+        query = f"""
+    SELECT * 
+    FROM mensagens_chat
+    WHERE 
+        (remetente_id = {Session.current_user["id_user"]} 
+         AND destinatario_id = {Session.loaded_chat})
+    OR 
+        (remetente_id = {Session.loaded_chat} 
+         AND destinatario_id = {Session.current_user["id_user"]})
+    ORDER BY data_envio ASC;
+"""
+
+        print(query)
+
+        cursor.execute(query)
         results = cursor.fetchall()
 
-        for sender, msg in results:
-            bubble = classes.ChatBubble(msg, self.chat,sender="me" if sender == "Alice" else "other")
-            self.vbox.addWidget(bubble)
+        print(results)
 
-        self.vbox.addStretch()
+        container = self.chat.widget()
+        self.chat.setWidgetResizable(True)
+
+        layout = container.layout()
+        clearLayout(layout)
+
+        defaultPos = 613
+        self.chat.setGeometry(self.chat.x(), 613, self.chat.width(), self.chat.height())
+
+        for row in results:
+            bubble = ChatBubble(row[3], layout,sender="me" if row[1] == Session.current_user["id_user"] else "other")
+            new_y = max(20, self.chat.y() - 30)
+            self.chat.setGeometry(self.chat.x(), new_y, self.chat.width(), self.chat.height())
+
+            layout.addWidget(bubble)
+
+        print(len(results))
+
+        container.setMinimumHeight(30 * len(results))
+        self.chat.setFixedHeight(
+            min(30 * len(results), 620)
+        )
+        self.chat.setMaximumHeight(620)
+
+        layout.addStretch()
         cursor.close()
         db.close()
 
@@ -135,7 +181,7 @@ class TelaInicial(QMainWindow):
         self.widget.show()
 
     def cadastrarUsuario(self):
-        db = classes.bancoDados().conectar()
+        db = bancoDados().conectar()
         if not db:
             return
 

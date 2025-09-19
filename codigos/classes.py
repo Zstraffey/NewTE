@@ -19,19 +19,17 @@ class ChatBubble(QWidget):
                 border-radius: 10px;
                 padding: 8px;
                 font-size: 14px;
+                color: black;
             }
         """)
+        label.setAutoFillBackground(True)
 
         if sender == "me":
-            # Align right
             layout.addStretch()
-            label.setStyleSheet(label.styleSheet() +
-                                "background-color: lightgreen;")
+            label.setStyleSheet("background-color: lightgreen; padding: 5px; border-radius: 8px; color: black;")
             layout.addWidget(label, alignment=Qt.AlignRight)
         else:
-            # Align left
-            label.setStyleSheet(label.styleSheet() +
-                                "background-color: lightblue;")
+            label.setStyleSheet("background-color: lightblue; padding: 5px; border-radius: 8px; color: black;")
             layout.addWidget(label, alignment=Qt.AlignLeft)
             layout.addStretch()
 
