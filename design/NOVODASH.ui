@@ -620,7 +620,7 @@ QPushButton:checked {
     <item>
      <widget class="QStackedWidget" name="stackedwidget_btns_da_sidebar">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_dashboard">
        <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -1058,7 +1058,7 @@ border-radius:15px;}</string>
                              <x>0</x>
                              <y>0</y>
                              <width>515</width>
-                             <height>279</height>
+                             <height>285</height>
                             </rect>
                            </property>
                            <property name="maximumSize">

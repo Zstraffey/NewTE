@@ -13,6 +13,7 @@ import os
 import random
 
 import dashboard
+import funcionario
 import imgs_rc  # your resources
 from codigos.classes import bancoDados, Session
 
@@ -238,7 +239,7 @@ class Login(QMainWindow):
         self.widget.setCurrentIndex(self.widget.currentIndex() + 1)
 
     def logarAplicativo(self):
-        self.main = dashboard.TelaInicial(self.widget) #value_if_true if condition else value_if_false
+        self.main = dashboard.TelaInicial(self.widget) if Session.current_user["login"] == "admin" else funcionario.TelaInicial(self.widget)
         self.main.show()
         self.widget.hide()
 
