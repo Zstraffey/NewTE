@@ -224,10 +224,10 @@ class TelaInicial(QMainWindow):
 
             #container.setMinimumHeight(self.chat.viewport().height())
 
+            self.resize(self.width() + 1, self.height())
             self.chat.setMaximumHeight(920)
-
-            # ✅ Scroll after all bubbles are laid out
             self.scrollToBottom()
+
 
     def scrollToBottom(self):
         # Delay slightly to ensure layout has fully recalculated
@@ -236,6 +236,7 @@ class TelaInicial(QMainWindow):
     def _scrollToBottomImmediate(self):
         sb = self.chat.verticalScrollBar()
         sb.setValue(sb.maximum())
+        self.resize(self.width() - 1, self.height())
 
     def mudarTela(self, index):
         self.stack.setCurrentIndex(index)
