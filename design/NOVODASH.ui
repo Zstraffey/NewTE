@@ -3020,14 +3020,14 @@ padding: 10px;</string>
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>501</width>
+                            <width>0</width>
                             <height>0</height>
                            </size>
                           </property>
                           <property name="maximumSize">
                            <size>
-                            <width>1191</width>
-                            <height>900</height>
+                            <width>10000</width>
+                            <height>10000</height>
                            </size>
                           </property>
                           <property name="mouseTracking">
@@ -3047,7 +3047,7 @@ padding: 10px;</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>501</width>
+                             <width>500</width>
                              <height>16</height>
                             </rect>
                            </property>

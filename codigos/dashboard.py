@@ -191,7 +191,7 @@ class TelaInicial(QMainWindow):
             cursor.close()
             db.close()
 
-            # self.updateChat()
+            self.chat_timer.query()
         except mc.Error as err:
             print("Error:", err)
 
@@ -216,7 +216,8 @@ class TelaInicial(QMainWindow):
             for row in results:
                 bubble = ChatBubble(
                     row[3],
-                    sender="me" if row[1] == Session.current_user["id_user"] else "other"
+                    self.chat.viewport().width() / 2,
+                    sender="me" if row[1] == Session.current_user["id_user"] else "other",
                 )
                 layout.insertWidget(layout.count() - 1, bubble)
                 bubble.adjustSize()

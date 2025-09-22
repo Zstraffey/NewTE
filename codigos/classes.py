@@ -10,7 +10,7 @@ class Session:
     last_message_id = 0
 
 class ChatBubble(QWidget):
-    def __init__(self, text, sender="me", max_width=300):
+    def __init__(self, text,max_width ,sender="me"):
         super().__init__()
 
         self.max_width = max_width
@@ -54,12 +54,12 @@ class ChatBubble(QWidget):
         hint = self.label.sizeHint()
         return QSize(hint.width(), hint.height())
 
-    #def resizeEvent(self, event):
-    #    super().resizeEvent(event)
-    #    needed = self.label.sizeHint().height()
-    #    if self.height() != needed:
-    #        self.setMinimumHeight(needed)
-    #        self.resize(self.width(), needed)
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        needed = self.label.sizeHint().height()
+        if self.height() != needed:
+            self.setMinimumHeight(needed)
+            self.resize(self.width(), needed)
 
 class bancoDados:
     def __init__(self):
