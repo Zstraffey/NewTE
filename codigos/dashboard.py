@@ -244,6 +244,8 @@ class TelaInicial(QMainWindow):
         self.dashboardStack.setCurrentIndex(index)
 
     def logOut(self):
+        Session.current_user = None
+
         self.close()
         self.widget.setCurrentIndex(0)
         self.widget.show()

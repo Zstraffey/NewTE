@@ -7,6 +7,8 @@ import time
 import sys
 from functools import partial
 
+from flask import session
+
 import imgs_rc  # your resources
 from codigos.classes import Session, bancoDados, ChatBubble
 
@@ -96,9 +98,7 @@ class TelaInicial(QMainWindow):
             self.findChild(QPushButton, "btn_licoes"),
             self.findChild(QPushButton, "btn_perfil"),
         ]
-        print("oi")
 
-        # Use partial to bind index safely
         from functools import partial
         for i, botao in enumerate(self.stackList):
             botao.clicked.connect(partial(self.mudarTela, i))
@@ -109,8 +109,6 @@ class TelaInicial(QMainWindow):
         layout = container.layout()
 
         users = self.updateUserList()
-
-        print("oi")
 
         self.chat_timer = self.DBLoopUdpate()
         self.chat_timer.new_data.connect(self.updateChat)
@@ -232,6 +230,8 @@ class TelaInicial(QMainWindow):
         self.stack.setCurrentIndex(index)
 
     def logOut(self):
+        Session.current_user = None
+
         self.close()
         self.widget.setCurrentIndex(0)
         self.widget.show()
