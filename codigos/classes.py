@@ -67,6 +67,14 @@ class bancoDados:
     def conectar(self):
 
         try:
+            #mydb = mc.connect(
+            #    host="srv1897.hstgr.io",
+            #    user="u416468954_NEWTE",
+            #    password="Newte2025",
+            #    database="u416468954_newtebd",
+            #    use_pure=True
+            #)
+
             mydb = mc.connect(
                 host="localhost",
                 user="root",
