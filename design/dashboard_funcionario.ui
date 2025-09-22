@@ -601,7 +601,7 @@ QPushButton:checked {
     <item>
      <widget class="QStackedWidget" name="stackedwidget_btns_da_sidebar">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_dashboard">
        <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -614,6 +614,9 @@ QPushButton:checked {
            </sizepolicy>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
+           <property name="topMargin">
+            <number>0</number>
+           </property>
            <item>
             <widget class="QWidget" name="widget_newte_2" native="true">
              <property name="sizePolicy">
@@ -1408,6 +1411,22 @@ QProgressBar::chunk {
                            </item>
                           </layout>
                          </widget>
+                        </item>
+                        <item>
+                         <spacer name="horizontalSpacer_5">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeType">
+                           <enum>QSizePolicy::Fixed</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>6</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
                         </item>
                         <item>
                          <widget class="QWidget" name="local_agenda" native="true">
@@ -2283,6 +2302,22 @@ QPushButton:hover {
                          </widget>
                         </item>
                         <item>
+                         <spacer name="horizontalSpacer_6">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeType">
+                           <enum>QSizePolicy::Fixed</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>6</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
                          <widget class="QWidget" name="visualizar_pessoas" native="true">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -2329,7 +2364,7 @@ border-radius:15px;
                                 <x>0</x>
                                 <y>0</y>
                                 <width>480</width>
-                                <height>242</height>
+                                <height>251</height>
                                </rect>
                               </property>
                               <property name="minimumSize">
@@ -3190,7 +3225,7 @@ border-radius: 4px;</string>
                         <item>
                          <widget class="QLabel" name="label_30">
                           <property name="text">
-                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Ética Empresarial: Nosso Compromisso no Ambiente de Trabalho&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Olá! Seu título irá aparecer assim&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                           </property>
                          </widget>
                         </item>
@@ -3210,7 +3245,7 @@ border-radius: 4px;</string>
                         <item>
                          <widget class="QLabel" name="label_31">
                           <property name="text">
-                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Nesta apresentação, vamos refletir sobre a importância da ética no dia a dia da empresa, entendendo como nossas&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;atitudes individuais impactam o ambiente coletivo, a confiança entre colegas, a relação com clientes e a reputação&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;da organização. A ética não é apenas um conceito abstrato, mas sim uma prática que deve orientar nossas &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;ações, decisões e responsabilidades no trabalho.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;e sua descrição assim:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;atitudes individuais impactam o ambiente coletivo, a confiança entre colegas, a relação com clientes e a reputação&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;da organização. A ética não é apenas um conceito abstrato, mas sim uma prática que deve orientar nossas &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;ações, decisões e responsabilidades no trabalho.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                           </property>
                          </widget>
                         </item>
@@ -3230,7 +3265,7 @@ border-radius: 4px;</string>
                         <item>
                          <widget class="QLabel" name="label_32">
                           <property name="text">
-                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Reconhecer a ética como um pilar fundamental da convivência no ambiente de trabalho.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Compreender como atitudes éticas fortalecem a confiança e o respeito entre colegas.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Identificar situações práticas em que a ética deve ser aplicada no cotidiano profissional.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Reforçar o compromisso de cada colaborador com a integridade e os valores da empresa.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;e suas metas assim:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Compreender como atitudes éticas fortalecem a confiança e o respeito entre colegas.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Identificar situações práticas em que a ética deve ser aplicada no cotidiano profissional.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Reforçar o compromisso de cada colaborador com a integridade e os valores da empresa.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                           </property>
                          </widget>
                         </item>
@@ -4179,7 +4214,7 @@ background-color: #6c6c6c;
            <item>
             <widget class="QStackedWidget" name="stacked_local_chat">
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_pcopia_d_template_chat">
               <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -5283,7 +5318,7 @@ border-radius: 40px;
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="btns_sidebar"/>
+  <buttongroup name="rendimen_func_calen"/>
  </buttongroups>
 </ui>
