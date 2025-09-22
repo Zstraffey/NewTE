@@ -7,6 +7,7 @@ from PyQt5.uic import loadUi
 class Session:
     current_user = None
     loaded_chat = 0
+    last_message_id = 0
 
 class ChatBubble(QWidget):
     def __init__(self, text, sender="me", max_width=300):

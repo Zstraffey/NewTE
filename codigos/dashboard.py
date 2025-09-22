@@ -1,8 +1,9 @@
 import mysql
-from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout, QFormLayout, QMessageBox
 from PyQt5.uic import loadUi
 import mysql.connector as mc
+import time
 import sys
 from functools import partial
 
@@ -20,6 +21,61 @@ class usuarioChat(QWidget):
 
 
 class TelaInicial(QMainWindow):
+    class DBLoopUdpate(QThread):
+        new_data = pyqtSignal(list)
+
+        def __init__(self):
+            super().__init__()
+            self.running = True
+
+        def query(self):
+            db = bancoDados().conectar()
+            if not db:
+                return
+            cursor = db.cursor()
+
+            query = f"""
+                 SELECT *
+                 FROM mensagens_chat
+                 WHERE id_mensagem > {Session.last_message_id} AND (
+                     (remetente_id = {Session.current_user["id_user"]} AND destinatario_id = {Session.loaded_chat})
+                     OR
+                     (remetente_id = {Session.loaded_chat} AND destinatario_id = {Session.current_user["id_user"]})
+                 )
+                 ORDER BY data_envio ASC;
+             """
+            cursor.execute(query)
+            results = cursor.fetchall()
+            if results:
+                self.new_data.emit(results)
+
+        def run(self):
+            db = bancoDados().conectar()
+            if not db:
+                return
+            cursor = db.cursor()
+
+            while self.running:
+                query = f"""
+                     SELECT *
+                     FROM mensagens_chat
+                     WHERE id_mensagem > {Session.last_message_id} AND (
+                         (remetente_id = {Session.current_user["id_user"]} AND destinatario_id = {Session.loaded_chat})
+                         OR
+                         (remetente_id = {Session.loaded_chat} AND destinatario_id = {Session.current_user["id_user"]})
+                     )
+                     ORDER BY data_envio ASC;
+                 """
+                cursor.execute(query)
+                results = cursor.fetchall()
+                if results:
+                    self.new_data.emit(results)
+
+                time.sleep(3)
+
+        def stop(self):
+            self.running = False
+
     def __init__(self, stacked_widget):
         super().__init__()
         loadUi("../design/NOVODASH.ui", self)
@@ -61,17 +117,17 @@ class TelaInicial(QMainWindow):
 
         users = self.updateUserList()
 
+        self.chat_timer = self.DBLoopUdpate()
+        self.chat_timer.new_data.connect(self.updateChat)
+        self.chat_timer.start()
+
         def callback(user):
             Session.loaded_chat = user["id_user"]
             self.infos_contato.setText(user["nome"])
-            self.last_message_id = 0
+            Session.last_message_id = 0
 
             self.clearLayout(self.chat.widget().layout())
-            self.updateChat()
-
-        self.chat_timer = EmailSender(receiverEmail)
-        self.chat_timer.finished.connect(lambda msg: self.verificacao.setText(mudarTexto(msg, "9999ff")))
-        self.chat_timer.start()
+            self.chat_timer.query()
 
         for user in users:
             btn = usuarioChat(user)
@@ -132,35 +188,14 @@ class TelaInicial(QMainWindow):
             cursor.close()
             db.close()
 
-            self.updateChat()
+            # self.updateChat()
         except mc.Error as err:
             print("Error:", err)
 
-    def chatLoop(self):
-        if Session.loaded_chat > 0:
-            self.updateChat()
-
-    def updateChat(self):
-        db = bancoDados().conectar()
-        if not db:
-            return
-        cursor = db.cursor()
-
-        query = f"""
-             SELECT *
-             FROM mensagens_chat
-             WHERE id_mensagem > {self.last_message_id} AND (
-                 (remetente_id = {Session.current_user["id_user"]} AND destinatario_id = {Session.loaded_chat})
-                 OR
-                 (remetente_id = {Session.loaded_chat} AND destinatario_id = {Session.current_user["id_user"]})
-             )
-             ORDER BY data_envio ASC;
-         """
-        cursor.execute(query)
-        results = cursor.fetchall()
+    def updateChat(self, results):
 
         if results:
-            self.last_message_id = results[len(results)-1][0]
+            Session.last_message_id = results[len(results)-1][0]
 
             self.chat.setWidgetResizable(True)
             container = self.chat.widget()
@@ -189,9 +224,6 @@ class TelaInicial(QMainWindow):
 
             # ✅ Scroll after all bubbles are laid out
             self.scrollToBottom()
-
-        cursor.close()
-        db.close()
 
     def scrollToBottom(self):
         # Delay slightly to ensure layout has fully recalculated
