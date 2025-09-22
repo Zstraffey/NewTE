@@ -50,13 +50,12 @@ class TelaInicial(QMainWindow):
                 self.new_data.emit(results)
 
         def run(self):
-            db = bancoDados().conectar()
-            if not db:
-                return
-            cursor = db.cursor()
-
             while self.running:
-                print(Session.last_message_id)
+                db = bancoDados().conectar()
+                if not db:
+                    return
+                cursor = db.cursor()
+
                 query = f"""
                      SELECT *
                      FROM mensagens_chat
@@ -69,11 +68,13 @@ class TelaInicial(QMainWindow):
                  """
                 cursor.execute(query)
                 results = cursor.fetchall()
-                print(results)
 
                 if results:
                     self.new_data.emit(results)
-                time.sleep(3)
+
+                db.close()
+                cursor.close()
+                time.sleep(2)
 
         def stop(self):
             self.running = False
