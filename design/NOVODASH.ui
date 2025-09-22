@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1241</width>
-    <height>799</height>
+    <width>1525</width>
+    <height>820</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1057,8 +1057,8 @@ border-radius:15px;}</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>496</width>
-                             <height>230</height>
+                             <width>515</width>
+                             <height>279</height>
                             </rect>
                            </property>
                            <property name="maximumSize">
@@ -3047,7 +3047,7 @@ padding: 10px;</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>500</width>
+                             <width>784</width>
                              <height>16</height>
                             </rect>
                            </property>
@@ -5009,8 +5009,8 @@ border-radius: 40px;
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="cancelar_confirmar"/>
   <buttongroup name="rendimen_func_calen"/>
+  <buttongroup name="cancelar_confirmar"/>
   <buttongroup name="btns_sidebar"/>
  </buttongroups>
 </ui>
