@@ -213,7 +213,7 @@ class Login(QMainWindow):
 
         cursor = db.cursor()
 
-        query = "SELECT id_user, nome, email, senha FROM usuario WHERE email = %s AND senha = %s"
+        query = "SELECT id_user, nome, email, senha, tipo_usuario FROM usuario WHERE email = %s AND senha = %s"
         cursor.execute(query, (email, senha))
         result = cursor.fetchone()
 
@@ -223,7 +223,8 @@ class Login(QMainWindow):
             Session.current_user = {
                 "id_user": int(result[0]),
                 "nome": result[1],
-                "email": result[2]
+                "email": result[2],
+                "login": result[4],
             }
             QMessageBox.information(None, "Bem-Vindo!", "Logado com sucesso!")
             self.logarAplicativo()
@@ -237,7 +238,7 @@ class Login(QMainWindow):
         self.widget.setCurrentIndex(self.widget.currentIndex() + 1)
 
     def logarAplicativo(self):
-        self.main = dashboard.TelaInicial(self.widget)
+        self.main = dashboard.TelaInicial(self.widget) #value_if_true if condition else value_if_false
         self.main.show()
         self.widget.hide()
 

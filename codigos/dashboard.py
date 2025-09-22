@@ -228,7 +228,6 @@ class TelaInicial(QMainWindow):
             self.chat.setMaximumHeight(920)
             self.scrollToBottom()
 
-
     def scrollToBottom(self):
         # Delay slightly to ensure layout has fully recalculated
         QTimer.singleShot(50, self._scrollToBottomImmediate)
