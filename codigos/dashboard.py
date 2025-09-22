@@ -56,6 +56,7 @@ class TelaInicial(QMainWindow):
             cursor = db.cursor()
 
             while self.running:
+                print(Session.last_message_id)
                 query = f"""
                      SELECT *
                      FROM mensagens_chat
@@ -68,9 +69,10 @@ class TelaInicial(QMainWindow):
                  """
                 cursor.execute(query)
                 results = cursor.fetchall()
+                print(results)
+
                 if results:
                     self.new_data.emit(results)
-
                 time.sleep(3)
 
         def stop(self):
@@ -81,7 +83,7 @@ class TelaInicial(QMainWindow):
         loadUi("../design/NOVODASH.ui", self)
         self.widget = stacked_widget
 
-        self.last_message_id = 0
+        Session.last_message_id = 0
 
         self.stack = self.findChild(QWidget, "stackedwidget_btns_da_sidebar")
         self.dashboardStack = self.findChild(QWidget, "stacked_widget_botoes_principais_do_dashboard")
@@ -220,7 +222,7 @@ class TelaInicial(QMainWindow):
 
             #container.setMinimumHeight(self.chat.viewport().height())
 
-            self.chat.setMaximumHeight(620)
+            self.chat.setMaximumHeight(920)
 
             # ✅ Scroll after all bubbles are laid out
             self.scrollToBottom()
