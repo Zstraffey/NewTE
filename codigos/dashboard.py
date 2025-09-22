@@ -69,9 +69,9 @@ class TelaInicial(QMainWindow):
             self.clearLayout(self.chat.widget().layout())
             self.updateChat()
 
-        self.chat_timer = QTimer(self)
-        self.chat_timer.timeout.connect(self.chatLoop)
-        self.chat_timer.start(2000)  # call updateChat every 2 seconds
+        self.chat_timer = EmailSender(receiverEmail)
+        self.chat_timer.finished.connect(lambda msg: self.verificacao.setText(mudarTexto(msg, "9999ff")))
+        self.chat_timer.start()
 
         for user in users:
             btn = usuarioChat(user)
