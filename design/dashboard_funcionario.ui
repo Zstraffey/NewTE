@@ -321,7 +321,7 @@ border-radius: 40px;
                 <font>
                  <family>Inter 28pt SemiBold</family>
                  <pointsize>12</pointsize>
-                 <weight>8</weight>
+                 <weight>7</weight>
                  <italic>false</italic>
                  <bold>false</bold>
                 </font>
@@ -987,7 +987,7 @@ QLineEdit:checked {
            <item>
             <widget class="QStackedWidget" name="stacked_widget_botoes_principais_do_dashboard">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="rendimento_page">
               <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -1617,7 +1617,7 @@ background-color: rgb(108, 108, 108);
                                        <font>
                                         <family>Inter 28pt SemiBold</family>
                                         <pointsize>18</pointsize>
-                                        <weight>8</weight>
+                                        <weight>7</weight>
                                         <italic>false</italic>
                                         <bold>false</bold>
                                        </font>
@@ -1990,7 +1990,7 @@ background-color: rgb(108, 108, 108);
                                      <font>
                                       <family>Inter 18pt SemiBold</family>
                                       <pointsize>10</pointsize>
-                                      <weight>8</weight>
+                                      <weight>7</weight>
                                       <italic>false</italic>
                                       <bold>false</bold>
                                      </font>
@@ -2695,22 +2695,6 @@ border-radius: 9px;</string>
                    <number>6</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="lbl_licoes">
-                    <property name="font">
-                     <font>
-                      <family>Inter 28pt SemiBold</family>
-                      <pointsize>8</pointsize>
-                      <weight>8</weight>
-                      <italic>false</italic>
-                      <bold>false</bold>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:400;&quot;&gt;Lições&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
                    <widget class="QWidget" name="local_filtro_licoes" native="true">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -2740,7 +2724,7 @@ QPushButton{
                     </property>
                     <layout class="QHBoxLayout" name="horizontalLayout_44">
                      <property name="leftMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="topMargin">
                       <number>0</number>
@@ -2751,6 +2735,22 @@ QPushButton{
                      <property name="bottomMargin">
                       <number>0</number>
                      </property>
+                     <item>
+                      <widget class="QLabel" name="lbl_licoes">
+                       <property name="font">
+                        <font>
+                         <family>Inter 28pt SemiBold</family>
+                         <pointsize>8</pointsize>
+                         <weight>7</weight>
+                         <italic>false</italic>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:400;&quot;&gt;Lições&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                      </widget>
+                     </item>
                      <item alignment="Qt::AlignRight|Qt::AlignTop">
                       <widget class="QFrame" name="local_pesquisa_licoes">
                        <property name="sizePolicy">
@@ -2788,6 +2788,9 @@ QLineEdit:checked {
                         <enum>QFrame::Raised</enum>
                        </property>
                        <layout class="QHBoxLayout" name="horizontalLayout_46">
+                        <property name="rightMargin">
+                         <number>4</number>
+                        </property>
                         <item>
                          <widget class="QLineEdit" name="pesquisa_licao">
                           <property name="sizePolicy">
@@ -3142,7 +3145,7 @@ border-radius: 9px;</string>
                            <font>
                             <family>Inter 18pt SemiBold</family>
                             <pointsize>10</pointsize>
-                            <weight>8</weight>
+                            <weight>7</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
@@ -3335,7 +3338,7 @@ border-radius: 9px;</string>
                            <font>
                             <family>Inter 18pt SemiBold</family>
                             <pointsize>10</pointsize>
-                            <weight>8</weight>
+                            <weight>7</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
@@ -3487,7 +3490,7 @@ border-radius: 9px;</string>
                      <font>
                       <family>Inter 28pt SemiBold</family>
                       <pointsize>8</pointsize>
-                      <weight>8</weight>
+                      <weight>7</weight>
                       <italic>false</italic>
                       <bold>false</bold>
                      </font>
@@ -4418,7 +4421,7 @@ padding: 10px;</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>786</width>
+                             <width>16</width>
                              <height>16</height>
                             </rect>
                            </property>
@@ -5351,7 +5354,7 @@ border-radius: 40px;
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="btns_sidebar"/>
   <buttongroup name="rendimen_func_calen"/>
+  <buttongroup name="btns_sidebar"/>
  </buttongroups>
 </ui>
