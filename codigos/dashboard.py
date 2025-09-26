@@ -130,8 +130,7 @@ class TelaInicial(QMainWindow):
         self.btn_enviar.clicked.connect(self.sendMessage)
         self.btn_selecionar_foto.clicked.connect(self.escolherFoto)
 
-        self.foto_func.setIcon(QIcon(Session.current_user["foto_perfil"]))
-        self.foto_func.setIconSize(QSize(80, 80))
+        self.foto_func.setPixmap(Session.current_user["foto_perfil"])
         self.nome_func.setText(Session.current_user["nome"])
         self.carg_func.setText(Session.current_user["cargo"])
 
@@ -147,9 +146,9 @@ class TelaInicial(QMainWindow):
         def callback(user):
             Session.loaded_chat = user["id_user"]
             self.infos_contato.setText(user["nome"])
-            self.infos_contato.setIcon(QIcon(user["foto_perfil"]))
 
-            self.foto_func_contato.setIcon(QIcon(user["foto_perfil"]))
+            self.foto_func_contato.setPixmap(user["foto_perfil"])
+            self.foto_func_contato_2.setPixmap(user["foto_perfil"])
             self.nome_func_contato.setText(user["nome"])
             self.carg_func_contato.setText(user["cargo"])
 
