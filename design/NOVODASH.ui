@@ -389,7 +389,7 @@ border-radius: 40px;
                 <cursorShape>PointingHandCursor</cursorShape>
                </property>
                <property name="text">
-                <string>Cadastar</string>
+                <string>Cadastrar</string>
                </property>
                <property name="icon">
                 <iconset resource="../imagens/imgs.qrc">
@@ -3883,7 +3883,7 @@ padding: 10px;</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>773</width>
+                             <width>100</width>
                              <height>16</height>
                             </rect>
                            </property>
@@ -5827,8 +5827,8 @@ border-radius: 40px;
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="cancelar_confirmar"/>
+  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="btns_sidebar"/>
  </buttongroups>
 </ui>
