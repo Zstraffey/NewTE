@@ -17,7 +17,6 @@ import funcionario
 from codigos.classes import bancoDados, Session
 import imgs_qrc
 
-
 class EmailSender(QThread):
     finished = pyqtSignal(str)
 
@@ -238,6 +237,13 @@ class Login(QMainWindow):
                 "foto_perfil" : pixmap,
                 "cargo": result[6],
             }
+
+            query = f"""
+                        UPDATE usuario SET status = 'ONLINE' WHERE email = '{Session.current_user["email"]}';
+                   """
+            cursor.execute(query)
+            db.commit()
+
             QMessageBox.information(None, "Bem-Vindo!", "Logado com sucesso!")
             self.logarAplicativo()
 
@@ -305,8 +311,27 @@ class EsqueciSenha(QMainWindow):
         self.widget.setCurrentIndex(self.widget.currentIndex() + 1)
 
 
+def quitProgram():
+    if Session.current_user is None:
+        return
+    db = bancoDados().conectar()
+    if not db:
+        return
+
+    cursor = db.cursor()
+
+    query = f"""
+                UPDATE usuario SET status = 'OFFLINE' WHERE email = '{Session.current_user["email"]}';
+           """
+    cursor.execute(query)
+    db.commit()
+
+    cursor.close()
+    db.close()
+
 def main():
     app = QApplication(sys.argv)
+    app.aboutToQuit.connect(quitProgram)
 
     stacked_widget = QtWidgets.QStackedWidget()
     stacked_widget.setFixedSize(900, 540)

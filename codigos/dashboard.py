@@ -6,6 +6,7 @@ import imgs_qrc
 import mysql.connector as mc
 import time
 from functools import partial
+from login import quitProgram
 
 from codigos.classes import Session, bancoDados, ChatBubble
 
@@ -164,6 +165,20 @@ class TelaInicial(QMainWindow):
             icon = user["foto_perfil"]
             btn.foto_cntt.setPixmap(icon)
             btn.foto_cntt.setScaledContents(True)
+            btn.online.setText(user["status"])
+
+            if user["status"] == "OFFLINE":
+                btn.online.setStyleSheet("""
+                    QLabel {
+                        color: red;
+                    }
+                """)
+            else:
+                btn.online.setStyleSheet("""
+                    QLabel {
+                        color: green;
+                    }
+                """)
 
             layout.addWidget(btn)
 
@@ -194,14 +209,14 @@ class TelaInicial(QMainWindow):
             return []
 
         cursor = db.cursor()
-        query = "SELECT id_user, nome, foto_perfil, cargo FROM usuario WHERE id_user != %s"
+        query = "SELECT id_user, nome, foto_perfil, cargo, status FROM usuario WHERE id_user != %s"
         cursor.execute(query, (Session.current_user["id_user"],))
         results = cursor.fetchall()
         cursor.close()
         db.close()
 
         users = []
-        for id_user, nome, foto_perfil, cargo in results:
+        for id_user, nome, foto_perfil, cargo, status in results:
             pixmap = QPixmap()
 
             if foto_perfil:
@@ -215,7 +230,8 @@ class TelaInicial(QMainWindow):
                 "id_user": id_user,
                 "nome": nome,
                 "foto_perfil": pixmap,
-                "cargo" : cargo
+                "cargo" : cargo,
+                "status" : status,
             })
 
         return users
@@ -301,6 +317,7 @@ class TelaInicial(QMainWindow):
         self.dashboardStack.setCurrentIndex(index)
 
     def logOut(self):
+        quitProgram()
         Session.current_user = None
 
         self.close()
@@ -334,12 +351,12 @@ class TelaInicial(QMainWindow):
             "departamento": self.comboBox_depto.currentText(),
             "cargo": self.comboBox_cargo.currentText(),
             "foto_perfil": img_data,
-            "status": "ONLINE",
+            "status": "OFFLINE",
             "data_entrada": "2025-09-12",
             "sobre_mim": "Sobre mim...",
             "senha": 1234,
             "endereco": self.lineEdit_endereco.text(),
-            "tipo_usuario": "admin",
+            "tipo_usuario": "user",
             "experiencias": "Experiências..."
         }
 
