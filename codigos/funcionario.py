@@ -1,15 +1,9 @@
-import mysql
 from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout, QFormLayout, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton
 from PyQt5.uic import loadUi
 import mysql.connector as mc
 import time
-import sys
-from functools import partial
 
-from flask import session
-
-import imgs_rc  # your resources
 from codigos.classes import Session, bancoDados, ChatBubble
 
 class usuarioChat(QWidget):
