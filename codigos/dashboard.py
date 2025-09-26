@@ -122,16 +122,24 @@ class TelaInicial(QMainWindow):
         for i, botao in enumerate(self.dashboardList):
             botao.clicked.connect(partial(self.mudarDashboard, i))
 
-        container = self.usuarios_chat.widget()
-        self.usuarios_chat.setWidgetResizable(True)
-
-        layout = container.layout()
-
-        users = self.updateUserList()
+        self.ListUsers()
 
         self.chat_timer = self.DBLoopUpdate()
         self.chat_timer.new_data.connect(self.updateChat)
         self.chat_timer.start()
+
+        self.btn_confirmar.clicked.connect(self.cadastrarUsuario)
+        self.btn_enviar.clicked.connect(self.sendMessage)
+        self.btn_selecionar_foto.clicked.connect(self.escolherFoto)
+
+    def ListUsers(self):
+        container = self.usuarios_chat.widget()
+        self.usuarios_chat.setWidgetResizable(True)
+
+        layout = container.layout()
+        self.clearLayout(layout)
+
+        users = self.updateUserList()
 
         def callback(user):
             Session.loaded_chat = user["id_user"]
@@ -145,8 +153,6 @@ class TelaInicial(QMainWindow):
             btn = usuarioChat(user)
             btn.pushButton.clicked.connect(partial(callback, user))
 
-            # Set icon safely
-
             icon = user["foto_perfil"]
             btn.foto_cntt.setPixmap(icon)
             btn.foto_cntt.setScaledContents(True)
@@ -155,9 +161,6 @@ class TelaInicial(QMainWindow):
 
         layout.addStretch()
 
-        self.btn_confirmar.clicked.connect(self.cadastrarUsuario)
-        self.btn_enviar.clicked.connect(self.sendMessage)
-        self.btn_selecionar_foto.clicked.connect(self.escolherFoto)
 
     def escolherFoto(self):
         file_path, _ = QFileDialog.getOpenFileName(
@@ -181,11 +184,6 @@ class TelaInicial(QMainWindow):
         self.foto_pixmap = pixmap
 
     def updateUserList(self):
-        """
-        Loads all users (except the current user) from the DB,
-        converts their profile pictures to QPixmap,
-        and returns a list of dictionaries with user info.
-        """
         db = bancoDados().conectar()
         if not db:
             return []
@@ -289,6 +287,8 @@ class TelaInicial(QMainWindow):
         self.resize(self.width() - 1, self.height())
 
     def mudarTela(self, index):
+        if index == 1:
+            self.ListUsers()
         self.stack.setCurrentIndex(index)
 
     def mudarDashboard(self, index):
