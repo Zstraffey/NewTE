@@ -137,7 +137,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="ultima_mensagem">
+        <widget class="QLabel" name="online">
          <property name="cursor">
           <cursorShape>PointingHandCursor</cursorShape>
          </property>
