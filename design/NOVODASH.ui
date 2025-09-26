@@ -221,23 +221,11 @@ QPushButton:icon {
                <property name="autoFillBackground">
                 <bool>false</bool>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_5">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
-                <item alignment="Qt::AlignHCenter">
-                 <widget class="QPushButton" name="foto_func">
+               <layout class="QHBoxLayout" name="horizontalLayout_11">
+                <item>
+                 <widget class="QLabel" name="foto_func">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
@@ -257,25 +245,14 @@ QPushButton:icon {
                   <property name="cursor">
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
-                  <property name="layoutDirection">
-                   <enum>Qt::LeftToRight</enum>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QPushButton{
-text-aling:center;
-	background-color: rgb(60, 37, 00) ;
-border-radius: 40px;
-
-}</string>
-                  </property>
                   <property name="text">
                    <string/>
                   </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>80</width>
-                    <height>80</height>
-                   </size>
+                  <property name="pixmap">
+                   <pixmap resource="../imagens/imgs.qrc">:/imgs/logo_new_te.png</pixmap>
+                  </property>
+                  <property name="scaledContents">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -591,7 +568,7 @@ QPushButton:checked {
     <item>
      <widget class="QStackedWidget" name="stackedwidget_btns_da_sidebar">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="page_dashboard">
        <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -1226,8 +1203,8 @@ border-radius:15px;}</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>515</width>
-                             <height>285</height>
+                             <width>496</width>
+                             <height>230</height>
                             </rect>
                            </property>
                            <property name="maximumSize">
@@ -4149,28 +4126,22 @@ QPushButton:hover {
                         </property>
                         <property name="minimumSize">
                          <size>
-                          <width>0</width>
+                          <width>80</width>
                           <height>80</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>16777215</height>
                          </size>
                         </property>
                         <property name="autoFillBackground">
                          <bool>false</bool>
                         </property>
-                        <layout class="QVBoxLayout" name="verticalLayout_45">
-                         <property name="leftMargin">
-                          <number>0</number>
-                         </property>
-                         <property name="topMargin">
-                          <number>0</number>
-                         </property>
-                         <property name="rightMargin">
-                          <number>0</number>
-                         </property>
-                         <property name="bottomMargin">
-                          <number>0</number>
-                         </property>
-                         <item alignment="Qt::AlignHCenter">
-                          <widget class="QPushButton" name="foto_func_contato">
+                        <layout class="QHBoxLayout" name="horizontalLayout_15">
+                         <item>
+                          <widget class="QLabel" name="foto_func_contato">
                            <property name="sizePolicy">
                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                              <horstretch>0</horstretch>
@@ -4192,25 +4163,14 @@ QPushButton:hover {
                            <property name="cursor">
                             <cursorShape>PointingHandCursor</cursorShape>
                            </property>
-                           <property name="layoutDirection">
-                            <enum>Qt::LeftToRight</enum>
-                           </property>
-                           <property name="styleSheet">
-                            <string notr="true">QPushButton{
-text-aling:center;
-	background-color: rgb(60, 37, 00) ;
-border-radius: 40px;
-
-}</string>
-                           </property>
                            <property name="text">
                             <string/>
                            </property>
-                           <property name="iconSize">
-                            <size>
-                             <width>80</width>
-                             <height>80</height>
-                            </size>
+                           <property name="pixmap">
+                            <pixmap resource="../imagens/imgs.qrc">:/imgs/logo_new_te.png</pixmap>
+                           </property>
+                           <property name="scaledContents">
+                            <bool>true</bool>
                            </property>
                           </widget>
                          </item>
@@ -5133,6 +5093,10 @@ QPushButton:hover {
                                <property name="cursor">
                                 <cursorShape>PointingHandCursor</cursorShape>
                                </property>
+                               <property name="styleSheet">
+                                <string notr="true">color: transparent;
+background-color: transparent;</string>
+                               </property>
                                <property name="text">
                                 <string/>
                                </property>
@@ -5808,6 +5772,7 @@ border-radius: 40px;
  </widget>
  <resources>
   <include location="../imagens/imgs.qrc"/>
+  <include location="../../imagens/imgs.qrc"/>
  </resources>
  <connections/>
  <buttongroups>

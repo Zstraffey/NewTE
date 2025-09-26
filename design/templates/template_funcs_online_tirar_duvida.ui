@@ -53,9 +53,9 @@ border-radius: 15px;
      <number>7</number>
     </property>
     <item>
-     <widget class="QPushButton" name="foto_func_setor">
+     <widget class="QLabel" name="foto_func">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -75,25 +75,14 @@ border-radius: 15px;
       <property name="cursor">
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton{
-text-aling:center;
-	background-color: rgb(60, 37, 00) ;
-border-radius: 30px;
-
-}</string>
-      </property>
       <property name="text">
        <string/>
       </property>
-      <property name="iconSize">
-       <size>
-        <width>4000</width>
-        <height>4000</height>
-       </size>
+      <property name="pixmap">
+       <pixmap resource="../../imagens/imgs.qrc">:/imgs/logo_new_te.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -142,6 +131,9 @@ color: transparent;</string>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../imagens/imgs.qrc"/>
+  <include location="../imagens/imgs.qrc"/>
+ </resources>
  <connections/>
 </ui>
