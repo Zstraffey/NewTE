@@ -145,10 +145,20 @@ class TelaInicial(QMainWindow):
 
         def callback(user):
             Session.loaded_chat = user["id_user"]
+            icon = user["foto_perfil"].scaled(btn.foto_cntt.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
+
+            path = QPainterPath()
+            path.addEllipse(QRectF(0, 0, 60, 60))
+            region = QRegion(path.toFillPolygon().toPolygon())
+
             self.infos_contato.setText(user["nome"])
 
             self.foto_func_contato.setPixmap(user["foto_perfil"])
+            self.foto_func_contato.setMask(region)
+
             self.foto_func_contato_2.setPixmap(user["foto_perfil"])
+            self.foto_func_contato_2.setMask(region)
+
             self.nome_func_contato.setText(user["nome"])
             self.carg_func_contato.setText(user["cargo"])
 
@@ -163,12 +173,12 @@ class TelaInicial(QMainWindow):
 
             icon = user["foto_perfil"].scaled(btn.foto_cntt.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
             btn.foto_cntt.setFixedSize(60, 60)
-
             btn.foto_cntt.setPixmap(icon)
 
             path = QPainterPath()
             path.addEllipse(QRectF(0, 0, 60, 60))  # usa QRectF
             region = QRegion(path.toFillPolygon().toPolygon())
+
             btn.foto_cntt.setMask(region)
 
             btn.online.setText(user["status"])
