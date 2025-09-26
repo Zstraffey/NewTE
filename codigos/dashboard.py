@@ -1,7 +1,9 @@
 import mysql
-from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout, QFormLayout, QMessageBox
+from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout, QFormLayout, QMessageBox, QFileDialog
 from PyQt5.uic import loadUi
+from PyQt5.QtGui import QPixmap, QIcon
+
 import mysql.connector as mc
 import time
 import sys
@@ -94,18 +96,17 @@ class TelaInicial(QMainWindow):
         self.stackList = [
             self.findChild(QPushButton, "btn_home"),
             self.findChild(QPushButton, "btn_chat"),
-            self.findChild(QPushButton, "btn_config"),
             self.findChild(QPushButton, "btn_cadastro"),
             self.findChild(QPushButton, "btn_perfil"),
         ]
 
         self.dashboardList = [
             self.findChild(QPushButton, "btn_rendimento_do_dash"),
+            self.findChild(QPushButton, "btn_licoes_do_dash"),
             self.findChild(QPushButton, "btn_func_do_dash"),
             self.findChild(QPushButton, "btn_calendario_do_dash"),
         ]
 
-        # Use partial to bind index safely
         from functools import partial
         for i, botao in enumerate(self.stackList):
             botao.clicked.connect(partial(self.mudarTela, i))
@@ -135,32 +136,74 @@ class TelaInicial(QMainWindow):
         for user in users:
             btn = usuarioChat(user)
             btn.pushButton.clicked.connect(partial(callback, user))
+
+            # Set icon safely
+
+            icon = user["foto_perfil"]
+            btn.foto_cntt.setPixmap(icon)
+            btn.foto_cntt.setScaledContents(True)
+
             layout.addWidget(btn)
 
         layout.addStretch()
 
         self.btn_confirmar.clicked.connect(self.cadastrarUsuario)
         self.btn_enviar.clicked.connect(self.sendMessage)
+        self.btn_selecionar_foto.clicked.connect(self.escolherFoto)
 
-    def updateUserList(self):
-        db = bancoDados().conectar()
-        if not db:
+    def escolherFoto(self):
+        file_path, _ = QFileDialog.getOpenFileName(
+            self, "Select Image", "", "Images (*.png *.jpg *.jpeg *.bmp)"
+        )
+
+        if not file_path:
+            return  # user cancelled
+
+        pixmap = QPixmap(file_path)
+        if pixmap.isNull():
+            QMessageBox.warning(self, "Erro", "Não foi possível carregar a imagem!")
             return
 
-        cursor = db.cursor()
+        # Set button icon
+        icon = QIcon(pixmap)
+        self.foto_novo_func.setIcon(icon)
 
-        query = "SELECT id_user, nome FROM usuario WHERE id_user != %s"
+
+        # Store the pixmap for later DB saving
+        self.foto_pixmap = pixmap
+
+    def updateUserList(self):
+        """
+        Loads all users (except the current user) from the DB,
+        converts their profile pictures to QPixmap,
+        and returns a list of dictionaries with user info.
+        """
+        db = bancoDados().conectar()
+        if not db:
+            return []
+
+        cursor = db.cursor()
+        query = "SELECT id_user, nome, foto_perfil FROM usuario WHERE id_user != %s"
         cursor.execute(query, (Session.current_user["id_user"],))
         results = cursor.fetchall()
+        cursor.close()
+        db.close()
 
         users = []
+        for id_user, nome, foto_perfil in results:
+            pixmap = QPixmap()
 
-        #matheus@example.com
+            if foto_perfil:
+                pixmap.loadFromData(foto_perfil)
 
-        for id_user, nome in results:
+            # If pixmap is invalid, use a default avatar
+            if pixmap.isNull():
+                print("invalido")
+
             users.append({
                 "id_user": id_user,
                 "nome": nome,
+                "foto_perfil": pixmap
             })
 
         return users
@@ -257,15 +300,26 @@ class TelaInicial(QMainWindow):
 
         cursor = db.cursor()
 
+        # Convert pixmap to binary for DB
+        if hasattr(self, "foto_pixmap") and self.foto_pixmap:
+            ba = QByteArray()
+            buffer = QBuffer(ba)
+            buffer.open(QIODevice.WriteOnly)
+            self.foto_pixmap.save(buffer, "PNG")
+            buffer.close()
+            img_data = ba.data()
+        else:
+            img_data = None  # No image selected
+
         valuesDictionaries = {
             "nome": self.lineEdit_nome.text(),
             "email": self.lineEdit_email.text(),
-            "telefone": ''.join([c for c in self.lineEdit_telefone.text() if c.isdigit()]),
-            "cpf": ''.join([c for c in self.lineEdit_cpf.text() if c.isdigit()]),
-            "rg": ''.join([c for c in self.lineEdit_rg.text() if c.isdigit()]),
+            "telefone": ''.join(c for c in self.lineEdit_telefone.text() if c.isdigit()),
+            "cpf": ''.join(c for c in self.lineEdit_cpf.text() if c.isdigit()),
+            "rg": ''.join(c for c in self.lineEdit_rg.text() if c.isdigit()),
             "departamento": self.comboBox_depto.currentText(),
             "cargo": self.comboBox_cargo.currentText(),
-            "foto_perfil": "FOTO.jpg",
+            "foto_perfil": img_data,
             "status": "ONLINE",
             "data_entrada": "2025-09-12",
             "sobre_mim": "Sobre mim...",
@@ -275,41 +329,26 @@ class TelaInicial(QMainWindow):
             "experiencias": "Experiências..."
         }
 
-        values = (
-            valuesDictionaries["nome"],
-            valuesDictionaries["email"],
-            valuesDictionaries["telefone"],
-            valuesDictionaries["cpf"],
-            valuesDictionaries["rg"],
-            valuesDictionaries["departamento"],
-            valuesDictionaries["cargo"],
-            valuesDictionaries["foto_perfil"],
-            valuesDictionaries["status"],
-            valuesDictionaries["data_entrada"],
-            valuesDictionaries["sobre_mim"],
-            valuesDictionaries["senha"],
-            valuesDictionaries["endereco"],
-            valuesDictionaries["tipo_usuario"],
-            valuesDictionaries["experiencias"]
-        )
-
-        for i, value in enumerate(values):
+        # Simple validation: all required fields filled
+        for key, value in valuesDictionaries.items():
             if value is None or value == "":
-                print(f"Value at index {i} is empty or None: {value}")
-                QMessageBox.warning(self, "Erro", "Preencha todos os campos!")
-                break
-        else:
-            query = """
-            INSERT INTO usuario 
-            (nome, email, telefone, cpf, rg, departamento, cargo, foto_perfil, status, data_entrada, sobre_mim, senha, endereco, tipo_usuario, experiencias) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-            """
+                QMessageBox.warning(self, "Erro", f"Preencha o campo: {key}")
+                return
 
-            try:
-                cursor = db.cursor()
-                cursor.execute(query, values)
-                db.commit()
-                print("User inserted successfully!")
-                QMessageBox.information(self, "Sucesso", "Usuário cadastrado com sucesso!")
-            except mc.Error as err:
-                print("Error:", err)
+        # Prepare query
+        query = """
+        INSERT INTO usuario
+        (nome, email, telefone, cpf, rg, departamento, cargo, foto_perfil, status, data_entrada, sobre_mim, senha, endereco, tipo_usuario, experiencias)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+        """
+        values = tuple(valuesDictionaries.values())
+
+        try:
+            cursor.execute(query, values)
+            db.commit()
+            QMessageBox.information(self, "Sucesso", "Usuário cadastrado com sucesso!")
+        except mc.Error as err:
+            QMessageBox.critical(self, "Erro", f"Falha ao salvar usuário: {err}")
+        finally:
+            cursor.close()
+            db.close()
