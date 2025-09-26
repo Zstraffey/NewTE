@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/">
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/back.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/calendar.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/chat.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/downloads.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/home.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/imagem_direita.jpg</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/info.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/list.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/logo new te.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/logout.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/logo_new_te.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/more (1).png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/more.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/pagina_chat_nome+visualizacao.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/paper_icon_circle.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/question.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/send (1).png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/send.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/senha_direita.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/setting.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/trespontos.png</file>
+        <file>C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens/user.png</file>
+    </qresource>
+</RCC>
