@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton
 from PyQt5.uic import loadUi
 import mysql.connector as mc
 import time
+import imgs_qrc
 
 from codigos.classes import Session, bancoDados, ChatBubble
 

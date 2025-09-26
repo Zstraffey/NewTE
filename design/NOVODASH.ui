@@ -1226,8 +1226,8 @@ border-radius:15px;}</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>515</width>
-                             <height>285</height>
+                             <width>496</width>
+                             <height>230</height>
                             </rect>
                            </property>
                            <property name="maximumSize">
@@ -3638,7 +3638,7 @@ padding: 10px;</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>773</width>
+                             <width>100</width>
                              <height>16</height>
                             </rect>
                            </property>
@@ -5579,11 +5579,12 @@ border-radius: 40px;
  </widget>
  <resources>
   <include location="../imagens/imgs.qrc"/>
+  <include location="../imagens/resources.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="cancelar_confirmar"/>
   <buttongroup name="btns_sidebar"/>
+  <buttongroup name="rendimen_func_calen"/>
  </buttongroups>
 </ui>

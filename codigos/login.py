@@ -15,6 +15,7 @@ import random
 import dashboard
 import funcionario
 from codigos.classes import bancoDados, Session
+import imgs_qrc
 
 
 class EmailSender(QThread):

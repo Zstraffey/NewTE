@@ -4,8 +4,8 @@ import subprocess
 # -------------------------------
 # CONFIG
 # -------------------------------
-folder = "C:/Users/internet.info.ETECMOGIGUACU/PycharmProjects/NewTE Git/imagens"          # Folder containing your images
-qrc_filename = "resources.qrc"
+folder = "../imagens"          # Folder containing your images
+qrc_filename = "../imagens/imgs.qrc"
 py_filename = "imgs_rc.py"  # Output Python module
 prefix = "/"                # Resource prefix
 image_extensions = (".png", ".jpg", ".jpeg", ".bmp", ".gif")  # supported formats

@@ -2,7 +2,7 @@ from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, Q
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QIcon
-
+import imgs_qrc
 import mysql.connector as mc
 import time
 from functools import partial
