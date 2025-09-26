@@ -132,6 +132,11 @@ class TelaInicial(QMainWindow):
         self.btn_enviar.clicked.connect(self.sendMessage)
         self.btn_selecionar_foto.clicked.connect(self.escolherFoto)
 
+        self.foto_func.setIcon(QIcon(Session.current_user["foto_perfil"]))
+        self.foto_func.setIconSize(QSize(80, 80))
+        self.nome_func.setText(Session.current_user["nome"])
+        self.carg_func.setText(Session.current_user["cargo"])
+
     def ListUsers(self):
         container = self.usuarios_chat.widget()
         self.usuarios_chat.setWidgetResizable(True)
@@ -144,6 +149,12 @@ class TelaInicial(QMainWindow):
         def callback(user):
             Session.loaded_chat = user["id_user"]
             self.infos_contato.setText(user["nome"])
+            self.infos_contato.setIcon(QIcon(user["foto_perfil"]))
+
+            self.foto_func_contato.setIcon(QIcon(user["foto_perfil"]))
+            self.nome_func_contato.setText(user["nome"])
+            self.carg_func_contato.setText(user["cargo"])
+
             Session.last_message_id = 0
 
             self.clearLayout(self.chat.widget().layout())
@@ -178,9 +189,6 @@ class TelaInicial(QMainWindow):
         # Set button icon
         icon = QIcon(pixmap)
         self.foto_novo_func.setIcon(icon)
-
-
-        # Store the pixmap for later DB saving
         self.foto_pixmap = pixmap
 
     def updateUserList(self):
@@ -189,14 +197,14 @@ class TelaInicial(QMainWindow):
             return []
 
         cursor = db.cursor()
-        query = "SELECT id_user, nome, foto_perfil FROM usuario WHERE id_user != %s"
+        query = "SELECT id_user, nome, foto_perfil, cargo FROM usuario WHERE id_user != %s"
         cursor.execute(query, (Session.current_user["id_user"],))
         results = cursor.fetchall()
         cursor.close()
         db.close()
 
         users = []
-        for id_user, nome, foto_perfil in results:
+        for id_user, nome, foto_perfil, cargo in results:
             pixmap = QPixmap()
 
             if foto_perfil:
@@ -209,7 +217,8 @@ class TelaInicial(QMainWindow):
             users.append({
                 "id_user": id_user,
                 "nome": nome,
-                "foto_perfil": pixmap
+                "foto_perfil": pixmap,
+                "cargo" : cargo
             })
 
         return users
