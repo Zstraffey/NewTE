@@ -343,10 +343,9 @@ class TelaInicial(QMainWindow):
             "experiencias": "Experiências..."
         }
 
-        # Simple validation: all required fields filled
         for key, value in valuesDictionaries.items():
             if value is None or value == "":
-                QMessageBox.warning(self, "Erro", f"Preencha o campo: {key}")
+                QMessageBox.warning(self, "Erro", f"Preencha todos os campos e foto de perfil!")
                 return
 
         # Prepare query
@@ -362,7 +361,7 @@ class TelaInicial(QMainWindow):
             db.commit()
             QMessageBox.information(self, "Sucesso", "Usuário cadastrado com sucesso!")
         except mc.Error as err:
-            QMessageBox.critical(self, "Erro", f"Falha ao salvar usuário: {err}")
+            print(f"Falha ao salvar usuário: {err}")
         finally:
             cursor.close()
             db.close()
