@@ -1,7 +1,7 @@
-from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize
+from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog
 from PyQt5.uic import loadUi
-from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion
 import imgs_qrc
 import mysql.connector as mc
 import time
@@ -162,9 +162,16 @@ class TelaInicial(QMainWindow):
             btn = usuarioChat(user)
             btn.pushButton.clicked.connect(partial(callback, user))
 
-            icon = user["foto_perfil"]
+            icon = user["foto_perfil"].scaled(btn.foto_cntt.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
+            btn.foto_cntt.setFixedSize(60, 60)
+
             btn.foto_cntt.setPixmap(icon)
-            btn.foto_cntt.setScaledContents(True)
+
+            path = QPainterPath()
+            path.addEllipse(QRectF(0, 0, 60, 60))  # usa QRectF
+            region = QRegion(path.toFillPolygon().toPolygon())
+            btn.foto_cntt.setMask(region)
+
             btn.online.setText(user["status"])
 
             if user["status"] == "OFFLINE":
