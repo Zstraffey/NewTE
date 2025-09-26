@@ -23,7 +23,7 @@ class usuarioChat(QWidget):
 
 
 class TelaInicial(QMainWindow):
-    class DBLoopUdpate(QThread):
+    class DBLoopUpdate(QThread):
         new_data = pyqtSignal(list)
 
         def __init__(self):
@@ -31,6 +31,10 @@ class TelaInicial(QMainWindow):
             self.running = True
 
         def query(self):
+            if Session.current_user is None:
+                self.stop()
+                return
+
             db = bancoDados().conectar()
             if not db:
                 return
@@ -53,6 +57,10 @@ class TelaInicial(QMainWindow):
 
         def run(self):
             while self.running:
+                if Session.current_user is None:
+                    self.stop()
+                    return
+
                 db = bancoDados().conectar()
                 if not db:
                     return
@@ -121,7 +129,7 @@ class TelaInicial(QMainWindow):
 
         users = self.updateUserList()
 
-        self.chat_timer = self.DBLoopUdpate()
+        self.chat_timer = self.DBLoopUpdate()
         self.chat_timer.new_data.connect(self.updateChat)
         self.chat_timer.start()
 
@@ -198,7 +206,7 @@ class TelaInicial(QMainWindow):
 
             # If pixmap is invalid, use a default avatar
             if pixmap.isNull():
-                print("invalido")
+                pixmap = QPixmap('../imagens/user.png')
 
             users.append({
                 "id_user": id_user,
