@@ -389,7 +389,7 @@ border-radius: 40px;
                 <cursorShape>PointingHandCursor</cursorShape>
                </property>
                <property name="text">
-                <string>Cadastrar</string>
+                <string>Cadastar</string>
                </property>
                <property name="icon">
                 <iconset resource="../imagens/imgs.qrc">
@@ -918,7 +918,7 @@ QLineEdit:checked {
            <item>
             <widget class="QStackedWidget" name="stacked_widget_botoes_principais_do_dashboard">
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="rendimento_page">
               <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -1558,9 +1558,6 @@ border-radius: 30px;
 border-radius: 9px;</string>
                     </property>
                     <layout class="QVBoxLayout" name="verticalLayout_58">
-                     <property name="topMargin">
-                      <number>4</number>
-                     </property>
                      <item>
                       <widget class="QWidget" name="local_filtro_licoes" native="true">
                        <property name="sizePolicy">
@@ -1608,7 +1605,7 @@ QPushButton{
                            <font>
                             <family>Inter 18pt SemiBold</family>
                             <pointsize>8</pointsize>
-                            <weight>7</weight>
+                            <weight>8</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
@@ -1817,34 +1814,273 @@ QComboBox:checked {
                         <string notr="true">background-color: rgb(191, 191, 191);</string>
                        </property>
                        <layout class="QGridLayout" name="gridLayout">
-                        <property name="leftMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="rightMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="bottomMargin">
-                         <number>0</number>
-                        </property>
-                        <item row="0" column="0">
-                         <widget class="QScrollArea" name="scrollArea">
-                          <property name="widgetResizable">
-                           <bool>true</bool>
+                        <item row="2" column="0">
+                         <spacer name="verticalSpacer_9">
+                          <property name="orientation">
+                           <enum>Qt::Vertical</enum>
                           </property>
-                          <widget class="QWidget" name="scrollAreaWidgetContents_4">
-                           <property name="geometry">
-                            <rect>
-                             <x>0</x>
-                             <y>0</y>
-                             <width>1210</width>
-                             <height>562</height>
-                            </rect>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>20</width>
+                            <height>40</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item row="0" column="0" rowspan="2" colspan="3">
+                         <widget class="QWidget" name="template_cursos_substituir" native="true">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>292</width>
+                            <height>153</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>292</width>
+                            <height>153</height>
+                           </size>
+                          </property>
+                          <property name="cursor">
+                           <cursorShape>PointingHandCursor</cursorShape>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">QWidget{
+background-color: rgb(109, 109, 109);
+}
+#template_cursos_substituir{
+
+    border-radius: 6px;
+    border: 3px solid rgb(255, 111, 111);}</string>
+                          </property>
+                          <layout class="QVBoxLayout" name="verticalLayout_55">
+                           <property name="leftMargin">
+                            <number>6</number>
                            </property>
-                           <layout class="QGridLayout" name="gridLayout_2"/>
-                          </widget>
+                           <property name="topMargin">
+                            <number>3</number>
+                           </property>
+                           <property name="rightMargin">
+                            <number>3</number>
+                           </property>
+                           <property name="bottomMargin">
+                            <number>3</number>
+                           </property>
+                           <item alignment="Qt::AlignTop">
+                            <widget class="QWidget" name="widget_32" native="true">
+                             <layout class="QHBoxLayout" name="horizontalLayout_15">
+                              <property name="topMargin">
+                               <number>0</number>
+                              </property>
+                              <item alignment="Qt::AlignLeft">
+                               <widget class="QLabel" name="label_9">
+                                <property name="text">
+                                 <string>cag_func</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item alignment="Qt::AlignTop">
+                               <widget class="QLabel" name="lbl_situacao_licao">
+                                <property name="styleSheet">
+                                 <string notr="true">background-color:rgb(255, 111, 111);
+border-radius: 4px;</string>
+                                </property>
+                                <property name="text">
+                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;A Aprender&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QWidget" name="widget_34" native="true">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <layout class="QVBoxLayout" name="verticalLayout_56">
+                              <item alignment="Qt::AlignTop">
+                               <widget class="QLabel" name="label_12">
+                                <property name="text">
+                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Como usar um torno mecânico&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item alignment="Qt::AlignTop">
+                               <widget class="QLabel" name="label_11">
+                                <property name="styleSheet">
+                                 <string notr="true">
+color:rgb(217, 217, 217);</string>
+                                </property>
+                                <property name="text">
+                                 <string>Descrição do curso</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <spacer name="verticalSpacer_10">
+                                <property name="orientation">
+                                 <enum>Qt::Vertical</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>20</width>
+                                  <height>40</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                             </layout>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QWidget" name="widget_33" native="true">
+                             <layout class="QVBoxLayout" name="verticalLayout_57">
+                              <item>
+                               <widget class="QLabel" name="label_14">
+                                <property name="text">
+                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;tipo_curso ex:pdf;video;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
+                            </widget>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                        <item row="2" column="6">
+                         <spacer name="horizontalSpacer_3">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>40</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item row="0" column="4">
+                         <widget class="QWidget" name="template_cursos_substituir_2" native="true">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>292</width>
+                            <height>153</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>292</width>
+                            <height>153</height>
+                           </size>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">QWidget{
+background-color: rgb(109, 109, 109);
+}
+#template_cursos_substituir{
+
+    border-radius: 6px;
+    border: 3px solid rgb(255, 111, 111);}</string>
+                          </property>
+                          <layout class="QVBoxLayout" name="verticalLayout_59">
+                           <property name="spacing">
+                            <number>0</number>
+                           </property>
+                           <property name="leftMargin">
+                            <number>3</number>
+                           </property>
+                           <property name="topMargin">
+                            <number>3</number>
+                           </property>
+                           <property name="rightMargin">
+                            <number>3</number>
+                           </property>
+                           <property name="bottomMargin">
+                            <number>3</number>
+                           </property>
+                           <item>
+                            <widget class="QWidget" name="widget_35" native="true">
+                             <layout class="QHBoxLayout" name="horizontalLayout_16">
+                              <property name="topMargin">
+                               <number>5</number>
+                              </property>
+                              <property name="bottomMargin">
+                               <number>5</number>
+                              </property>
+                              <item alignment="Qt::AlignHCenter">
+                               <widget class="QLabel" name="label_13">
+                                <property name="text">
+                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;Adicionar lição&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QWidget" name="widget_36" native="true">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <layout class="QVBoxLayout" name="verticalLayout_60">
+                              <property name="topMargin">
+                               <number>0</number>
+                              </property>
+                              <item>
+                               <widget class="QPushButton" name="pushButton_3">
+                                <property name="sizePolicy">
+                                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                                  <horstretch>0</horstretch>
+                                  <verstretch>0</verstretch>
+                                 </sizepolicy>
+                                </property>
+                                <property name="font">
+                                 <font>
+                                  <family>Inter 18pt SemiBold</family>
+                                  <pointsize>72</pointsize>
+                                  <weight>10</weight>
+                                  <italic>false</italic>
+                                  <bold>false</bold>
+                                 </font>
+                                </property>
+                                <property name="cursor">
+                                 <cursorShape>PointingHandCursor</cursorShape>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">background-color: rgb(115, 115, 255);
+font: 81 72pt &quot;Inter 18pt SemiBold&quot;;
+</string>
+                                </property>
+                                <property name="text">
+                                 <string>+</string>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
+                            </widget>
+                           </item>
+                          </layout>
                          </widget>
                         </item>
                        </layout>
@@ -1865,214 +2101,6 @@ QComboBox:checked {
                      </size>
                     </property>
                    </spacer>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="page">
-              <layout class="QVBoxLayout" name="verticalLayout_61">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QWidget" name="widget_31" native="true">
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(60,60,60);
-border-radius: 9px;</string>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_65">
-                  <item>
-                   <widget class="QWidget" name="widget_44" native="true">
-                    <property name="styleSheet">
-                     <string notr="true">background-color: rgb(108, 108, 108);</string>
-                    </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_66">
-                     <item alignment="Qt::AlignLeft|Qt::AlignTop">
-                      <widget class="QWidget" name="widget_45" native="true">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <layout class="QHBoxLayout" name="horizontalLayout_25">
-                        <property name="leftMargin">
-                         <number>4</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>7</number>
-                        </property>
-                        <item>
-                         <widget class="QPushButton" name="pushButton_2">
-                          <property name="font">
-                           <font>
-                            <family>Inter 18pt SemiBold</family>
-                            <pointsize>10</pointsize>
-                            <weight>7</weight>
-                            <italic>false</italic>
-                            <bold>false</bold>
-                           </font>
-                          </property>
-                          <property name="cursor">
-                           <cursorShape>PointingHandCursor</cursorShape>
-                          </property>
-                          <property name="styleSheet">
-                           <string notr="true">font: 63 10pt &quot;Inter 18pt SemiBold&quot;;</string>
-                          </property>
-                          <property name="text">
-                           <string>Voltar</string>
-                          </property>
-                          <property name="icon">
-                           <iconset resource="../imagens/imgs.qrc">
-                            <normaloff>:/imgs/back.png</normaloff>:/imgs/back.png</iconset>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <spacer name="horizontalSpacer_4">
-                          <property name="orientation">
-                           <enum>Qt::Horizontal</enum>
-                          </property>
-                          <property name="sizeHint" stdset="0">
-                           <size>
-                            <width>4000</width>
-                            <height>20</height>
-                           </size>
-                          </property>
-                         </spacer>
-                        </item>
-                        <item>
-                         <widget class="QWidget" name="widget_81" native="true">
-                          <property name="styleSheet">
-                           <string notr="true">background-color:rgb(255, 111, 111);
-border-radius: 4px;</string>
-                          </property>
-                          <layout class="QVBoxLayout" name="verticalLayout_106">
-                           <property name="spacing">
-                            <number>0</number>
-                           </property>
-                           <property name="leftMargin">
-                            <number>3</number>
-                           </property>
-                           <property name="topMargin">
-                            <number>0</number>
-                           </property>
-                           <property name="rightMargin">
-                            <number>3</number>
-                           </property>
-                           <property name="bottomMargin">
-                            <number>0</number>
-                           </property>
-                           <item>
-                            <widget class="QLabel" name="label_15">
-                             <property name="styleSheet">
-                              <string notr="true"/>
-                             </property>
-                             <property name="text">
-                              <string>A Visualizar</string>
-                             </property>
-                            </widget>
-                           </item>
-                          </layout>
-                         </widget>
-                        </item>
-                       </layout>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QWidget" name="widget_46" native="true">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <layout class="QVBoxLayout" name="verticalLayout_68">
-                        <item>
-                         <widget class="QLabel" name="label_30">
-                          <property name="text">
-                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Olá! Seu título irá aparecer assim&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <spacer name="verticalSpacer_18">
-                          <property name="orientation">
-                           <enum>Qt::Vertical</enum>
-                          </property>
-                          <property name="sizeHint" stdset="0">
-                           <size>
-                            <width>20</width>
-                            <height>40</height>
-                           </size>
-                          </property>
-                         </spacer>
-                        </item>
-                        <item>
-                         <widget class="QLabel" name="label_31">
-                          <property name="text">
-                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;e sua descrição assim:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;atitudes individuais impactam o ambiente coletivo, a confiança entre colegas, a relação com clientes e a reputação&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;da organização. A ética não é apenas um conceito abstrato, mas sim uma prática que deve orientar nossas &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;ações, decisões e responsabilidades no trabalho.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <spacer name="verticalSpacer_17">
-                          <property name="orientation">
-                           <enum>Qt::Vertical</enum>
-                          </property>
-                          <property name="sizeHint" stdset="0">
-                           <size>
-                            <width>20</width>
-                            <height>40</height>
-                           </size>
-                          </property>
-                         </spacer>
-                        </item>
-                        <item>
-                         <widget class="QLabel" name="label_32">
-                          <property name="text">
-                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;e suas metas assim:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Compreender como atitudes éticas fortalecem a confiança e o respeito entre colegas.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Identificar situações práticas em que a ética deve ser aplicada no cotidiano profissional.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Reforçar o compromisso de cada colaborador com a integridade e os valores da empresa.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QWidget" name="widget_47" native="true">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <layout class="QVBoxLayout" name="verticalLayout_69">
-                        <item>
-                         <widget class="QLabel" name="label_33">
-                          <property name="text">
-                           <string>PDF;VIDEO_AULA</string>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
                   </item>
                  </layout>
                 </widget>
@@ -2109,7 +2137,7 @@ border-radius: 9px;</string>
                      <font>
                       <family>Inter 18pt SemiBold</family>
                       <pointsize>8</pointsize>
-                      <weight>7</weight>
+                      <weight>8</weight>
                       <italic>false</italic>
                       <bold>false</bold>
                      </font>
@@ -2906,7 +2934,7 @@ border-radius: 9px;</string>
                         <font>
                          <family>Inter 18pt SemiBold</family>
                          <pointsize>8</pointsize>
-                         <weight>7</weight>
+                         <weight>8</weight>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -3588,7 +3616,7 @@ background-color: #6c6c6c;
            <item>
             <widget class="QStackedWidget" name="stacked_local_chat">
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_pcopia_d_template_chat">
               <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -3855,7 +3883,7 @@ padding: 10px;</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>32</width>
+                             <width>773</width>
                              <height>16</height>
                             </rect>
                            </property>
@@ -5799,8 +5827,8 @@ border-radius: 40px;
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="cancelar_confirmar"/>
   <buttongroup name="btns_sidebar"/>
-  <buttongroup name="rendimen_func_calen"/>
  </buttongroups>
 </ui>

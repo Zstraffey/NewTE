@@ -1,15 +1,12 @@
-import mysql
 from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout, QFormLayout, QMessageBox, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QIcon
-
+import imgs_qrc
 import mysql.connector as mc
 import time
-import sys
 from functools import partial
 
-import imgs_rc  # your resources
 from codigos.classes import Session, bancoDados, ChatBubble
 
 class usuarioChat(QWidget):
@@ -132,6 +129,11 @@ class TelaInicial(QMainWindow):
         self.btn_enviar.clicked.connect(self.sendMessage)
         self.btn_selecionar_foto.clicked.connect(self.escolherFoto)
 
+        self.foto_func.setIcon(QIcon(Session.current_user["foto_perfil"]))
+        self.foto_func.setIconSize(QSize(80, 80))
+        self.nome_func.setText(Session.current_user["nome"])
+        self.carg_func.setText(Session.current_user["cargo"])
+
     def ListUsers(self):
         container = self.usuarios_chat.widget()
         self.usuarios_chat.setWidgetResizable(True)
@@ -144,6 +146,12 @@ class TelaInicial(QMainWindow):
         def callback(user):
             Session.loaded_chat = user["id_user"]
             self.infos_contato.setText(user["nome"])
+            self.infos_contato.setIcon(QIcon(user["foto_perfil"]))
+
+            self.foto_func_contato.setIcon(QIcon(user["foto_perfil"]))
+            self.nome_func_contato.setText(user["nome"])
+            self.carg_func_contato.setText(user["cargo"])
+
             Session.last_message_id = 0
 
             self.clearLayout(self.chat.widget().layout())
@@ -178,9 +186,6 @@ class TelaInicial(QMainWindow):
         # Set button icon
         icon = QIcon(pixmap)
         self.foto_novo_func.setIcon(icon)
-
-
-        # Store the pixmap for later DB saving
         self.foto_pixmap = pixmap
 
     def updateUserList(self):
@@ -189,14 +194,14 @@ class TelaInicial(QMainWindow):
             return []
 
         cursor = db.cursor()
-        query = "SELECT id_user, nome, foto_perfil FROM usuario WHERE id_user != %s"
+        query = "SELECT id_user, nome, foto_perfil, cargo FROM usuario WHERE id_user != %s"
         cursor.execute(query, (Session.current_user["id_user"],))
         results = cursor.fetchall()
         cursor.close()
         db.close()
 
         users = []
-        for id_user, nome, foto_perfil in results:
+        for id_user, nome, foto_perfil, cargo in results:
             pixmap = QPixmap()
 
             if foto_perfil:
@@ -209,7 +214,8 @@ class TelaInicial(QMainWindow):
             users.append({
                 "id_user": id_user,
                 "nome": nome,
-                "foto_perfil": pixmap
+                "foto_perfil": pixmap,
+                "cargo" : cargo
             })
 
         return users
@@ -337,10 +343,9 @@ class TelaInicial(QMainWindow):
             "experiencias": "Experiências..."
         }
 
-        # Simple validation: all required fields filled
         for key, value in valuesDictionaries.items():
             if value is None or value == "":
-                QMessageBox.warning(self, "Erro", f"Preencha o campo: {key}")
+                QMessageBox.warning(self, "Erro", f"Preencha todos os campos e foto de perfil!")
                 return
 
         # Prepare query
@@ -356,7 +361,7 @@ class TelaInicial(QMainWindow):
             db.commit()
             QMessageBox.information(self, "Sucesso", "Usuário cadastrado com sucesso!")
         except mc.Error as err:
-            QMessageBox.critical(self, "Erro", f"Falha ao salvar usuário: {err}")
+            print(f"Falha ao salvar usuário: {err}")
         finally:
             cursor.close()
             db.close()

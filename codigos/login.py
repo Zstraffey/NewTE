@@ -2,8 +2,8 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtGui import QPixmap
 from PyQt5.uic import loadUi
-import mysql.connector as mc
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -14,8 +14,8 @@ import random
 
 import dashboard
 import funcionario
-import imgs_rc  # your resources
 from codigos.classes import bancoDados, Session
+import imgs_qrc
 
 
 class EmailSender(QThread):
@@ -214,18 +214,29 @@ class Login(QMainWindow):
 
         cursor = db.cursor()
 
-        query = "SELECT id_user, nome, email, senha, tipo_usuario FROM usuario WHERE email = %s AND senha = %s"
+        query = "SELECT id_user, nome, email, senha, tipo_usuario, foto_perfil, cargo FROM usuario WHERE email = %s AND senha = %s"
         cursor.execute(query, (email, senha))
         result = cursor.fetchone()
 
         if result is None:
             QMessageBox.warning(None, "Aviso", "Usuário ou senha incorretos.")
         else:
+            pixmap = QPixmap()
+
+            if result[5]:
+                pixmap.loadFromData(result[5])
+
+            # If pixmap is invalid, use a default avatar
+            if pixmap.isNull():
+                pixmap = QPixmap('../imagens/user.png')
+
             Session.current_user = {
                 "id_user": int(result[0]),
                 "nome": result[1],
                 "email": result[2],
                 "login": result[4],
+                "foto_perfil" : pixmap,
+                "cargo": result[6],
             }
             QMessageBox.information(None, "Bem-Vindo!", "Logado com sucesso!")
             self.logarAplicativo()

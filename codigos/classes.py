@@ -3,6 +3,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QLabel, QSizePolicy, QVBoxLayout
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.uic import loadUi
+import imgs_qrc
 
 class Session:
     current_user = None
