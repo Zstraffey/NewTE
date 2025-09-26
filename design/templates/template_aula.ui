@@ -18,7 +18,7 @@
 
 color: rgb(255, 255, 255);</string>
   </property>
-  <widget class="QWidget" name="template_cursos_mudar_cor_da_border_caso_concluido" native="true">
+  <widget class="QWidget" name="template_cursos_substituir" native="true">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -45,16 +45,22 @@ color: rgb(255, 255, 255);</string>
      <height>153</height>
     </size>
    </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
+   </property>
    <property name="styleSheet">
     <string notr="true">QWidget{
 background-color: rgb(109, 109, 109);
 }
-#template_cursos_mudar_cor_da_border_caso_concluido{
-	
+#template_cursos_substituir{
+
     border-radius: 6px;
     border: 3px solid rgb(255, 111, 111);}</string>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_39">
+   <layout class="QVBoxLayout" name="verticalLayout_55">
+    <property name="leftMargin">
+     <number>6</number>
+    </property>
     <property name="topMargin">
      <number>3</number>
     </property>
@@ -66,19 +72,19 @@ background-color: rgb(109, 109, 109);
     </property>
     <item alignment="Qt::AlignTop">
      <widget class="QWidget" name="widget" native="true">
-      <layout class="QHBoxLayout" name="horizontalLayout_15">
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
        <property name="topMargin">
         <number>0</number>
        </property>
        <item alignment="Qt::AlignLeft">
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="lbl_carg_func">
          <property name="text">
           <string>cag_func</string>
          </property>
         </widget>
        </item>
        <item alignment="Qt::AlignTop">
-        <widget class="QLabel" name="label_mudar_cor_caso_concluido">
+        <widget class="QLabel" name="lbl_situacao_licao">
          <property name="styleSheet">
           <string notr="true">background-color:rgb(255, 111, 111);
 border-radius: 4px;</string>
@@ -99,16 +105,16 @@ border-radius: 4px;</string>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_46">
-       <item alignment="Qt::AlignTop">
-        <widget class="QLabel" name="label_5">
+      <layout class="QVBoxLayout" name="verticalLayout_56">
+       <item>
+        <widget class="QLabel" name="lbl_titulo_curso">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Como usar um torno mecânico&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
-       <item alignment="Qt::AlignTop">
-        <widget class="QLabel" name="label_4">
+       <item>
+        <widget class="QLabel" name="lbl_desc_curso">
          <property name="styleSheet">
           <string notr="true">
 color:rgb(217, 217, 217);</string>
@@ -119,7 +125,7 @@ color:rgb(217, 217, 217);</string>
         </widget>
        </item>
        <item>
-        <spacer name="spacer">
+        <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -136,11 +142,130 @@ color:rgb(217, 217, 217);</string>
     </item>
     <item>
      <widget class="QWidget" name="widget_2" native="true">
-      <layout class="QVBoxLayout" name="verticalLayout_48">
+      <property name="styleSheet">
+       <string notr="true"> border-radius: 6px;</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>4</number>
+       </property>
        <item>
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="lbl_tipo_de_arquivo">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;tipo_curso ex:pdf;video;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_visualizar">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>36</width>
+           <height>36</height>
+          </size>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">
+background-color: rgb(83, 131, 195);
+border: 3px solid #2196F3;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../imagens/imgs.qrc">
+           <normaloff>:/imgs/eye.png</normaloff>:/imgs/eye.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_editar">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>36</width>
+           <height>36</height>
+          </size>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(201, 202, 113);
+border: 3px solid rgb(255, 255, 88);</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../imagens/imgs.qrc">
+           <normaloff>:/imgs/pen.png</normaloff>:/imgs/pen.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_excluir">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>36</width>
+           <height>36</height>
+          </size>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #A66F6F;
+border: 3px solid #F44336;
+</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../imagens/imgs.qrc">
+           <normaloff>:/imgs/trash-can.png</normaloff>:/imgs/trash-can.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -149,24 +274,9 @@ color:rgb(217, 217, 217);</string>
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="btn_template_aulas">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>292</width>
-     <height>153</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: transparent;
-background-color: transparent;</string>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
-   </property>
-  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../imagens/imgs.qrc"/>
+ </resources>
  <connections/>
 </ui>
