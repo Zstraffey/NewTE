@@ -91,6 +91,7 @@ class TelaInicial(QMainWindow):
         super().__init__()
         loadUi("../design/NOVODASH.ui", self)
         self.widget = stacked_widget
+        self.alterar = None
 
         Session.last_message_id = 0
 
@@ -150,8 +151,11 @@ class TelaInicial(QMainWindow):
         self.tabela_usuarios.setColumnCount(len(visible_col_names) + 2)
         self.tabela_usuarios.setHorizontalHeaderLabels(visible_col_names + [" ", "  "])
 
+        self.alterar = None
+
         def on_alterar(user_id):
             print(f"Alterar usuário {user_id}")
+            self.alterar = user_id
             self.mudarTela(2)
 
         def on_excluir(user_id, user_name):
@@ -164,8 +168,21 @@ class TelaInicial(QMainWindow):
             )
             if reply == QMessageBox.Yes:
                 print(f"Usuário {user_id} excluído")
-                # Aqui você coloca a lógica real de exclusão no banco de dados
+
+                ifdb = bancoDados().conectar()
+                ifCursor = ifdb.cursor()
+
+                query = f"""
+                    DELETE FROM usuario WHERE id_user = {user_id};
+                """
+                ifCursor.execute(query)
+                ifdb.commit()
+                ifCursor.close()
+                ifdb.close()
+
+                QMessageBox.information(None, "Sucesso", f"Usuário {user_name} excluido com sucesso!")
             else:
+                QMessageBox.information(None, "Cancelado", f"Exclusão cancelada.")
                 print(f"Exclusão do usuário {user_id} cancelada")
 
         for r, row in enumerate(rows):
@@ -203,7 +220,6 @@ class TelaInicial(QMainWindow):
 
         cursor.close()
         db.close()
-
 
     def ListUsers(self):
         container = self.usuarios_chat.widget()
@@ -398,6 +414,36 @@ class TelaInicial(QMainWindow):
         if index == 1:
             self.ListUsers()
         self.stack.setCurrentIndex(index)
+
+        if index == 2 and not (self.alterar is None):
+            print(f"alterar: {self.alterar}")
+
+
+            db = bancoDados().conectar()
+            if not db:
+                return
+
+            cursor = db.cursor()
+            query = "SELECT nome, email, telefone, endereco, cpf, rg, departamento, cargo, foto_perfil FROM usuario WHERE id_user = %s"
+            cursor.execute(query, (self.alterar,))
+            result = cursor.fetchone()
+
+            if not (result is None):
+                nome, email, telefone, endereco, cpf, rg, departamento, cargo, foto_perfil = result
+
+                self.titulo_cadastro_2.setText(f"Alterando {nome} ({self.alterar})")
+
+                self.lineEdit_nome.setText(nome)
+                self.lineEdit_email.setText(email)
+                self.lineEdit_telefone.setText(telefone)
+
+            cursor.close()
+            db.close()
+        else:
+            if index == 2 and self.alterar is None:
+                self.titulo_cadastro_2.setText("Cadastrar")
+
+
 
     def mudarDashboard(self, index):
         self.dashboardStack.setCurrentIndex(index)
