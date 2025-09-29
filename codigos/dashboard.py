@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView,QSizePolicy
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion
 import imgs_qrc
@@ -134,6 +134,77 @@ class TelaInicial(QMainWindow):
         self.nome_func.setText(Session.current_user["nome"])
         self.carg_func.setText(Session.current_user["cargo"])
 
+        db = bancoDados().conectar()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM usuario")
+
+        rows = cursor.fetchall()
+        col_names = [desc[0] for desc in cursor.description]
+
+        excluded = ["foto_perfil", "experiencias", "sobre_mim"]
+        exclude_indices = [i for i, name in enumerate(col_names) if name in excluded]
+
+        visible_col_names = [name for i, name in enumerate(col_names) if i not in exclude_indices]
+
+        self.tabela_usuarios.setRowCount(len(rows))
+        self.tabela_usuarios.setColumnCount(len(visible_col_names) + 2)
+        self.tabela_usuarios.setHorizontalHeaderLabels(visible_col_names + [" ", "  "])
+
+        def on_alterar(user_id):
+            print(f"Alterar usuário {user_id}")
+            self.mudarTela(2)
+
+        def on_excluir(user_id, user_name):
+            reply = QMessageBox.question(
+                self,
+                "Confirmação",
+                f"Tem certeza que deseja excluir o usuário {user_name} (ID {user_id})?",
+                QMessageBox.No | QMessageBox.Yes,
+                QMessageBox.Yes
+            )
+            if reply == QMessageBox.Yes:
+                print(f"Usuário {user_id} excluído")
+                # Aqui você coloca a lógica real de exclusão no banco de dados
+            else:
+                print(f"Exclusão do usuário {user_id} cancelada")
+
+        for r, row in enumerate(rows):
+            col_position = 0
+
+            for c, value in enumerate(row):
+                if c in exclude_indices:
+                    continue
+                self.tabela_usuarios.setItem(r, col_position, QTableWidgetItem(str(value)))
+                col_position += 1
+
+            user_id = row[0]
+            user_name = row[1]
+
+            # Botão Alterar
+            btn_alterar = QPushButton("Alterar")
+            btn_alterar.setStyleSheet("background-color: yellow; font-weight: bold; color: black;")
+            btn_alterar.clicked.connect(lambda _, uid=user_id: on_alterar(uid))
+
+            btn_alterar.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+            self.tabela_usuarios.setCellWidget(r, col_position, btn_alterar)
+            col_position += 1
+
+            btn_excluir = QPushButton("Excluir")
+            btn_excluir.setStyleSheet("background-color: red; font-weight: bold; color: white;")
+            btn_excluir.clicked.connect(lambda _, uid=user_id, uname=user_name: on_excluir(uid, uname))
+
+            btn_excluir.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+            self.tabela_usuarios.setCellWidget(r, col_position, btn_excluir)
+
+            self.tabela_usuarios.resizeRowToContents(r)
+
+            self.tabela_usuarios.setColumnWidth(self.tabela_usuarios.columnCount() - 2, 90)
+            self.tabela_usuarios.setColumnWidth(self.tabela_usuarios.columnCount() - 1, 90)
+
+        cursor.close()
+        db.close()
+
+
     def ListUsers(self):
         container = self.usuarios_chat.widget()
         self.usuarios_chat.setWidgetResizable(True)
@@ -238,7 +309,6 @@ class TelaInicial(QMainWindow):
             if foto_perfil:
                 pixmap.loadFromData(foto_perfil)
 
-            # If pixmap is invalid, use a default avatar
             if pixmap.isNull():
                 pixmap = QPixmap('../imagens/user.png')
 
