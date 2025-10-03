@@ -147,7 +147,7 @@ class TelaInicial(QMainWindow):
             self,
             "Confirmação",
             f"Tem certeza que deseja excluir o usuário {user_name} (ID {user_id})?",
-            QMessageBox.No | QMessageBox.Yes,
+            QMessageBox.Yes | QMessageBox.Yes,
             QMessageBox.Yes
         )
         if reply == QMessageBox.Yes:
@@ -164,10 +164,10 @@ class TelaInicial(QMainWindow):
             ifCursor.close()
             ifdb.close()
 
-            QMessageBox.information(None, "Sucesso", f"Usuário {user_name} excluido com sucesso!")
+            QMessageBox.information(self, "Sucesso", f"Usuário {user_name} excluido com sucesso!")
             self.updateUserTable()
         else:
-            QMessageBox.information(None, "Cancelado", f"Exclusão cancelada.")
+            QMessageBox.information(self, "Cancelado", f"Exclusão cancelada.")
             print(f"Exclusão do usuário {user_id} cancelada")
 
     def updateUserTable(self):
