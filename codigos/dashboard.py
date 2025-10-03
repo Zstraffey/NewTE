@@ -135,9 +135,47 @@ class TelaInicial(QMainWindow):
         self.nome_func.setText(Session.current_user["nome"])
         self.carg_func.setText(Session.current_user["cargo"])
 
+        self.updateUserTable()
+
+    def on_alterar(self, user_id):
+        print(f"Alterar usuário {user_id}")
+        self.alterar = user_id
+        self.mudarTela(2)
+
+    def on_excluir(self, user_id, user_name):
+        reply = QMessageBox.question(
+            self,
+            "Confirmação",
+            f"Tem certeza que deseja excluir o usuário {user_name} (ID {user_id})?",
+            QMessageBox.No | QMessageBox.Yes,
+            QMessageBox.Yes
+        )
+        if reply == QMessageBox.Yes:
+            print(f"Usuário {user_id} excluído")
+
+            ifdb = bancoDados().conectar()
+            ifCursor = ifdb.cursor()
+
+            query = f"""
+                        DELETE FROM usuario WHERE id_user = {user_id};
+                    """
+            ifCursor.execute(query)
+            ifdb.commit()
+            ifCursor.close()
+            ifdb.close()
+
+            QMessageBox.information(None, "Sucesso", f"Usuário {user_name} excluido com sucesso!")
+            self.updateUserTable()
+        else:
+            QMessageBox.information(None, "Cancelado", f"Exclusão cancelada.")
+            print(f"Exclusão do usuário {user_id} cancelada")
+
+    def updateUserTable(self):
+        self.tabela_usuarios.clear()
+
         db = bancoDados().conectar()
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM usuario")
+        cursor.execute("SELECT * FROM usuario WHERE tipo_usuario = 'user'")
 
         rows = cursor.fetchall()
         col_names = [desc[0] for desc in cursor.description]
@@ -152,38 +190,6 @@ class TelaInicial(QMainWindow):
         self.tabela_usuarios.setHorizontalHeaderLabels(visible_col_names + [" ", "  "])
 
         self.alterar = None
-
-        def on_alterar(user_id):
-            print(f"Alterar usuário {user_id}")
-            self.alterar = user_id
-            self.mudarTela(2)
-
-        def on_excluir(user_id, user_name):
-            reply = QMessageBox.question(
-                self,
-                "Confirmação",
-                f"Tem certeza que deseja excluir o usuário {user_name} (ID {user_id})?",
-                QMessageBox.No | QMessageBox.Yes,
-                QMessageBox.Yes
-            )
-            if reply == QMessageBox.Yes:
-                print(f"Usuário {user_id} excluído")
-
-                ifdb = bancoDados().conectar()
-                ifCursor = ifdb.cursor()
-
-                query = f"""
-                    DELETE FROM usuario WHERE id_user = {user_id};
-                """
-                ifCursor.execute(query)
-                ifdb.commit()
-                ifCursor.close()
-                ifdb.close()
-
-                QMessageBox.information(None, "Sucesso", f"Usuário {user_name} excluido com sucesso!")
-            else:
-                QMessageBox.information(None, "Cancelado", f"Exclusão cancelada.")
-                print(f"Exclusão do usuário {user_id} cancelada")
 
         for r, row in enumerate(rows):
             col_position = 0
@@ -200,7 +206,7 @@ class TelaInicial(QMainWindow):
             # Botão Alterar
             btn_alterar = QPushButton("Alterar")
             btn_alterar.setStyleSheet("background-color: yellow; font-weight: bold; color: black;")
-            btn_alterar.clicked.connect(lambda _, uid=user_id: on_alterar(uid))
+            btn_alterar.clicked.connect(lambda _, uid=user_id: self.on_alterar(uid))
 
             btn_alterar.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
             self.tabela_usuarios.setCellWidget(r, col_position, btn_alterar)
@@ -208,7 +214,7 @@ class TelaInicial(QMainWindow):
 
             btn_excluir = QPushButton("Excluir")
             btn_excluir.setStyleSheet("background-color: red; font-weight: bold; color: white;")
-            btn_excluir.clicked.connect(lambda _, uid=user_id, uname=user_name: on_excluir(uid, uname))
+            btn_excluir.clicked.connect(lambda _, uid=user_id, uname=user_name: self.on_excluir(uid, uname))
 
             btn_excluir.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
             self.tabela_usuarios.setCellWidget(r, col_position, btn_excluir)
@@ -232,7 +238,6 @@ class TelaInicial(QMainWindow):
 
         def callback(user):
             Session.loaded_chat = user["id_user"]
-            icon = user["foto_perfil"].scaled(btn.foto_cntt.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
 
             path = QPainterPath()
             path.addEllipse(QRectF(0, 0, 60, 60))
@@ -418,7 +423,6 @@ class TelaInicial(QMainWindow):
         if index == 2 and not (self.alterar is None):
             print(f"alterar: {self.alterar}")
 
-
             db = bancoDados().conectar()
             if not db:
                 return
@@ -436,14 +440,30 @@ class TelaInicial(QMainWindow):
                 self.lineEdit_nome.setText(nome)
                 self.lineEdit_email.setText(email)
                 self.lineEdit_telefone.setText(telefone)
+                self.lineEdit_endereco.setText(endereco)
+                self.lineEdit_cpf.setText(cpf)
+                self.lineEdit_rg.setText(rg)
+                self.comboBox_depto.setCurrentText(departamento)
+                self.comboBox_cargo.setCurrentText(cargo)
+
+                pixmap = QPixmap()
+
+                if foto_perfil:
+                    pixmap.loadFromData(foto_perfil)
+
+                # If pixmap is invalid, use a default avatar
+                if pixmap.isNull():
+                    pixmap = QPixmap('../imagens/user.png')
+
+                icon = QIcon(pixmap)
+                self.foto_novo_func.setIcon(icon)
+                self.foto_pixmap = pixmap
 
             cursor.close()
             db.close()
         else:
             if index == 2 and self.alterar is None:
                 self.titulo_cadastro_2.setText("Cadastrar")
-
-
 
     def mudarDashboard(self, index):
         self.dashboardStack.setCurrentIndex(index)
@@ -497,20 +517,48 @@ class TelaInicial(QMainWindow):
                 QMessageBox.warning(self, "Erro", f"Preencha todos os campos e foto de perfil!")
                 return
 
-        # Prepare query
-        query = """
-        INSERT INTO usuario
-        (nome, email, telefone, cpf, rg, departamento, cargo, foto_perfil, status, data_entrada, sobre_mim, senha, endereco, tipo_usuario, experiencias)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-        """
+        query = ""
+
+        if self.alterar:
+            query = f"""
+            UPDATE usuario
+            SET 
+                nome = %s,
+                email = %s,
+                telefone = %s,
+                cpf = %s,
+                rg = %s,
+                departamento = %s,
+                cargo = %s,
+                foto_perfil = %s,
+                status = %s,
+                data_entrada = %s,
+                sobre_mim = %s,
+                senha = %s,
+                endereco = %s,
+                tipo_usuario = %s,
+                experiencias = %s
+            WHERE id_user = {self.alterar};
+            """
+        else:
+            query = """
+            INSERT INTO usuario
+            (nome, email, telefone, cpf, rg, departamento, cargo, foto_perfil, status, data_entrada, sobre_mim, senha, endereco, tipo_usuario, experiencias)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            """
+
         values = tuple(valuesDictionaries.values())
 
         try:
             cursor.execute(query, values)
             db.commit()
-            QMessageBox.information(self, "Sucesso", "Usuário cadastrado com sucesso!")
+
+            QMessageBox.information(self, "Sucesso", "Usuário alterado com sucesso!" if self.alterar else "Usuário cadastrado com sucesso!" )
+
+            self.alterar = None
         except mc.Error as err:
             print(f"Falha ao salvar usuário: {err}")
         finally:
+            self.updateUserTable()
             cursor.close()
             db.close()
