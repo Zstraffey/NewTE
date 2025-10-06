@@ -1,5 +1,6 @@
 from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView,QSizePolicy
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView, \
+    QSizePolicy, QGridLayout
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion
 import imgs_qrc
@@ -12,13 +13,34 @@ from codigos.classes import Session, bancoDados, ChatBubble
 
 class usuarioChat(QWidget):
     def __init__(self, user):#, callback):
-        print(user)
         super().__init__()
         loadUi("../design/templates/contatos.ui", self)  # your .ui file with a QPushButton
 
         self.nome_salvo.setText(user["nome"])
-        print("yooo")
 
+class licao(QWidget):
+    def __init__(self):#, callback):
+        super().__init__()
+        loaded_ui = loadUi("../design/templates/template_aula.ui")
+
+        # Add the loaded UI into *this* widget's layout
+        layout = QGridLayout(self)
+        layout.addWidget(loaded_ui)
+
+        self.setLayout(layout)
+        self.adjustSize()
+
+class adicionarLicao(QWidget):
+    def __init__(self):#, callback):
+        super().__init__()
+        loaded_ui = loadUi("../design/templates/aula_adicionar.ui")
+
+        # Add the loaded UI into *this* widget's layout
+        layout = QGridLayout(self)
+        layout.addWidget(loaded_ui)
+
+        self.setLayout(layout)
+        self.adjustSize()
 
 class TelaInicial(QMainWindow):
     class DBLoopUpdate(QThread):
@@ -136,6 +158,16 @@ class TelaInicial(QMainWindow):
         self.carg_func.setText(Session.current_user["cargo"])
 
         self.updateUserTable()
+
+        # Get the scroll area container
+        container = self.scroll_licoes.widget()
+
+        self.scroll_licoes.setWidgetResizable(True)
+        layout = container.layout()
+
+        self.adicionar_licao = licao()
+        layout.addWidget(self.adicionar_licao, 0, 0)
+        layout.addWidget(adicionarLicao(), 0, 1)
 
     def on_alterar(self, user_id):
         print(f"Alterar usuário {user_id}")

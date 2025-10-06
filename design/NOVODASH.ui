@@ -895,7 +895,7 @@ QLineEdit:checked {
            <item>
             <widget class="QStackedWidget" name="stacked_widget_botoes_principais_do_dashboard">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="rendimento_page">
               <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -1807,7 +1807,19 @@ QComboBox:checked {
                          <number>0</number>
                         </property>
                         <item row="0" column="0">
-                         <widget class="QScrollArea" name="scrollArea">
+                         <widget class="QScrollArea" name="scroll_licoes">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="baseSize">
+                           <size>
+                            <width>0</width>
+                            <height>0</height>
+                           </size>
+                          </property>
                           <property name="widgetResizable">
                            <bool>true</bool>
                           </property>
@@ -1816,17 +1828,24 @@ QComboBox:checked {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>18</width>
-                             <height>18</height>
+                             <width>1210</width>
+                             <height>562</height>
                             </rect>
                            </property>
                            <property name="sizePolicy">
-                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                              <horstretch>0</horstretch>
                              <verstretch>0</verstretch>
                             </sizepolicy>
                            </property>
-                           <layout class="QGridLayout" name="gridLayout_2"/>
+                           <property name="styleSheet">
+                            <string notr="true">background-color: rgb(255, 0, 0);</string>
+                           </property>
+                           <layout class="QGridLayout" name="gridLayout_2">
+                            <property name="sizeConstraint">
+                             <enum>QLayout::SetFixedSize</enum>
+                            </property>
+                           </layout>
                           </widget>
                          </widget>
                         </item>
@@ -5512,8 +5531,8 @@ border-radius: 15px;
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="btns_sidebar"/>
   <buttongroup name="cancelar_confirmar"/>
   <buttongroup name="rendimen_func_calen"/>
+  <buttongroup name="btns_sidebar"/>
  </buttongroups>
 </ui>
