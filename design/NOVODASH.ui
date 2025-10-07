@@ -895,7 +895,7 @@ QLineEdit:checked {
            <item>
             <widget class="QStackedWidget" name="stacked_widget_botoes_principais_do_dashboard">
              <property name="currentIndex">
-              <number>1</number>
+              <number>4</number>
              </property>
              <widget class="QWidget" name="rendimento_page">
               <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -1203,8 +1203,8 @@ border-radius:15px;}</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>515</width>
-                             <height>285</height>
+                             <width>496</width>
+                             <height>230</height>
                             </rect>
                            </property>
                            <property name="maximumSize">
@@ -1829,7 +1829,7 @@ QComboBox:checked {
                              <x>0</x>
                              <y>0</y>
                              <width>1210</width>
-                             <height>562</height>
+                             <height>18</height>
                             </rect>
                            </property>
                            <property name="sizePolicy">
@@ -1839,7 +1839,7 @@ QComboBox:checked {
                             </sizepolicy>
                            </property>
                            <property name="styleSheet">
-                            <string notr="true">background-color: rgb(255, 0, 0);</string>
+                            <string notr="true"/>
                            </property>
                            <layout class="QGridLayout" name="gridLayout_2">
                             <property name="sizeConstraint">
@@ -2913,7 +2913,7 @@ border-radius: 9px;</string>
                          <number>7</number>
                         </property>
                         <item>
-                         <widget class="QPushButton" name="pushButton_2">
+                         <widget class="QPushButton" name="btn_voltar">
                           <property name="font">
                            <font>
                             <family>Inter 18pt SemiBold</family>
@@ -3006,9 +3006,27 @@ border-radius: 4px;</string>
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_30">
+                         <widget class="QLineEdit" name="lineEdit_titulo">
+                          <property name="enabled">
+                           <bool>true</bool>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <family>Inter 18pt SemiBold</family>
+                            <pointsize>20</pointsize>
+                            <weight>8</weight>
+                            <italic>false</italic>
+                            <bold>false</bold>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">font: 63 20pt &quot;Inter 18pt SemiBold&quot;;</string>
+                          </property>
                           <property name="text">
-                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Olá! Seu título irá aparecer assim&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           <string>Título</string>
+                          </property>
+                          <property name="readOnly">
+                           <bool>false</bool>
                           </property>
                          </widget>
                         </item>
@@ -3026,9 +3044,21 @@ border-radius: 4px;</string>
                          </spacer>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_31">
-                          <property name="text">
-                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;e sua descrição assim:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;atitudes individuais impactam o ambiente coletivo, a confiança entre colegas, a relação com clientes e a reputação&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;da organização. A ética não é apenas um conceito abstrato, mas sim uma prática que deve orientar nossas &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;ações, decisões e responsabilidades no trabalho.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         <widget class="QTextEdit" name="textEdit_desc">
+                          <property name="markdown">
+                           <string>Descreva aqui
+
+</string>
+                          </property>
+                          <property name="html">
+                           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Inter 18pt SemiBold'; font-size:8pt; font-weight:64; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Descreva aqui&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          </property>
+                          <property name="text" stdset="0">
+                           <string/>
                           </property>
                          </widget>
                         </item>
@@ -3046,8 +3076,20 @@ border-radius: 4px;</string>
                          </spacer>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_32">
-                          <property name="text">
+                         <widget class="QTextEdit" name="textEdit_metas">
+                          <property name="markdown">
+                           <string>**Coloque aqui as metas da tarefa.**
+
+</string>
+                          </property>
+                          <property name="html">
+                           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Inter 18pt SemiBold'; font-size:8pt; font-weight:64; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Coloque aqui as metas da tarefa.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          </property>
+                          <property name="text" stdset="0">
                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;e suas metas assim:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Compreender como atitudes éticas fortalecem a confiança e o respeito entre colegas.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Identificar situações práticas em que a ética deve ser aplicada no cotidiano profissional.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d1d1d1;&quot;&gt;Reforçar o compromisso de cada colaborador com a integridade e os valores da empresa.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                           </property>
                          </widget>
@@ -3063,11 +3105,57 @@ border-radius: 4px;</string>
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
-                       <layout class="QVBoxLayout" name="verticalLayout_69">
+                       <layout class="QHBoxLayout" name="horizontalLayout_16">
                         <item>
-                         <widget class="QLabel" name="label_33">
+                         <widget class="QLabel" name="label_anexo">
                           <property name="text">
                            <string>PDF;VIDEO_AULA</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="btn_anexar">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>210</width>
+                            <height>85</height>
+                           </size>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">background-color: rgb(194, 108, 255);
+font: 63 16pt &quot;Inter 18pt SemiBold&quot;;</string>
+                          </property>
+                          <property name="text">
+                           <string>Anexar Arquivo</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="btn_concluir">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>210</width>
+                            <height>85</height>
+                           </size>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">background-color:rgb(0, 170, 255);
+font: 63 16pt &quot;Inter 18pt SemiBold&quot;;</string>
+                          </property>
+                          <property name="text">
+                           <string>Concluir</string>
                           </property>
                          </widget>
                         </item>
@@ -3640,7 +3728,7 @@ QPushButton:hover {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>773</width>
+                             <width>16</width>
                              <height>16</height>
                             </rect>
                            </property>
@@ -5531,8 +5619,8 @@ border-radius: 15px;
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="cancelar_confirmar"/>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="btns_sidebar"/>
+  <buttongroup name="rendimen_func_calen"/>
+  <buttongroup name="cancelar_confirmar"/>
  </buttongroups>
 </ui>

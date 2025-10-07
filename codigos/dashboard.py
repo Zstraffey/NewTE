@@ -165,9 +165,8 @@ class TelaInicial(QMainWindow):
         self.scroll_licoes.setWidgetResizable(True)
         layout = container.layout()
 
-        self.adicionar_licao = licao()
+        self.adicionar_licao = adicionarLicao()
         layout.addWidget(self.adicionar_licao, 0, 0)
-        layout.addWidget(adicionarLicao(), 0, 1)
 
     def on_alterar(self, user_id):
         print(f"Alterar usuário {user_id}")
