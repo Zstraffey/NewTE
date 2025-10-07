@@ -21,26 +21,12 @@ class usuarioChat(QWidget):
 class licao(QWidget):
     def __init__(self):#, callback):
         super().__init__()
-        loaded_ui = loadUi("../design/templates/template_aula.ui")
-
-        # Add the loaded UI into *this* widget's layout
-        layout = QGridLayout(self)
-        layout.addWidget(loaded_ui)
-
-        self.setLayout(layout)
-        self.adjustSize()
+        loadUi("../design/templates/template_aula.ui", self)
 
 class adicionarLicao(QWidget):
     def __init__(self):#, callback):
         super().__init__()
-        loaded_ui = loadUi("../design/templates/aula_adicionar.ui")
-
-        # Add the loaded UI into *this* widget's layout
-        layout = QGridLayout(self)
-        layout.addWidget(loaded_ui)
-
-        self.setLayout(layout)
-        self.adjustSize()
+        loadUi("../design/templates/aula_adicionar.ui", self)
 
 class TelaInicial(QMainWindow):
     class DBLoopUpdate(QThread):
@@ -167,6 +153,9 @@ class TelaInicial(QMainWindow):
 
         self.adicionar_licao = adicionarLicao()
         layout.addWidget(self.adicionar_licao, 0, 0)
+
+        self.btn_voltar.clicked.connect(partial(self.mudarDashboard, 1))
+        self.adicionar_licao.botao.clicked.connect(partial(self.mudarDashboard, 4))
 
     def on_alterar(self, user_id):
         print(f"Alterar usuário {user_id}")
@@ -387,6 +376,11 @@ class TelaInicial(QMainWindow):
     def sendMessage(self):
         text = self.lineEdit_mensagem.text()
         db = bancoDados().conectar()
+
+        if text == "" or text is None:
+            return
+
+        self.lineEdit_mensagem.setText("")
 
         query = f"""
           INSERT INTO mensagens_chat
