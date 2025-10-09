@@ -183,13 +183,12 @@ class TelaInicial(QMainWindow):
             print(f"Exclusão do usuário {user_id} cancelada")
 
     def atualizarLicoes(self):
-        # self.clearLayout()
-
-        # Get the scroll area container
         container = self.scroll_licoes.widget()
 
         self.scroll_licoes.setWidgetResizable(True)
         layout = container.layout()
+
+        self.clearLayout(layout)
 
         db = bancoDados().conectar()
         cursor = db.cursor()
@@ -197,17 +196,24 @@ class TelaInicial(QMainWindow):
 
         rows = cursor.fetchall()
 
-        for i in range((len(rows) + 1)):
-            row = i // 3  # 3 columns per row
-            col = i % 3
-            print(i)
-            if i >= len(rows):
-                self.adicionar_licao = adicionarLicao()
-                layout.addWidget(self.adicionar_licao, row, col)
+        i = 0
+        print(i)
+        for id_licao, id_user, titulo, desc, metas, criacao, validade in rows:
+            row = i // 4
+            col = i % 4
+            template = licao()
+            layout.addWidget(template, row, col)
+            template.lbl_titulo_curso.setText(titulo)
+            template.lbl_desc_curso.setText(desc)
+            i = i + 1
 
-                self.adicionar_licao.botao.clicked.connect(partial(self.mudarDashboard, 4))
-            else:
-                layout.addWidget(licao(), row, col)
+        row = i // 4
+        col = i % 4
+
+        self.adicionar_licao = adicionarLicao()
+        layout.addWidget(self.adicionar_licao, row, col)
+
+        self.adicionar_licao.botao.clicked.connect(partial(self.mudarDashboard, 4))
 
     def updateUserTable(self):
         self.tabela_usuarios.clear()
@@ -509,7 +515,10 @@ class TelaInicial(QMainWindow):
             if index == 2 and self.alterar is None:
                 self.titulo_cadastro_2.setText("Cadastrar")
 
+
     def mudarDashboard(self, index):
+        if index == 1:
+            self.atualizarLicoes()
         self.dashboardStack.setCurrentIndex(index)
 
     def logOut(self):
@@ -586,7 +595,7 @@ class TelaInicial(QMainWindow):
         except mc.Error as err:
             print(f"Falha ao salvar tarefa: {err}")
         finally:
-            self.updateUserTable()
+            self.atualizarLicoes()
             cursor.close()
             db.close()
 
