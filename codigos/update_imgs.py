@@ -6,8 +6,8 @@ import subprocess
 # -------------------------------
 folder = "../imagens"          # Folder containing your images
 qrc_filename = "../imagens/imgs.qrc"
-py_filename = "imgs_rc.py"  # Output Python module
-prefix = "/"                # Resource prefix
+py_filename = "imgs_qrc.py"  # Output Python module
+prefix = "imgs"                # Resource prefix
 image_extensions = (".png", ".jpg", ".jpeg", ".bmp", ".gif")  # supported formats
 # -------------------------------
 
@@ -16,7 +16,7 @@ qrc_content = ['<RCC>', f'    <qresource prefix="{prefix}">']
 
 for filename in os.listdir(folder):
     if filename.lower().endswith(image_extensions):
-        qrc_content.append(f'        <file>{folder}/{filename}</file>')
+        qrc_content.append(f'        <file>{filename}</file>')
 
 qrc_content.append('    </qresource>')
 qrc_content.append('</RCC>')

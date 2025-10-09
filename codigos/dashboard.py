@@ -144,18 +144,10 @@ class TelaInicial(QMainWindow):
         self.carg_func.setText(Session.current_user["cargo"])
 
         self.updateUserTable()
-
-        # Get the scroll area container
-        container = self.scroll_licoes.widget()
-
-        self.scroll_licoes.setWidgetResizable(True)
-        layout = container.layout()
-
-        self.adicionar_licao = adicionarLicao()
-        layout.addWidget(self.adicionar_licao, 0, 0)
+        self.atualizarLicoes()
 
         self.btn_voltar.clicked.connect(partial(self.mudarDashboard, 1))
-        self.adicionar_licao.botao.clicked.connect(partial(self.mudarDashboard, 4))
+        self.btn_concluir.clicked.connect(self.cadastrarLicao)
 
     def on_alterar(self, user_id):
         print(f"Alterar usuário {user_id}")
@@ -189,6 +181,33 @@ class TelaInicial(QMainWindow):
         else:
             QMessageBox.information(self, "Cancelado", f"Exclusão cancelada.")
             print(f"Exclusão do usuário {user_id} cancelada")
+
+    def atualizarLicoes(self):
+        # self.clearLayout()
+
+        # Get the scroll area container
+        container = self.scroll_licoes.widget()
+
+        self.scroll_licoes.setWidgetResizable(True)
+        layout = container.layout()
+
+        db = bancoDados().conectar()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM licoes")
+
+        rows = cursor.fetchall()
+
+        for i in range((len(rows) + 1)):
+            row = i // 3  # 3 columns per row
+            col = i % 3
+            print(i)
+            if i >= len(rows):
+                self.adicionar_licao = adicionarLicao()
+                layout.addWidget(self.adicionar_licao, row, col)
+
+                self.adicionar_licao.botao.clicked.connect(partial(self.mudarDashboard, 4))
+            else:
+                layout.addWidget(licao(), row, col)
 
     def updateUserTable(self):
         self.tabela_usuarios.clear()
@@ -500,6 +519,76 @@ class TelaInicial(QMainWindow):
         self.close()
         self.widget.setCurrentIndex(0)
         self.widget.show()
+
+    def cadastrarLicao(self):
+        db = bancoDados().conectar()
+        if not db:
+            return
+
+        cursor = db.cursor()
+
+        print(Session.current_user["id_user"])
+
+        valuesDictionaries = {
+            "id_user": Session.current_user["id_user"],
+            "titulo": self.lineEdit_titulo.text(),
+            "conteudo": self.textEdit_desc.toPlainText(),
+            "metas": self.textEdit_metas.toPlainText(),
+        }
+
+        print("eba")
+
+        for key, value in valuesDictionaries.items():
+            if value is None or value == "":
+                QMessageBox.warning(self, "Erro", f"Preencha todos os campos")
+                return
+
+        query = ""
+
+        if self.alterar:
+            query = f"""
+                  UPDATE usuario
+                  SET 
+                      nome = %s,
+                      email = %s,
+                      telefone = %s,
+                      cpf = %s,
+                      rg = %s,
+                      departamento = %s,
+                      cargo = %s,
+                      foto_perfil = %s,
+                      status = %s,
+                      data_entrada = %s,
+                      sobre_mim = %s,
+                      senha = %s,
+                      endereco = %s,
+                      tipo_usuario = %s,
+                      experiencias = %s
+                  WHERE id_user = {self.alterar};
+                  """
+        else:
+            query = """
+                  INSERT INTO licoes
+                  (id_user, titulo, conteudo, metas)
+                  VALUES (%s, %s, %s, %s);
+                  """
+
+        values = tuple(valuesDictionaries.values())
+
+        try:
+            cursor.execute(query, values)
+            db.commit()
+
+            QMessageBox.information(self, "Sucesso",
+                                    "Tarefa alterada com sucesso!" if self.alterar else "Tarefa cadastrada com sucesso!")
+
+            self.alterar = None
+        except mc.Error as err:
+            print(f"Falha ao salvar tarefa: {err}")
+        finally:
+            self.updateUserTable()
+            cursor.close()
+            db.close()
 
     def cadastrarUsuario(self):
         db = bancoDados().conectar()

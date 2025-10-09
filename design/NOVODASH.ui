@@ -895,7 +895,7 @@ QLineEdit:checked {
            <item>
             <widget class="QStackedWidget" name="stacked_widget_botoes_principais_do_dashboard">
              <property name="currentIndex">
-              <number>0</number>
+              <number>4</number>
              </property>
              <widget class="QWidget" name="rendimento_page">
               <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -3739,7 +3739,7 @@ QPushButton:hover {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>773</width>
+                             <width>100</width>
                              <height>16</height>
                             </rect>
                            </property>
@@ -5630,8 +5630,8 @@ border-radius: 15px;
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="btns_sidebar"/>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="cancelar_confirmar"/>
+  <buttongroup name="rendimen_func_calen"/>
+  <buttongroup name="btns_sidebar"/>
  </buttongroups>
 </ui>
