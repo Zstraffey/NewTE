@@ -1203,8 +1203,8 @@ border-radius:15px;}</string>
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>515</width>
-                             <height>285</height>
+                             <width>496</width>
+                             <height>230</height>
                             </rect>
                            </property>
                            <property name="maximumSize">
@@ -1828,8 +1828,8 @@ QComboBox:checked {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1210</width>
-                             <height>562</height>
+                             <width>100</width>
+                             <height>30</height>
                             </rect>
                            </property>
                            <property name="sizePolicy">
@@ -2044,7 +2044,7 @@ QPushButton:hover {
                            <string>Tabela</string>
                           </property>
                           <property name="icon">
-                           <iconset resource="../imagens/imgs.qrc">
+                           <iconset>
                             <normaloff>:/imgs/list.png</normaloff>:/imgs/list.png</iconset>
                           </property>
                           <property name="iconSize">
@@ -2596,7 +2596,7 @@ QPushButton:hover {
                               <string>Calendário</string>
                              </property>
                              <property name="icon">
-                              <iconset resource="../imagens/imgs.qrc">
+                              <iconset>
                                <normaloff>:/imgs/list.png</normaloff>:/imgs/list.png</iconset>
                              </property>
                              <property name="iconSize">
@@ -5626,12 +5626,12 @@ border-radius: 15px;
  </widget>
  <resources>
   <include location="../imagens/imgs.qrc"/>
-  <include location="../../imagens/imgs.qrc"/>
+  <include location="../imagens/imgs.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="cancelar_confirmar"/>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="btns_sidebar"/>
+  <buttongroup name="rendimen_func_calen"/>
+  <buttongroup name="cancelar_confirmar"/>
  </buttongroups>
 </ui>
