@@ -182,6 +182,39 @@ class TelaInicial(QMainWindow):
             QMessageBox.information(self, "Cancelado", f"Exclusão cancelada.")
             print(f"Exclusão do usuário {user_id} cancelada")
 
+    def alterarLicao(self, user_id):
+        print(f"Alterar licao {user_id}")
+        self.licaoAlterar = user_id
+        self.mudarDashboard(4)
+
+    def excluirLicao(self, user_id, user_name):
+        reply = QMessageBox.question(
+            self,
+            "Confirmação",
+            f"Tem certeza que deseja excluir a lição {user_name} (ID {user_id})?",
+            QMessageBox.Yes | QMessageBox.Yes,
+            QMessageBox.Yes
+        )
+        if reply == QMessageBox.Yes:
+            print(f"Usuário {user_id} excluído")
+
+            ifdb = bancoDados().conectar()
+            ifCursor = ifdb.cursor()
+
+            query = f"""
+                               DELETE FROM licoes WHERE id_licao = {user_id};
+                           """
+            ifCursor.execute(query)
+            ifdb.commit()
+            ifCursor.close()
+            ifdb.close()
+
+            QMessageBox.information(self, "Sucesso", f"Lição {user_name} excluida com sucesso!")
+            self.atualizarLicoes()
+        else:
+            QMessageBox.information(self, "Cancelado", f"Exclusão cancelada.")
+            print(f"Exclusão da lição {user_id} cancelada")
+
     def atualizarLicoes(self):
         container = self.scroll_licoes.widget()
 
@@ -197,7 +230,7 @@ class TelaInicial(QMainWindow):
         rows = cursor.fetchall()
 
         i = 0
-        print(i)
+
         for id_licao, id_user, titulo, desc, metas, criacao, validade in rows:
             row = i // 4
             col = i % 4
@@ -205,6 +238,8 @@ class TelaInicial(QMainWindow):
             layout.addWidget(template, row, col)
             template.lbl_titulo_curso.setText(titulo)
             template.lbl_desc_curso.setText(desc)
+            template.btn_excluir.clicked.connect(partial(self.excluirLicao,id_licao, titulo))
+            template.btn_editar.clicked.connect(partial(self.alterarLicao, id_licao))
             i = i + 1
 
         row = i // 4
@@ -519,6 +554,27 @@ class TelaInicial(QMainWindow):
     def mudarDashboard(self, index):
         if index == 1:
             self.atualizarLicoes()
+        if index == 4 and not (self.licaoAlterar is None):
+            db = bancoDados().conectar()
+            if not db:
+                return
+
+            cursor = db.cursor()
+            query = "SELECT titulo, conteudo, metas FROM licoes WHERE id_licao = %s"
+            cursor.execute(query, (self.licaoAlterar,))
+            result = cursor.fetchone()
+            if not (result is None):
+                titulo, conteudo, metas = result
+
+                # self.titulo_cadastro_2.setText(f"Alterando {titulo} ({self.alterar})")
+
+                self.lineEdit_titulo.setText(titulo)
+                self.textEdit_desc.setPlainText(conteudo)
+                self.textEdit_metas.setPlainText(metas)
+
+            cursor.close()
+            db.close()
+
         self.dashboardStack.setCurrentIndex(index)
 
     def logOut(self):
@@ -554,26 +610,15 @@ class TelaInicial(QMainWindow):
 
         query = ""
 
-        if self.alterar:
+        if self.licaoAlterar:
             query = f"""
-                  UPDATE usuario
+                  UPDATE licoes
                   SET 
-                      nome = %s,
-                      email = %s,
-                      telefone = %s,
-                      cpf = %s,
-                      rg = %s,
-                      departamento = %s,
-                      cargo = %s,
-                      foto_perfil = %s,
-                      status = %s,
-                      data_entrada = %s,
-                      sobre_mim = %s,
-                      senha = %s,
-                      endereco = %s,
-                      tipo_usuario = %s,
-                      experiencias = %s
-                  WHERE id_user = {self.alterar};
+                      id_user = %s,
+                      titulo = %s,
+                      conteudo = %s,
+                      metas = %s
+                  WHERE id_licao = {self.licaoAlterar};
                   """
         else:
             query = """
@@ -589,9 +634,9 @@ class TelaInicial(QMainWindow):
             db.commit()
 
             QMessageBox.information(self, "Sucesso",
-                                    "Tarefa alterada com sucesso!" if self.alterar else "Tarefa cadastrada com sucesso!")
+                                    "Tarefa alterada com sucesso!" if self.licaoAlterar else "Tarefa cadastrada com sucesso!")
 
-            self.alterar = None
+            self.licaoAlterar = None
         except mc.Error as err:
             print(f"Falha ao salvar tarefa: {err}")
         finally:
