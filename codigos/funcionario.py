@@ -18,11 +18,10 @@ class usuarioChat(QWidget):
     def __init__(self, user):#, callback):
         print(user)
         super().__init__()
-        loadUi("../design/templates/contatos.ui", self)  # your .ui file with a QPushButton
+        loadUi("../design/templates/contatos.ui", self)
 
         self.nome_salvo.setText(user["nome"])
         print("yooo")
-
 
 class TelaInicial(QMainWindow):
     class DBLoopUdpate(QThread):
@@ -140,6 +139,7 @@ class TelaInicial(QMainWindow):
         layout.addStretch()
 
         self.btn_enviar.clicked.connect(self.sendMessage)
+        self.btn_voltar.clicked.connect(partial(self.mudarDashboard, 2))
         self.atualizarLicoes()
 
     def mudarDashboard(self, index):
@@ -168,11 +168,36 @@ class TelaInicial(QMainWindow):
             layout.addWidget(template, row, col)
             template.lbl_titulo_curso.setText(titulo)
             template.lbl_desc_curso.setText(desc)
-            template.btn_visualizar.clicked.connect(partial(self.alterarLicao, id_licao))
+            template.btn_visualizar.clicked.connect(partial(self.visualizarLicao, id_licao))
             i = i + 1
 
-        row = i // 4
-        col = i % 4
+    def visualizarLicao(self, id_licao):
+        self.mudarDashboard(3)
+
+        db = bancoDados().conectar()
+        if not db:
+            return
+
+        cursor = db.cursor()
+        query = "SELECT titulo, conteudo, metas FROM licoes WHERE id_licao = %s"
+        cursor.execute(query, (id_licao,))
+        result = cursor.fetchone()
+
+        if not (result is None):
+            titulo, conteudo, metas = result
+
+            # self.titulo_cadastro_2.setText(f"Alterando {titulo} ({self.alterar})")
+
+            print("ebaaaaa")
+
+            self.lbl_titulo.setText(f'<html><head/><body><p><span style=" font-size:20pt;">{titulo}</span></p></body></html>')
+            self.lbl_desc.setText(f'<html><head/><body><p><span style=" font-size:12pt;">{conteudo}</span></p></body></html>')
+            self.lbl_metas.setText(f'<html><head/><body><p><span style=" font-size:10pt; font-weight:600; color:#d1d1d1;">{metas}</span></p></body></html>')
+
+            print("ebaaaaa")
+
+        cursor.close()
+        db.close()
 
     def updateUserList(self):
         db = bancoDados().conectar()
