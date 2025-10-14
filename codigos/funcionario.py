@@ -1,3 +1,5 @@
+from functools import partial
+
 from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton
 from PyQt5.uic import loadUi
@@ -6,6 +8,11 @@ import time
 import imgs_qrc
 
 from codigos.classes import Session, bancoDados, ChatBubble
+
+class licao(QWidget):
+    def __init__(self):#, callback):
+        super().__init__()
+        loadUi("../design/templates/aula_funcionario.ui", self)
 
 class usuarioChat(QWidget):
     def __init__(self, user):#, callback):
@@ -90,13 +97,21 @@ class TelaInicial(QMainWindow):
         self.stackList = [
             self.findChild(QPushButton, "btn_home"),
             self.findChild(QPushButton, "btn_chat"),
-            self.findChild(QPushButton, "btn_licoes"),
             self.findChild(QPushButton, "btn_perfil"),
+        ]
+
+        self.dashboardList = [
+            self.findChild(QPushButton, "btn_rendimento_do_dash"),
+            self.findChild(QPushButton, "btn_calendario_do_dash"),
+            self.findChild(QPushButton, "btn_licoes_do_dash"),
         ]
 
         from functools import partial
         for i, botao in enumerate(self.stackList):
             botao.clicked.connect(partial(self.mudarTela, i))
+
+        for i, botao in enumerate(self.dashboardList):
+            botao.clicked.connect(partial(self.mudarDashboard, i))
 
         container = self.usuarios_chat.widget()
         self.usuarios_chat.setWidgetResizable(True)
@@ -125,6 +140,39 @@ class TelaInicial(QMainWindow):
         layout.addStretch()
 
         self.btn_enviar.clicked.connect(self.sendMessage)
+        self.atualizarLicoes()
+
+    def mudarDashboard(self, index):
+        self.stacked_widget_botoes_principais_do_dashboard.setCurrentIndex(index)
+
+    def atualizarLicoes(self):
+        container = self.scroll_licoes.widget()
+
+        self.scroll_licoes.setWidgetResizable(True)
+        layout = container.layout()
+
+        self.clearLayout(layout)
+
+        db = bancoDados().conectar()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM licoes")
+
+        rows = cursor.fetchall()
+
+        i = 0
+
+        for id_licao, id_user, titulo, desc, metas, criacao, validade in rows:
+            row = i // 4
+            col = i % 4
+            template = licao()
+            layout.addWidget(template, row, col)
+            template.lbl_titulo_curso.setText(titulo)
+            template.lbl_desc_curso.setText(desc)
+            template.btn_visualizar.clicked.connect(partial(self.alterarLicao, id_licao))
+            i = i + 1
+
+        row = i // 4
+        col = i % 4
 
     def updateUserList(self):
         db = bancoDados().conectar()

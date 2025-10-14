@@ -1828,8 +1828,8 @@ QComboBox:checked {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>100</width>
-                             <height>30</height>
+                             <width>1210</width>
+                             <height>562</height>
                             </rect>
                            </property>
                            <property name="sizePolicy">
@@ -5631,7 +5631,7 @@ border-radius: 15px;
  <connections/>
  <buttongroups>
   <buttongroup name="btns_sidebar"/>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="cancelar_confirmar"/>
+  <buttongroup name="rendimen_func_calen"/>
  </buttongroups>
 </ui>
