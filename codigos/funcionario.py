@@ -1,7 +1,8 @@
 from functools import partial
 
-from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton
+from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QRectF
+from PyQt5.QtGui import QPixmap, QPainterPath, QRegion
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox
 from PyQt5.uic import loadUi
 import mysql.connector as mc
 import time
@@ -89,6 +90,7 @@ class TelaInicial(QMainWindow):
         self.widget = stacked_widget
 
         Session.last_message_id = 0
+        self.licao_ativa = None
 
         self.stack = self.findChild(QWidget, "stackedwidget_btns_da_sidebar")
         self.btn_sair.clicked.connect(self.logOut)
@@ -105,6 +107,8 @@ class TelaInicial(QMainWindow):
             self.findChild(QPushButton, "btn_licoes_do_dash"),
         ]
 
+        self.foto_func.setPixmap(Session.current_user["foto_perfil"])
+
         from functools import partial
         for i, botao in enumerate(self.stackList):
             botao.clicked.connect(partial(self.mudarTela, i))
@@ -117,11 +121,13 @@ class TelaInicial(QMainWindow):
 
         layout = container.layout()
 
-        users = self.updateUserList()
-
         self.chat_timer = self.DBLoopUdpate()
         self.chat_timer.new_data.connect(self.updateChat)
         self.chat_timer.start()
+
+        self.newte.setText(f'<html><head/><body><p><span style=" font-size:20pt;">Olá {Session.current_user["nome"]}!</span></p></body></html>')
+        self.nome_func.setText(f'<html><head/><body><p align="center"><span style=" font-size:14pt;">{Session.current_user["nome"]}</span></p></body></html>')
+        self.carg_func.setText(f'<html><head/><body><p align="center"><span style=" font-size:12pt;">{Session.current_user["cargo"]}</span></p></body></html>')
 
         def callback(user):
             Session.loaded_chat = user["id_user"]
@@ -131,18 +137,19 @@ class TelaInicial(QMainWindow):
             self.clearLayout(self.chat.widget().layout())
             self.chat_timer.query()
 
-        for user in users:
-            btn = usuarioChat(user)
-            btn.pushButton.clicked.connect(partial(callback, user))
-            layout.addWidget(btn)
+        self.ListUsers()
 
         layout.addStretch()
 
         self.btn_enviar.clicked.connect(self.sendMessage)
         self.btn_voltar.clicked.connect(partial(self.mudarDashboard, 2))
+        self.btn_concluir.clicked.connect(self.concluirAtividade)
         self.atualizarLicoes()
 
     def mudarDashboard(self, index):
+        if index == 2:
+            self.licao_ativa = None
+            self.atualizarLicoes()
         self.stacked_widget_botoes_principais_do_dashboard.setCurrentIndex(index)
 
     def atualizarLicoes(self):
@@ -155,13 +162,19 @@ class TelaInicial(QMainWindow):
 
         db = bancoDados().conectar()
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM licoes")
 
+        query = "SELECT id_licao FROM usuario_licao_realizada WHERE id_usuario = %s"
+        cursor.execute(query, (Session.current_user["id_user"], ))
+        list = cursor.fetchall()
+        id_list = [row[0] for row in list]
+
+        cursor.execute("SELECT * FROM licoes")
         rows = cursor.fetchall()
 
         i = 0
-
+        print(id_list)
         for id_licao, id_user, titulo, desc, metas, criacao, validade in rows:
+            print(id_licao)
             row = i // 4
             col = i % 4
             template = licao()
@@ -170,6 +183,12 @@ class TelaInicial(QMainWindow):
             template.lbl_desc_curso.setText(desc)
             template.btn_visualizar.clicked.connect(partial(self.visualizarLicao, id_licao))
             i = i + 1
+
+            if id_licao in id_list:
+                print("ta")
+                template.template_cursos_substituir.setStyleSheet('QWidget{\nbackground-color: rgb(109, 109, 109);\n}\n#template_cursos_substituir{\n\n    border-radius: 6px;\n    border: 3px solid rgb(111, 230, 111);}')
+                template.lbl_situacao_licao.setStyleSheet('background-color:rgb(111, 230, 111);\nborder-radius: 4px;')
+                template.lbl_situacao_licao.setText(f'<html><head/><body><p align="center">{"Concluído"}</p></body></html>')
 
     def visualizarLicao(self, id_licao):
         self.mudarDashboard(3)
@@ -183,41 +202,113 @@ class TelaInicial(QMainWindow):
         cursor.execute(query, (id_licao,))
         result = cursor.fetchone()
 
+        self.licao_ativa = id_licao
+
         if not (result is None):
             titulo, conteudo, metas = result
 
             # self.titulo_cadastro_2.setText(f"Alterando {titulo} ({self.alterar})")
 
-            print("ebaaaaa")
-
             self.lbl_titulo.setText(f'<html><head/><body><p><span style=" font-size:20pt;">{titulo}</span></p></body></html>')
             self.lbl_desc.setText(f'<html><head/><body><p><span style=" font-size:12pt;">{conteudo}</span></p></body></html>')
             self.lbl_metas.setText(f'<html><head/><body><p><span style=" font-size:10pt; font-weight:600; color:#d1d1d1;">{metas}</span></p></body></html>')
 
-            print("ebaaaaa")
-
         cursor.close()
         db.close()
+
+    def ListUsers(self):
+        container = self.usuarios_chat.widget()
+        self.usuarios_chat.setWidgetResizable(True)
+
+        layout = container.layout()
+        self.clearLayout(layout)
+
+        users = self.updateUserList()
+
+        def callback(user):
+            Session.loaded_chat = user["id_user"]
+
+            path = QPainterPath()
+            path.addEllipse(QRectF(0, 0, 60, 60))
+            region = QRegion(path.toFillPolygon().toPolygon())
+
+            self.infos_contato.setText(user["nome"])
+
+            #self.foto_func_contato.setPixmap(user["foto_perfil"])
+            #self.foto_func_contato.setMask(region)
+
+            #self.foto_func_contato_2.setPixmap(user["foto_perfil"])
+            #self.foto_func_contato_2.setMask(region)
+
+            self.nome_func_contato.setText(user["nome"])
+            self.carg_func_contato.setText(user["cargo"])
+
+            Session.last_message_id = 0
+
+            self.clearLayout(self.chat.widget().layout())
+            self.chat_timer.query()
+
+        for user in users:
+            btn = usuarioChat(user)
+            btn.pushButton.clicked.connect(partial(callback, user))
+
+            icon = user["foto_perfil"].scaled(btn.foto_cntt.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
+            btn.foto_cntt.setFixedSize(60, 60)
+            btn.foto_cntt.setPixmap(icon)
+
+            path = QPainterPath()
+            path.addEllipse(QRectF(0, 0, 60, 60))  # usa QRectF
+            region = QRegion(path.toFillPolygon().toPolygon())
+
+            btn.foto_cntt.setMask(region)
+
+            btn.online.setText(user["status"])
+
+            if user["status"] == "OFFLINE":
+                btn.online.setStyleSheet("""
+                    QLabel {
+                        color: red;
+                    }
+                """)
+            else:
+                btn.online.setStyleSheet("""
+                    QLabel {
+                        color: green;
+                    }
+                """)
+
+            layout.addWidget(btn)
+
+        layout.addStretch()
 
     def updateUserList(self):
         db = bancoDados().conectar()
         if not db:
-            return
+            return []
 
         cursor = db.cursor()
-
-        query = "SELECT id_user, nome FROM usuario WHERE id_user != %s"
+        query = "SELECT id_user, nome, foto_perfil, cargo, status FROM usuario WHERE id_user != %s"
         cursor.execute(query, (Session.current_user["id_user"],))
         results = cursor.fetchall()
+        cursor.close()
+        db.close()
 
         users = []
+        for id_user, nome, foto_perfil, cargo, status in results:
+            pixmap = QPixmap()
 
-        #matheus@example.com
+            if foto_perfil:
+                pixmap.loadFromData(foto_perfil)
 
-        for id_user, nome in results:
+            if pixmap.isNull():
+                pixmap = QPixmap('../imagens/user.png')
+
             users.append({
                 "id_user": id_user,
                 "nome": nome,
+                "foto_perfil": pixmap,
+                "cargo" : cargo,
+                "status" : status,
             })
 
         return users
@@ -231,6 +322,24 @@ class TelaInicial(QMainWindow):
                     widget.deleteLater()  # safely deletes the widget
                 else:
                     self.clearLayout(item.layout())  # if it’s a nested layout
+    def concluirAtividade(self):
+        db = bancoDados().conectar()
+
+        query = f"""
+                  INSERT INTO usuario_licao_realizada
+                  (id_usuario, id_licao) 
+                  VALUES ({Session.current_user["id_user"]}, {self.licao_ativa});
+                  """
+        try:
+            cursor = db.cursor()
+            cursor.execute(query)
+            db.commit()
+            cursor.close()
+            db.close()
+
+            QMessageBox.information(self, "Sucesso", f"Parabéns! Você concluiu esta lição!")
+        except mc.Error as err:
+            print("Error:", err)
 
     def sendMessage(self):
         text = self.lineEdit_mensagem.text()
@@ -298,6 +407,7 @@ class TelaInicial(QMainWindow):
         self.stack.setCurrentIndex(index)
 
     def logOut(self):
+        self.chat_timer.stop()
         Session.current_user = None
 
         self.close()

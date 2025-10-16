@@ -325,11 +325,11 @@ class TelaInicial(QMainWindow):
 
             self.infos_contato.setText(user["nome"])
 
-            self.foto_func_contato.setPixmap(user["foto_perfil"])
-            self.foto_func_contato.setMask(region)
+            #self.foto_func_contato.setPixmap(user["foto_perfil"])
+            #self.foto_func_contato.setMask(region)
 
-            self.foto_func_contato_2.setPixmap(user["foto_perfil"])
-            self.foto_func_contato_2.setMask(region)
+            #self.foto_func_contato_2.setPixmap(user["foto_perfil"])
+            #self.foto_func_contato_2.setMask(region)
 
             self.nome_func_contato.setText(user["nome"])
             self.carg_func_contato.setText(user["cargo"])
