@@ -10,6 +10,24 @@ from functools import partial
 
 from codigos.classes import Session, bancoDados, ChatBubble
 
+import re
+import unicodedata
+import difflib
+
+# Mapeamento para variações leet
+leet_map = {
+    'a': ['4', '@'],
+    'e': ['3'],
+    'i': ['1', '!', '|', 'l'],
+    'o': ['0'],
+    'u': ['v'],
+    's': ['5', '$'],
+    'g': ['9'],
+    'b': ['8'],
+    't': ['7'],
+    'c': ['('],
+}
+
 palavras_bloqueadas = [
     "nigger", "nigga", "merda", "cu", "cus", "cuzao", "cuzão", "cv", "pcc",
     "foda", "fodo", "fodao", "fodão", "ass", "bundao", "bundão", "bunda", "bundinha",
