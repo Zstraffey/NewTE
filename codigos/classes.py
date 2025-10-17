@@ -82,11 +82,13 @@ class bancoDados:
                 user="root",
                 password="",
                 database="newte",
-                use_pure=True
+                use_pure=True,
+                ssl_disabled = False
             )
 
             return mydb
-        except mc.Error:
+        except mc.Error as err:
+            print(f"Erro do MySQL: {err}")
             QMessageBox.warning(None, "Erro", "Erro ao conectar no banco de dados.")
 
             return False
