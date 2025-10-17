@@ -577,9 +577,27 @@ class TelaInicial(QMainWindow):
 
         self.dashboardStack.setCurrentIndex(index)
 
+    def quitProgram(self):
+        if Session.current_user is None:
+            return
+        db = bancoDados().conectar()
+        if not db:
+            return
+
+        cursor = db.cursor()
+
+        query = f"""
+                       UPDATE usuario SET status = 'OFFLINE' WHERE email = '{Session.current_user["email"]}';
+                  """
+        cursor.execute(query)
+        db.commit()
+
+        cursor.close()
+        db.close()
+
     def logOut(self):
         self.chat_timer.stop()
-        quitProgram()
+        self.quitProgram()
         Session.current_user = None
 
         self.close()

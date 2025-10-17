@@ -546,7 +546,7 @@ QPushButton:checked {
     <item>
      <widget class="QStackedWidget" name="stackedwidget_btns_da_sidebar">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_dashboard">
        <layout class="QVBoxLayout" name="verticalLayout_43">

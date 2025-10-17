@@ -1,16 +1,14 @@
-from functools import partial
-
-from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QRectF
-from PyQt5.QtGui import QPixmap, QPainterPath, QRegion
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox
+from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView, \
+    QSizePolicy, QGridLayout
 from PyQt5.uic import loadUi
+from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion
+import imgs_qrc
 import mysql.connector as mc
 import time
-import imgs_qrc
+from functools import partial
 
-from login import quitProgram
 from codigos.classes import Session, bancoDados, ChatBubble
-
 class licao(QWidget):
     def __init__(self):#, callback):
         super().__init__()
@@ -152,6 +150,24 @@ class TelaInicial(QMainWindow):
             self.licao_ativa = None
             self.atualizarLicoes()
         self.stacked_widget_botoes_principais_do_dashboard.setCurrentIndex(index)
+
+    def quitProgram(self):
+        if Session.current_user is None:
+            return
+        db = bancoDados().conectar()
+        if not db:
+            return
+
+        cursor = db.cursor()
+
+        query = f"""
+                    UPDATE usuario SET status = 'OFFLINE' WHERE email = '{Session.current_user["email"]}';
+               """
+        cursor.execute(query)
+        db.commit()
+
+        cursor.close()
+        db.close()
 
     def atualizarLicoes(self):
         container = self.scroll_licoes.widget()
@@ -409,7 +425,7 @@ class TelaInicial(QMainWindow):
 
     def logOut(self):
         self.chat_timer.stop()
-        quitProgram()
+        self.quitProgram()
         Session.current_user = None
 
         self.close()
