@@ -10,28 +10,14 @@ from functools import partial
 
 from codigos.classes import Session, bancoDados, ChatBubble
 
-import re
-import unicodedata
-
 palavras_bloqueadas = [
-    "nigger", "nigga", "merda", "cu", "cus", "cuzao", "cuzão", "cv", "pcc", "foda", "fodo", "fodao", "fodão", "ass", "bundao", "bundão", "bunda", "bundinha",
-    "viado", "bicha", "traveco", "tranny",
-    "puto", "puta", "fdp", "filho da puta", "filha da puta","urtiga", "desgraçado", "desgracado", "vai tomar no cu"
-    "retardado", "mongol", "imbecil", "caralho", "krl", "putinho", "putinha", "nazista", "nazi", "arrombado", "arrombada", "crl"
+    "nigger", "nigga", "merda", "cu", "cus", "cuzao", "cuzão", "cv", "pcc",
+    "foda", "fodo", "fodao", "fodão", "ass", "bundao", "bundão", "bunda", "bundinha",
+    "viado", "bicha", "traveco", "tranny", "puto", "puta", "fdp", "filho da puta",
+    "filha da puta", "urtiga", "desgraçado", "desgracado", "vai tomar no cu",
+    "retardado", "mongol", "imbecil", "caralho", "krl", "putinho", "putinha",
+    "nazista", "nazi", "arrombado", "arrombada", "crl"
 ]
-
-leet_map = {
-    'a': ['4', '@'],
-    'e': ['3'],
-    'i': ['1', '!', '|', 'l'],
-    'o': ['0'],
-    'u': ['v'],
-    's': ['5', '$'],
-    'g': ['9'],
-    'b': ['8'],
-    't': ['7'],
-    'c': ['('],
-}
 
 def normalizar(texto):
     # Remove acentos e coloca tudo em minúsculo
@@ -40,10 +26,7 @@ def normalizar(texto):
     return texto.lower()
 
 def gerar_variacoes(palavra):
-    """
-    Gera uma regex que captura variações leet da palavra
-    Ex: "viado" => "[v][i1!|l][a4@][d][o0]"
-    """
+    # Cria regex com variações leet
     regex = ""
     for letra in palavra:
         letras_possiveis = [letra]
@@ -53,23 +36,39 @@ def gerar_variacoes(palavra):
         regex += grupo
     return regex
 
+def palavras_semelhantes(palavra, lista, limiar=0.8):
+    # Retorna palavras da lista que são parecidas com a fornecida (acima de certo limiar)
+    semelhantes = []
+    for proibida in lista:
+        ratio = difflib.SequenceMatcher(None, palavra, proibida).ratio()
+        if ratio >= limiar:
+            semelhantes.append(proibida)
+    return semelhantes
+
 def filtrar_texto(texto_original):
     texto_filtrado = texto_original
     texto_normalizado = normalizar(texto_original)
 
-    for palavra in palavras_bloqueadas:
-        padrao_regex = gerar_variacoes(normalizar(palavra))
+    # Divide o texto normalizado em palavras individuais para verificação de similaridade
+    palavras_no_texto = re.findall(r'\b\w+\b', texto_normalizado)
 
-        # Encontra as correspondências com qualquer capitalização e variações leet
-        matches = list(re.finditer(padrao_regex, texto_normalizado, re.IGNORECASE))
+    for palavra_texto in palavras_no_texto:
+        if len(palavra_texto) < 5:
+            continue
 
-        for match in matches:
-            inicio, fim = match.span()
-            palavra_detectada = texto_original[inicio:fim]
+        similares = palavras_semelhantes(palavra_texto, palavras_bloqueadas)
 
-            # Censura a palavra mantendo a primeira letra e colocando asteriscos no resto
-            censurada = palavra_detectada[0] + "#" * (len(palavra_detectada) - 1)
-            texto_filtrado = texto_filtrado.replace(palavra_detectada, censurada)
+        for proibida in similares:
+            padrao_regex = gerar_variacoes(proibida)
+            regex_compilado = re.compile(padrao_regex, re.IGNORECASE)
+
+            # Substitui variações encontradas
+            texto_filtrado = regex_compilado.sub(lambda m: m.group(0)[0] + "#" * (len(m.group(0)) - 1), texto_filtrado)
+
+            # Também substitui se a palavra for parecida diretamente (ex: "desagraçado")
+            texto_filtrado = re.sub(rf'\b{re.escape(palavra_texto)}\b',
+                                    palavra_texto[0] + "#" * (len(palavra_texto) - 1),
+                                    texto_filtrado, flags=re.IGNORECASE)
 
     return texto_filtrado
 
