@@ -15,10 +15,10 @@ import re
 import unicodedata
 
 palavras_bloqueadas = [
-    "nigger", "nigga", "merda", "cu", "cus",
+    "nigger", "nigga", "merda", "cu", "cus", "cuzao", "cuzão", "cv", "pcc", "foda", "fodo", "fodao", "fodão", "ass", "bundao", "bundão", "bunda", "bundinha",
     "viado", "bicha", "traveco", "tranny",
-    "puto", "puta", "fdp", "filho da puta", "filha da puta","urtiga",
-    "retardado", "mongol", "imbecil", "caralho", "krl", "putinho", "putinha", "nazista", "nazi", "arrombado", "arrombada"
+    "puto", "puta", "fdp", "filho da puta", "filha da puta","urtiga", "desgraçado", "desgracado", "vai tomar no cu"
+    "retardado", "mongol", "imbecil", "caralho", "krl", "putinho", "putinha", "nazista", "nazi", "arrombado", "arrombada", "crl"
 ]
 
 leet_map = {
