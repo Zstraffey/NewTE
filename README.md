@@ -8,6 +8,3 @@
 <p align="center">
   <strong>Repositório para os arquivos do TCC New TE: Onboarding Digital</strong>
 </p>
-
-## Licença
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
