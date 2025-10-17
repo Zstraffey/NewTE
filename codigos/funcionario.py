@@ -70,9 +70,6 @@ def filtrar_texto(texto_original):
     palavras_no_texto = re.findall(r'\b\w+\b', texto_normalizado)
 
     for palavra_texto in palavras_no_texto:
-        if len(palavra_texto) < 5:
-            continue
-
         similares = palavras_semelhantes(palavra_texto, palavras_bloqueadas)
 
         for proibida in similares:
