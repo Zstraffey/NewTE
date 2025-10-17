@@ -15,7 +15,7 @@ import re
 import unicodedata
 
 palavras_bloqueadas = [
-    "nigger", "nigga", "merda",
+    "nigger", "nigga", "merda", "cu", "cus",
     "viado", "bicha", "traveco", "tranny",
     "puto", "puta", "fdp", "filho da puta", "filha da puta","urtiga",
     "retardado", "mongol", "imbecil", "caralho", "krl", "putinho", "putinha", "nazista", "nazi", "arrombado", "arrombada"
