@@ -30,42 +30,12 @@ O **NewTE** é um projeto de TCC focado em Onboarding Digital, que visa facilita
 
 ## Instalação
 
-1. Clone o repositório:
+## Uso
 
-```bash
-git clone https://github.com/seuusuario/NewTE.git
-Entre na pasta do projeto:
+## Tecnologias
 
-bash
-Copiar código
-cd NewTE
-(Opcional) Crie um ambiente virtual e ative:
-
-bash
-Copiar código
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-venv\Scripts\activate     # Windows
-Instale as dependências:
-
-bash
-Copiar código
-pip install -r requirements.txt
-Uso
-Explique aqui como rodar o projeto:
-
-bash
-Copiar código
-python main.py
-Tecnologias
-<span style="color:#6a0dad;">Python 3.10</span>
-
-PyQt5
-
-Outras libs usadas...
-
-Contribuição
+## Contribuição
 Contribuições são bem-vindas! Faça um fork, crie uma branch, e envie um pull request :)
 
-Licença
+## Licença
 Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
