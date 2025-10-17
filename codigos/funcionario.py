@@ -9,6 +9,70 @@ import time
 from functools import partial
 
 from codigos.classes import Session, bancoDados, ChatBubble
+
+import re
+import unicodedata
+
+palavras_bloqueadas = [
+    "nigger", "nigga", "negro",
+    "viado", "bicha", "traveco", "tranny",
+    "puto", "puta", "fdp", "filho da puta",
+    "retardado", "mongol", "imbecil",
+]
+
+leet_map = {
+    'a': ['4', '@'],
+    'e': ['3'],
+    'i': ['1', '!', '|', 'l'],
+    'o': ['0'],
+    'u': ['v'],
+    's': ['5', '$'],
+    'g': ['9'],
+    'b': ['8'],
+    't': ['7'],
+    'c': ['('],
+}
+
+def normalizar(texto):
+    # Remove acentos e coloca tudo em minúsculo
+    texto = unicodedata.normalize('NFD', texto)
+    texto = texto.encode('ascii', 'ignore').decode('utf-8')
+    return texto.lower()
+
+def gerar_variacoes(palavra):
+    """
+    Gera uma regex que captura variações leet da palavra
+    Ex: "viado" => "[v][i1!|l][a4@][d][o0]"
+    """
+    regex = ""
+    for letra in palavra:
+        letras_possiveis = [letra]
+        if letra in leet_map:
+            letras_possiveis += leet_map[letra]
+        grupo = "[" + re.escape("".join(set(letras_possiveis))) + "]"
+        regex += grupo
+    return regex
+
+def filtrar_texto(texto_original):
+    texto_filtrado = texto_original
+    texto_normalizado = normalizar(texto_original)
+
+    for palavra in palavras_bloqueadas:
+        padrao_regex = gerar_variacoes(normalizar(palavra))
+
+        # Encontra as correspondências com qualquer capitalização e variações leet
+        matches = list(re.finditer(padrao_regex, texto_normalizado, re.IGNORECASE))
+
+        for match in matches:
+            inicio, fim = match.span()
+            palavra_detectada = texto_original[inicio:fim]
+
+            # Censura a palavra mantendo a primeira letra e colocando asteriscos no resto
+            censurada = palavra_detectada[0] + "*" * (len(palavra_detectada) - 1)
+            texto_filtrado = texto_filtrado.replace(palavra_detectada, censurada)
+
+    return texto_filtrado
+
 class licao(QWidget):
     def __init__(self):#, callback):
         super().__init__()
@@ -359,8 +423,13 @@ class TelaInicial(QMainWindow):
             print("Error:", err)
 
     def sendMessage(self):
-        text = self.lineEdit_mensagem.text()
+        text = filtrar_texto(self.lineEdit_mensagem.text())
         db = bancoDados().conectar()
+
+        if text == "" or text is None:
+            return
+
+        self.lineEdit_mensagem.setText("")
 
         query = f"""
           INSERT INTO mensagens_chat
