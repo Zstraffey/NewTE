@@ -245,6 +245,7 @@ class TelaInicial(QMainWindow):
 
         cursor.close()
         db.close()
+        Session.current_user = None
 
     def atualizarLicoes(self):
         container = self.scroll_licoes.widget()
@@ -508,7 +509,7 @@ class TelaInicial(QMainWindow):
     def logOut(self):
         self.chat_timer.stop()
         self.quitProgram()
-        Session.current_user = None
+
 
         self.close()
         self.widget.setCurrentIndex(0)

@@ -177,6 +177,7 @@ class TelaInicial(QMainWindow):
         loadUi("../design/NOVODASH.ui", self)
         self.widget = stacked_widget
         self.alterar = None
+        self.licaoAlterar = None
 
         Session.last_message_id = 0
 
@@ -671,11 +672,11 @@ class TelaInicial(QMainWindow):
 
         cursor.close()
         db.close()
+        Session.current_user = None
 
     def logOut(self):
         self.chat_timer.stop()
         self.quitProgram()
-        Session.current_user = None
 
         self.close()
         self.widget.setCurrentIndex(0)
