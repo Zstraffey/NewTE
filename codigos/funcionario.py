@@ -8,6 +8,7 @@ import mysql.connector as mc
 import time
 import imgs_qrc
 
+from login import quitProgram
 from codigos.classes import Session, bancoDados, ChatBubble
 
 class licao(QWidget):
@@ -408,6 +409,7 @@ class TelaInicial(QMainWindow):
 
     def logOut(self):
         self.chat_timer.stop()
+        quitProgram()
         Session.current_user = None
 
         self.close()

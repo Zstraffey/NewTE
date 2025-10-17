@@ -578,6 +578,7 @@ class TelaInicial(QMainWindow):
         self.dashboardStack.setCurrentIndex(index)
 
     def logOut(self):
+        self.chat_timer.stop()
         quitProgram()
         Session.current_user = None
 
