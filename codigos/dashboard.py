@@ -15,7 +15,6 @@ import re
 import unicodedata
 import difflib
 
-# Mapeamento para variações leet
 leet_map = {
     'a': ['4', '@'],
     'e': ['3'],
