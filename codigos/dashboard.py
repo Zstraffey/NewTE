@@ -70,7 +70,7 @@ def filtrar_texto(texto_original):
             palavra_detectada = texto_original[inicio:fim]
 
             # Censura a palavra mantendo a primeira letra e colocando asteriscos no resto
-            censurada = palavra_detectada[0] + "*" * (len(palavra_detectada) - 1)
+            censurada = palavra_detectada[0] + "#" * (len(palavra_detectada) - 1)
             texto_filtrado = texto_filtrado.replace(palavra_detectada, censurada)
 
     return texto_filtrado
