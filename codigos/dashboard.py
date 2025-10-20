@@ -183,7 +183,6 @@ class TelaInicial(QMainWindow):
 
         self.stack = self.findChild(QWidget, "stackedwidget_btns_da_sidebar")
         self.dashboardStack = self.findChild(QWidget, "stacked_widget_botoes_principais_do_dashboard")
-.
         self.btn_sair.clicked.connect(self.logOut)
 
         self.stackList = [
