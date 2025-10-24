@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView, \
-    QSizePolicy, QGridLayout
+    QSizePolicy, QGridLayout, QDialog
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion
 from flask import session
@@ -11,7 +11,7 @@ import time
 from functools import partial
 from login import quitProgram
 
-from codigos.classes import Session, bancoDados, ChatBubble
+from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim
 
 import re
 import unicodedata
@@ -229,6 +229,7 @@ class TelaInicial(QMainWindow):
         self.btn_voltar.clicked.connect(partial(self.mudarDashboard, 1))
         self.btn_concluir.clicked.connect(self.cadastrarLicao)
         self.btn_visualizar_perfil.clicked.connect(lambda: self.atualizarPerfil(Session.loaded_chat))
+        self.btn_editar_perfil.clicked.connect(self.abrirSobreMim)
 
     def on_alterar(self, user_id):
         print(f"Alterar usuário {user_id}")
@@ -262,6 +263,38 @@ class TelaInicial(QMainWindow):
         else:
             QMessageBox.information(self, "Cancelado", f"Exclusão cancelada.")
             print(f"Exclusão do usuário {user_id} cancelada")
+
+    def abrirSobreMim(self):
+        popup = PopupSobreMim(self)
+        resultado = popup.exec_()  # Abre o popup de forma modal
+
+        # Se o usuário confirmou (clicou em "Confirmar")
+        if resultado == QDialog.Accepted:
+            print("eba")
+            valores = popup.valor_retornado
+            db = bancoDados().conectar()
+
+            if valores[0] == "" or valores[1] == "":
+                QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
+                return
+
+            query = f"""
+                           UPDATE usuario SET sobre_mim = '{valores[0]}', experiencias = '{valores[1]}' WHERE id_user = '{Session.current_user["id_user"]}';
+                      """
+            try:
+                cursor = db.cursor()
+                cursor.execute(query)
+                db.commit()
+                cursor.close()
+                db.close()
+
+                QMessageBox.information(self, "Sucesso", "Perfil atualizado!")
+                self.atualizarPerfil(Session.current_user["id_user"])
+
+            except mc.Error as err:
+                print("Error:", err)
+        else:
+            print("Usuário cancelou o popup.")
 
     def alterarLicao(self, user_id):
         print(f"Alterar licao {user_id}")
@@ -310,6 +343,8 @@ class TelaInicial(QMainWindow):
             self.nome_funcionario.setText(f'<html><head/><body><p><span style=" font-size:22pt;">{nome}</span></p></body></html>')
             self.cargo_func.setText(f'<html><head/><body><p><span style=" font-size:14pt;">{cargo}</span></p></body></html>')
             self.sobre_mim.setText(f'<html><head/><body><p><span style=" font-size:10pt;">{sobre_mim}</span></p></body></html>')
+            self.experiencias.setText(f'<html><head/><body><p><span style=" font-size:9pt;">{experiencias}</span></p></body></html>')
+
 
             if Session.loaded_chat:
                 self.mudarTela(3, False)
@@ -599,6 +634,8 @@ class TelaInicial(QMainWindow):
         sb = self.chat.verticalScrollBar()
         sb.setValue(sb.maximum())
         self.resize(self.width() - 1, self.height())
+
+
 
     def mudarTela(self, index, update=True):
         if index == 3 and update:

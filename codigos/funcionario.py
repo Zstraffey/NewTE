@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView, \
-    QSizePolicy, QGridLayout
+    QSizePolicy, QGridLayout, QDialog
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion
 import imgs_qrc
@@ -8,7 +8,7 @@ import mysql.connector as mc
 import time
 from functools import partial
 
-from codigos.classes import Session, bancoDados, ChatBubble
+from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim
 
 import re
 import unicodedata
@@ -98,7 +98,6 @@ class usuarioChat(QWidget):
         loadUi("../design/templates/contatos.ui", self)
 
         self.nome_salvo.setText(user["nome"])
-        print("yooo")
 
 class TelaInicial(QMainWindow):
     class DBLoopUdpate(QThread):

@@ -1,6 +1,6 @@
 import mysql.connector as mc
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QLabel, QSizePolicy, QVBoxLayout
+from PyQt5 import QtWidgets, uic
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QLabel, QSizePolicy, QVBoxLayout, QDialog
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.uic import loadUi
 import imgs_qrc
@@ -92,3 +92,15 @@ class bancoDados:
             QMessageBox.warning(None, "Erro", "Erro ao conectar no banco de dados.")
 
             return False
+
+class PopupSobreMim(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        uic.loadUi("../design/templates/sobre_mim.ui", self)
+        self.valor_retornado = None
+
+        self.btn_confirmar_sobremim.clicked.connect(self.onConfirmar)
+
+    def onConfirmar(self):
+        self.valor_retornado = [self.lineEdit_sobremim.text(), self.lineEdit_experiencias.text()]
+        self.accept()
