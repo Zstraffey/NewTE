@@ -568,7 +568,7 @@ QPushButton:checked {
     <item>
      <widget class="QStackedWidget" name="stackedwidget_btns_da_sidebar">
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="page_dashboard">
        <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -1204,7 +1204,7 @@ border-radius:15px;}</string>
                              <x>0</x>
                              <y>0</y>
                              <width>515</width>
-                             <height>285</height>
+                             <height>292</height>
                             </rect>
                            </property>
                            <property name="maximumSize">
@@ -4913,11 +4913,9 @@ Line{
     border: 3px solid #ffffff;
     min-width: 110px;   /* largura mínima */</string>
                                   </property>
-                                  <item>
-                                   <property name="text">
-                                    <string>Gerente</string>
-                                   </property>
-                                  </item>
+                                  <property name="duplicatesEnabled">
+                                   <bool>true</bool>
+                                  </property>
                                  </widget>
                                 </item>
                                 <item>
@@ -5049,11 +5047,9 @@ border: 3px solid #F44336;
     border: 3px solid #ffffff;
   </string>
                                   </property>
-                                  <item>
-                                   <property name="text">
-                                    <string>Gerente</string>
-                                   </property>
-                                  </item>
+                                  <property name="duplicatesEnabled">
+                                   <bool>true</bool>
+                                  </property>
                                  </widget>
                                 </item>
                                 <item>

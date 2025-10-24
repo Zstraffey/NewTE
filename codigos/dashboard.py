@@ -11,7 +11,7 @@ import time
 from functools import partial
 from login import quitProgram
 
-from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim
+from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupCargo
 
 import re
 import unicodedata
@@ -230,6 +230,8 @@ class TelaInicial(QMainWindow):
         self.btn_concluir.clicked.connect(self.cadastrarLicao)
         self.btn_visualizar_perfil.clicked.connect(lambda: self.atualizarPerfil(Session.loaded_chat))
         self.btn_editar_perfil.clicked.connect(self.abrirSobreMim)
+        self.btn_adicionar_cargo.clicked.connect(self.abrirCargo)
+
 
     def on_alterar(self, user_id):
         print(f"Alterar usuário {user_id}")
@@ -263,6 +265,41 @@ class TelaInicial(QMainWindow):
         else:
             QMessageBox.information(self, "Cancelado", f"Exclusão cancelada.")
             print(f"Exclusão do usuário {user_id} cancelada")
+
+    def abrirCargo(self):
+        popup = PopupCargo(self)
+        resultado = popup.exec_()  # Abre o popup de forma modal
+
+        # Se o usuário confirmou (clicou em "Confirmar")
+        if resultado == QDialog.Accepted:
+            print("eba")
+            valores = popup.valor_retornado
+            db = bancoDados().conectar()
+
+            if valores[0] == "" or valores[1] == "":
+                QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
+                return
+
+            values = {"Usuário":"user", "Administrador": "admin"}
+
+            query = f"""
+                      INSERT INTO cargo
+                      (nome_cargo, permissao_cargo) 
+                      VALUES ('{valores[0]}','{values[valores[1]]}');
+                    """
+            try:
+                cursor = db.cursor()
+                cursor.execute(query)
+                db.commit()
+                cursor.close()
+                db.close()
+
+                QMessageBox.information(self, "Sucesso", "Adicionado com sucesso!")
+
+            except mc.Error as err:
+                print("Error:", err)
+        else:
+            print("Usuário cancelou o popup.")
 
     def abrirSobreMim(self):
         popup = PopupSobreMim(self)

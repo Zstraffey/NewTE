@@ -104,3 +104,15 @@ class PopupSobreMim(QDialog):
     def onConfirmar(self):
         self.valor_retornado = [self.lineEdit_sobremim.text(), self.lineEdit_experiencias.text()]
         self.accept()
+
+class PopupCargo(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        uic.loadUi("../design/templates/cargo.ui", self)
+        self.valor_retornado = None
+
+        self.btn_adicionar_cargo.clicked.connect(self.onConfirmar)
+
+    def onConfirmar(self):
+        self.valor_retornado = [self.lineEdit_funcao.text(), self.comboBox_permissoes.currentText()]
+        self.accept()
