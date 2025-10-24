@@ -236,8 +236,8 @@ class TelaInicial(QMainWindow):
             self,
             "Confirmação",
             f"Tem certeza que deseja excluir o usuário {user_name} (ID {user_id})?",
-            QMessageBox.Yes | QMessageBox.Yes,
-            QMessageBox.Yes
+            QMessageBox.No | QMessageBox.Yes,
+            QMessageBox.No
         )
         if reply == QMessageBox.Yes:
             print(f"Usuário {user_id} excluído")
@@ -653,6 +653,7 @@ class TelaInicial(QMainWindow):
             db.close()
 
         self.dashboardStack.setCurrentIndex(index)
+        self.limparCampos()
 
     def quitProgram(self):
         if Session.current_user is None:
@@ -733,6 +734,7 @@ class TelaInicial(QMainWindow):
 
             self.licaoAlterar = None
             self.mudarDashboard(1)
+            self.limparCampos()
         except mc.Error as err:
             print(f"Falha ao salvar tarefa: {err}")
         finally:
@@ -741,7 +743,6 @@ class TelaInicial(QMainWindow):
             db.close()
 
     def limparCampos(self):
-        print("oi")
         self.lineEdit_nome.clear()
         self.lineEdit_email.clear()
         self.lineEdit_telefone.clear()
@@ -753,6 +754,13 @@ class TelaInicial(QMainWindow):
 
         icon = QIcon(QPixmap('../imagens/user.png'))
         self.foto_novo_func.setIcon(icon)
+
+        self.lineEdit_titulo.clear()
+        self.textEdit_desc.clear()
+        self.textEdit_metas.clear()
+
+        self.alterar = None
+        self.licaoAlterar = None
 
     def cadastrarUsuario(self):
 
