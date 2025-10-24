@@ -97,12 +97,12 @@ Line{
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>Nos conte um pouco sobre você</string>
+            <string>Nome do Cargo</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_sobremim">
+          <widget class="QLineEdit" name="lineEdit_funcao">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -110,7 +110,7 @@ Line{
             </size>
            </property>
            <property name="placeholderText">
-            <string>Tenho 32 anos...</string>
+            <string>Função exercida...</string>
            </property>
           </widget>
          </item>
@@ -130,31 +130,58 @@ Line{
          <item>
           <widget class="QLabel" name="lbl_email">
            <property name="text">
-            <string>Nos conte suas experiências profissionais</string>
+            <string>Permissão do Cargo</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_experiencias">
-           <property name="inputMask">
-            <string/>
+          <widget class="QComboBox" name="comboBox_permissoes">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>25</height>
+            </size>
            </property>
-           <property name="text">
-            <string/>
+           <property name="maximumSize">
+            <size>
+             <width>506</width>
+             <height>41</height>
+            </size>
            </property>
-           <property name="cursorPosition">
-            <number>0</number>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
            </property>
-           <property name="placeholderText">
-            <string>Trabalhei por 3 ano na Mahle na área da fundição</string>
+           <property name="focusPolicy">
+            <enum>Qt::WheelFocus</enum>
            </property>
+           <property name="styleSheet">
+            <string notr="true">	color: #000000;
+	background-color: rgb(255, 255, 255);
+	max-height: 35px;   /* largura mínima */
+	max-width: 500px;   /* largura mínima */
+    border-radius: 6px;
+	border: none;
+    border-radius: 6px;
+    border: 3px solid #ffffff;
+  </string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Usuário</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Administrador</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
       <item alignment="Qt::AlignRight">
-       <widget class="QPushButton" name="btn_confirmar_sobremim">
+       <widget class="QPushButton" name="btn_adicionar_cargo">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>

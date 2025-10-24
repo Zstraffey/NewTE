@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFil
     QSizePolicy, QGridLayout
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion
+from flask import session
+
 import imgs_qrc
 import mysql.connector as mc
 import time
@@ -226,6 +228,7 @@ class TelaInicial(QMainWindow):
 
         self.btn_voltar.clicked.connect(partial(self.mudarDashboard, 1))
         self.btn_concluir.clicked.connect(self.cadastrarLicao)
+        self.btn_visualizar_perfil.clicked.connect(lambda: self.atualizarPerfil(Session.loaded_chat))
 
     def on_alterar(self, user_id):
         print(f"Alterar usuário {user_id}")
@@ -294,17 +297,23 @@ class TelaInicial(QMainWindow):
             print(f"Exclusão da lição {user_id} cancelada")
 
     def atualizarPerfil(self, id):
+        print(id)
         db = bancoDados().conectar()
         cursor = db.cursor()
         cursor.execute(f"SELECT nome, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = {id}")
 
         row = cursor.fetchone()
 
-        nome, cargo, foto_perfil, sobre_mim, experiencias = row
+        if not (row is None):
+            nome, cargo, foto_perfil, sobre_mim, experiencias = row
 
-        self.nome_funcionario.setText(f'<html><head/><body><p><span style=" font-size:22pt;">{nome}</span></p></body></html>')
-        self.cargo_func.setText(f'<html><head/><body><p><span style=" font-size:14pt;">{cargo}</span></p></body></html>')
-        self.sobre_mim.setText(f'<html><head/><body><p><span style=" font-size:10pt;">{sobre_mim}</span></p></body></html>')
+            self.nome_funcionario.setText(f'<html><head/><body><p><span style=" font-size:22pt;">{nome}</span></p></body></html>')
+            self.cargo_func.setText(f'<html><head/><body><p><span style=" font-size:14pt;">{cargo}</span></p></body></html>')
+            self.sobre_mim.setText(f'<html><head/><body><p><span style=" font-size:10pt;">{sobre_mim}</span></p></body></html>')
+
+            if Session.loaded_chat:
+                self.mudarTela(3, False)
+                self.btn_perfil.setChecked(True)
 
     def atualizarLicoes(self):
         container = self.scroll_licoes.widget()
@@ -591,7 +600,9 @@ class TelaInicial(QMainWindow):
         sb.setValue(sb.maximum())
         self.resize(self.width() - 1, self.height())
 
-    def mudarTela(self, index):
+    def mudarTela(self, index, update=True):
+        if index == 3 and update:
+            self.atualizarPerfil(Session.current_user["id_user"])
         if index == 1:
             self.ListUsers()
         self.stack.setCurrentIndex(index)
