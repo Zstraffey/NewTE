@@ -506,9 +506,9 @@ class TelaInicial(QMainWindow):
                 item = layout.takeAt(0)
                 widget = item.widget()
                 if widget is not None:
-                    widget.deleteLater()  # safely deletes the widget
+                    widget.deleteLater()
                 else:
-                    self.clearLayout(item.layout())  # if it’s a nested layout
+                    self.clearLayout(item.layout())
 
     def sendMessage(self):
         text =  filtrar_texto(self.lineEdit_mensagem.text())
@@ -729,10 +729,10 @@ class TelaInicial(QMainWindow):
             cursor.execute(query, values)
             db.commit()
 
-            QMessageBox.information(self, "Sucesso",
-                                    "Tarefa alterada com sucesso!" if self.licaoAlterar else "Tarefa cadastrada com sucesso!")
+            QMessageBox.information(self, "Sucesso", "Tarefa alterada com sucesso!" if self.licaoAlterar else "Tarefa cadastrada com sucesso!")
 
             self.licaoAlterar = None
+            self.mudarDashboard(1)
         except mc.Error as err:
             print(f"Falha ao salvar tarefa: {err}")
         finally:
@@ -740,12 +740,28 @@ class TelaInicial(QMainWindow):
             cursor.close()
             db.close()
 
+    def limparCampos(self):
+        print("oi")
+        self.lineEdit_nome.clear()
+        self.lineEdit_email.clear()
+        self.lineEdit_telefone.clear()
+        self.lineEdit_cpf.clear()
+        self.lineEdit_rg.clear()
+        self.comboBox_depto.setCurrentIndex(0)
+        self.comboBox_cargo.setCurrentIndex(0)
+        self.lineEdit_endereco.clear()
+
+        icon = QIcon(QPixmap('../imagens/user.png'))
+        self.foto_novo_func.setIcon(icon)
+
     def cadastrarUsuario(self):
+
         db = bancoDados().conectar()
         if not db:
             return
 
         cursor = db.cursor()
+        img_data = None
 
         # Convert pixmap to binary for DB
         if hasattr(self, "foto_pixmap") and self.foto_pixmap:
@@ -819,6 +835,7 @@ class TelaInicial(QMainWindow):
 
             QMessageBox.information(self, "Sucesso", "Usuário alterado com sucesso!" if self.alterar else "Usuário cadastrado com sucesso!" )
 
+            self.limparCampos()
             self.alterar = None
         except mc.Error as err:
             print(f"Falha ao salvar usuário: {err}")

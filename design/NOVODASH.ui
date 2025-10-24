@@ -895,7 +895,7 @@ QLineEdit:checked {
            <item>
             <widget class="QStackedWidget" name="stacked_widget_botoes_principais_do_dashboard">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="rendimento_page">
               <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -1828,8 +1828,8 @@ QComboBox:checked {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>100</width>
-                             <height>30</height>
+                             <width>1210</width>
+                             <height>562</height>
                             </rect>
                            </property>
                            <property name="sizePolicy">
@@ -4927,7 +4927,7 @@ background-color: transparent;</string>
                                </property>
                                <property name="icon">
                                 <iconset resource="../imagens/imgs.qrc">
-                                 <normaloff>:/imgs/imagem_direita.jpg</normaloff>:/imgs/imagem_direita.jpg</iconset>
+                                 <normaloff>:/imgs/user.png</normaloff>:/imgs/user.png</iconset>
                                </property>
                                <property name="iconSize">
                                 <size>
@@ -5561,8 +5561,8 @@ border-radius: 15px;
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="cancelar_confirmar"/>
   <buttongroup name="btns_sidebar"/>
+  <buttongroup name="cancelar_confirmar"/>
   <buttongroup name="rendimen_func_calen"/>
  </buttongroups>
 </ui>
