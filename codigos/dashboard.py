@@ -222,6 +222,7 @@ class TelaInicial(QMainWindow):
 
         self.updateUserTable()
         self.atualizarLicoes()
+        self.atualizarPerfil(Session.current_user["id_user"])
 
         self.btn_voltar.clicked.connect(partial(self.mudarDashboard, 1))
         self.btn_concluir.clicked.connect(self.cadastrarLicao)
@@ -269,8 +270,8 @@ class TelaInicial(QMainWindow):
             self,
             "Confirmação",
             f"Tem certeza que deseja excluir a lição {user_name} (ID {user_id})?",
-            QMessageBox.Yes | QMessageBox.Yes,
-            QMessageBox.Yes
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
         )
         if reply == QMessageBox.Yes:
             print(f"Usuário {user_id} excluído")
@@ -291,6 +292,19 @@ class TelaInicial(QMainWindow):
         else:
             QMessageBox.information(self, "Cancelado", f"Exclusão cancelada.")
             print(f"Exclusão da lição {user_id} cancelada")
+
+    def atualizarPerfil(self, id):
+        db = bancoDados().conectar()
+        cursor = db.cursor()
+        cursor.execute(f"SELECT nome, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = {id}")
+
+        row = cursor.fetchone()
+
+        nome, cargo, foto_perfil, sobre_mim, experiencias = row
+
+        self.nome_funcionario.setText(f'<html><head/><body><p><span style=" font-size:22pt;">{nome}</span></p></body></html>')
+        self.cargo_func.setText(f'<html><head/><body><p><span style=" font-size:14pt;">{cargo}</span></p></body></html>')
+        self.sobre_mim.setText(f'<html><head/><body><p><span style=" font-size:10pt;">{sobre_mim}</span></p></body></html>')
 
     def atualizarLicoes(self):
         container = self.scroll_licoes.widget()
