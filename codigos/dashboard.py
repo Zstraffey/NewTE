@@ -11,7 +11,7 @@ import time
 from functools import partial
 from login import quitProgram
 
-from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupCargo
+from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupCargo, PopupDepto
 
 import re
 import unicodedata
@@ -230,8 +230,13 @@ class TelaInicial(QMainWindow):
         self.btn_concluir.clicked.connect(self.cadastrarLicao)
         self.btn_visualizar_perfil.clicked.connect(lambda: self.atualizarPerfil(Session.loaded_chat))
         self.btn_editar_perfil.clicked.connect(self.abrirSobreMim)
-        self.btn_adicionar_cargo.clicked.connect(self.abrirCargo)
 
+        self.btn_adicionar_cargo.clicked.connect(self.abrirCargo)
+        self.btn_excluir_cargo.clicked.connect(self.excluirCargo)
+
+        self.btn_adicionar_depto.clicked.connect(self.abrirDepto)
+
+        self.atualizarCargoDepto()
 
     def on_alterar(self, user_id):
         print(f"Alterar usuário {user_id}")
@@ -266,6 +271,60 @@ class TelaInicial(QMainWindow):
             QMessageBox.information(self, "Cancelado", f"Exclusão cancelada.")
             print(f"Exclusão do usuário {user_id} cancelada")
 
+    def abrirDepto(self):
+        popup = PopupDepto(self)
+        resultado = popup.exec_()  # Abre o popup de forma modal
+
+        def pixmap_to_bytes(pixmap):
+            if pixmap is None:
+                return None
+            ba = QByteArray()
+            buffer = QBuffer(ba)
+            buffer.open(QIODevice.WriteOnly)
+            pixmap.save(buffer, "PNG")
+            return ba.data()
+
+        # Se o usuário confirmou (clicou em "Confirmar")
+        if resultado == QDialog.Accepted:
+            print("eba")
+            valores = popup.valor_retornado
+            db = bancoDados().conectar()
+
+            if valores[0] == "" or valores[1] == "":
+                QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
+                return
+
+            cursor = db.cursor()
+
+            query = f"SELECT * FROM depto WHERE nome_cargo = '{valores[0]}'"
+            cursor.execute(query)
+            result = cursor.fetchone()
+
+            if result is None:
+
+                query = f"""
+                                                     INSERT INTO departamento
+                                                     (nome_depto, foto_depto) 
+                                                     VALUES ('{valores[0]}','{pixmap_to_bytes(valores[1])}');
+                                                   """
+                try:
+                    cursor = db.cursor()
+                    cursor.execute(query)
+                    db.commit()
+                    cursor.close()
+                    db.close()
+
+                    QMessageBox.information(self, "Sucesso", "Adicionado com sucesso!")
+                    self.atualizarCargoDepto()
+                except mc.Error as err:
+                    print("Error:", err)
+
+            else:
+                QMessageBox.warning(None, "Aviso", "Cargo já existente.")
+
+        else:
+            print("Usuário cancelou o popup.")
+
     def abrirCargo(self):
         popup = PopupCargo(self)
         resultado = popup.exec_()  # Abre o popup de forma modal
@@ -280,24 +339,35 @@ class TelaInicial(QMainWindow):
                 QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
                 return
 
-            values = {"Usuário":"user", "Administrador": "admin"}
+            cursor = db.cursor()
 
-            query = f"""
-                      INSERT INTO cargo
-                      (nome_cargo, permissao_cargo) 
-                      VALUES ('{valores[0]}','{values[valores[1]]}');
-                    """
-            try:
-                cursor = db.cursor()
-                cursor.execute(query)
-                db.commit()
-                cursor.close()
-                db.close()
+            query = f"SELECT * FROM cargo WHERE nome_cargo = '{valores[0]}'"
+            cursor.execute(query)
+            result = cursor.fetchone()
 
-                QMessageBox.information(self, "Sucesso", "Adicionado com sucesso!")
+            if result is None:
+                values = {"Usuário": "user", "Administrador": "admin"}
 
-            except mc.Error as err:
-                print("Error:", err)
+                query = f"""
+                                                     INSERT INTO cargo
+                                                     (nome_cargo, permissao_cargo) 
+                                                     VALUES ('{valores[0]}','{values[valores[1]]}');
+                                                   """
+                try:
+                    cursor = db.cursor()
+                    cursor.execute(query)
+                    db.commit()
+                    cursor.close()
+                    db.close()
+
+                    QMessageBox.information(self, "Sucesso", "Adicionado com sucesso!")
+                    self.atualizarCargoDepto()
+                except mc.Error as err:
+                    print("Error:", err)
+
+            else:
+                QMessageBox.warning(None, "Aviso", "Cargo já existente.")
+
         else:
             print("Usuário cancelou o popup.")
 
@@ -332,6 +402,46 @@ class TelaInicial(QMainWindow):
                 print("Error:", err)
         else:
             print("Usuário cancelou o popup.")
+
+    def atualizarCargoDepto(self):
+        db = bancoDados().conectar()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM cargo")
+
+        rows = cursor.fetchall()
+        self.comboBox_cargo.clear()
+
+        for id_cargo, nome_cargo, permissao_cargo in rows:
+            self.comboBox_cargo.addItem(nome_cargo)
+
+    def excluirCargo(self):
+        if self.comboBox_cargo.currentText() is None or self.comboBox_cargo.currentText() == "":
+            QMessageBox.warning(self, "Aviso", f"Cargo inexistente.")
+            return
+
+        reply = QMessageBox.question(
+            self,
+            "Confirmação",
+            f"Tem certeza que deseja este cargo?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+        if reply == QMessageBox.Yes:
+            ifdb = bancoDados().conectar()
+            ifCursor = ifdb.cursor()
+
+            query = f"""
+                               DELETE FROM cargo WHERE nome_cargo = '{self.comboBox_cargo.currentText()}';
+                           """
+            ifCursor.execute(query)
+            ifdb.commit()
+            ifCursor.close()
+            ifdb.close()
+
+            QMessageBox.information(self, "Sucesso", f"Cargo {self.comboBox_cargo.currentText()} deletado com sucesso!")
+
+            self.atualizarCargoDepto()
+
 
     def alterarLicao(self, user_id):
         print(f"Alterar licao {user_id}")

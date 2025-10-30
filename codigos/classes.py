@@ -1,9 +1,10 @@
 import mysql.connector as mc
 from PyQt5 import QtWidgets, uic
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QLabel, QSizePolicy, QVBoxLayout, QDialog
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QLabel, QSizePolicy, QVBoxLayout, QDialog, QFileDialog
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.uic import loadUi
 import imgs_qrc
+from PyQt5.QtGui import QPixmap
 
 class Session:
     current_user = None
@@ -115,4 +116,50 @@ class PopupCargo(QDialog):
 
     def onConfirmar(self):
         self.valor_retornado = [self.lineEdit_funcao.text(), self.comboBox_permissoes.currentText()]
+        self.accept()
+
+class PopupDepto(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        uic.loadUi("../design/templates/departamento.ui", self)
+        self.valor_retornado = None
+        self.foto_pixmap = None  # Para guardar a imagem carregada
+
+        # Conecta os botões
+        self.btn_confirmar_depto.clicked.connect(self.onConfirmar)
+        self.btn_selecionar_foto.clicked.connect(self.escolherFoto)
+
+    def escolherFoto(self):
+        # Abre o seletor de arquivos
+        caminho_foto, _ = QFileDialog.getOpenFileName(
+            self,
+            "Selecionar foto",
+            "",
+            "Imagens (*.png *.jpg *.jpeg *.bmp *.gif)"
+        )
+
+        if caminho_foto:
+            # Cria um QPixmap a partir do arquivo
+            pixmap = QPixmap(caminho_foto)
+
+            if not pixmap.isNull():
+                # Redimensiona o pixmap para caber na label (opcional)
+                pixmap_redimensionado = pixmap.scaled(
+                    self.label_foto.width(),
+                    self.label_foto.height(),
+                    #aspectRatioMode=1  # Mantém proporção
+                )
+
+                # Mostra na QLabel
+                self.label_foto.setPixmap(pixmap_redimensionado)
+
+                # Salva o pixmap original para retornar depois
+                self.foto_pixmap = pixmap
+
+    def onConfirmar(self):
+        # Exemplo: retorna função, permissão e o pixmap da foto
+        self.valor_retornado = [
+            self.lineEdit_nome.text(),
+            self.foto_pixmap if self.foto_pixmap is not None else ""
+        ]
         self.accept()
