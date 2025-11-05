@@ -1,29 +1,30 @@
 <RCC>
-    <qresource prefix="imgs">
-        <file>back.png</file>
-        <file>calendar.png</file>
-        <file>chat.png</file>
-        <file>downloads.png</file>
-        <file>eye.png</file>
-        <file>home.png</file>
-        <file>imagem_direita.jpg</file>
-        <file>info.png</file>
-        <file>list.png</file>
-        <file>logo new te.png</file>
-        <file>logout.png</file>
-        <file>logo_new_te.png</file>
-        <file>more (1).png</file>
-        <file>more.png</file>
-        <file>pagina_chat_nome+visualizacao.png</file>
-        <file>paper_icon_circle.png</file>
-        <file>pen.png</file>
-        <file>question.png</file>
-        <file>send (1).png</file>
-        <file>send.png</file>
-        <file>senha_direita.png</file>
-        <file>setting.png</file>
-        <file>trash-can.png</file>
-        <file>trespontos.png</file>
-        <file>user.png</file>
-    </qresource>
+  <qresource prefix="imgs">
+    <file>gerente.png</file>
+    <file>back.png</file>
+    <file>calendar.png</file>
+    <file>chat.png</file>
+    <file>downloads.png</file>
+    <file>eye.png</file>
+    <file>home.png</file>
+    <file>imagem_direita.jpg</file>
+    <file>info.png</file>
+    <file>list.png</file>
+    <file>logo new te.png</file>
+    <file>logout.png</file>
+    <file>logo_new_te.png</file>
+    <file>more (1).png</file>
+    <file>more.png</file>
+    <file>pagina_chat_nome+visualizacao.png</file>
+    <file>paper_icon_circle.png</file>
+    <file>pen.png</file>
+    <file>question.png</file>
+    <file>send (1).png</file>
+    <file>send.png</file>
+    <file>senha_direita.png</file>
+    <file>setting.png</file>
+    <file>trash-can.png</file>
+    <file>trespontos.png</file>
+    <file>user.png</file>
+  </qresource>
 </RCC>
