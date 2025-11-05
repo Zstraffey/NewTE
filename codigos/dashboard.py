@@ -492,6 +492,10 @@ class TelaInicial(QMainWindow):
             self.sobre_mim.setText(f'<html><head/><body><p><span style=" font-size:10pt;">{sobre_mim}</span></p></body></html>')
             self.experiencias.setText(f'<html><head/><body><p><span style=" font-size:9pt;">{experiencias}</span></p></body></html>')
 
+            pixmap = QPixmap()
+            pixmap.loadFromData(foto_perfil)
+
+            self.foto_funcionario.setPixmap(pixmap)
 
             if Session.loaded_chat:
                 self.mudarTela(3, False)
