@@ -561,6 +561,10 @@ class TelaInicial(QMainWindow):
                 print("Imagem carregada com sucesso!")
             else:
                 print("Nenhuma imagem encontrada para esse departamento.")
+                pixmap = QPixmap('../imagens/logo new te.png')
+
+                self.foto_aqui.setPixmap(pixmap)  # coloca na QLabel
+                self.foto_aqui.setScaledContents(True)  # ajusta o tamanho automaticamente
 
     def atualizarLicoes(self):
         container = self.scroll_licoes.widget()
