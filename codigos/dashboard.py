@@ -235,6 +235,7 @@ class TelaInicial(QMainWindow):
         self.btn_excluir_cargo.clicked.connect(self.excluirCargo)
 
         self.btn_adicionar_depto.clicked.connect(self.abrirDepto)
+        self.btn_excluir_depto.clicked.connect(self.excluirDepto)
 
         self.atualizarCargoDepto()
 
@@ -271,18 +272,19 @@ class TelaInicial(QMainWindow):
             QMessageBox.information(self, "Cancelado", f"Exclusão cancelada.")
             print(f"Exclusão do usuário {user_id} cancelada")
 
+    def pixmap_to_bytes(self, pixmap):
+        if pixmap is None:
+            return None
+        ba = QByteArray()
+        buffer = QBuffer(ba)
+        buffer.open(QIODevice.WriteOnly)
+        pixmap.save(buffer, "PNG")
+        return ba.data()
+
     def abrirDepto(self):
+
         popup = PopupDepto(self)
         resultado = popup.exec_()  # Abre o popup de forma modal
-
-        def pixmap_to_bytes(pixmap):
-            if pixmap is None:
-                return None
-            ba = QByteArray()
-            buffer = QBuffer(ba)
-            buffer.open(QIODevice.WriteOnly)
-            pixmap.save(buffer, "PNG")
-            return ba.data()
 
         # Se o usuário confirmou (clicou em "Confirmar")
         if resultado == QDialog.Accepted:
@@ -296,20 +298,21 @@ class TelaInicial(QMainWindow):
 
             cursor = db.cursor()
 
-            query = f"SELECT * FROM depto WHERE nome_cargo = '{valores[0]}'"
-            cursor.execute(query)
+            query = "SELECT * FROM departamento WHERE nome_depto = %s"
+            cursor.execute(query, (valores[0],))
             result = cursor.fetchone()
+
+            print("AAAAAAAAAAAAAAAAAAAAAAAA")
 
             if result is None:
 
-                query = f"""
-                                                     INSERT INTO departamento
-                                                     (nome_depto, foto_depto) 
-                                                     VALUES ('{valores[0]}','{pixmap_to_bytes(valores[1])}');
-                                                   """
+                query = """
+                    INSERT INTO departamento (nome_depto, foto_depto)
+                    VALUES (%s, %s)
+                """
                 try:
                     cursor = db.cursor()
-                    cursor.execute(query)
+                    cursor.execute(query, (valores[0], self.pixmap_to_bytes(valores[1])))
                     db.commit()
                     cursor.close()
                     db.close()
@@ -414,6 +417,14 @@ class TelaInicial(QMainWindow):
         for id_cargo, nome_cargo, permissao_cargo in rows:
             self.comboBox_cargo.addItem(nome_cargo)
 
+        cursor.execute("SELECT * FROM departamento")
+
+        rows = cursor.fetchall()
+        self.comboBox_depto.clear()
+
+        for id_depto, nome_depto, foto_depto in rows:
+            self.comboBox_depto.addItem(nome_depto)
+
     def excluirCargo(self):
         if self.comboBox_cargo.currentText() is None or self.comboBox_cargo.currentText() == "":
             QMessageBox.warning(self, "Aviso", f"Cargo inexistente.")
@@ -441,6 +452,35 @@ class TelaInicial(QMainWindow):
             QMessageBox.information(self, "Sucesso", f"Cargo {self.comboBox_cargo.currentText()} deletado com sucesso!")
 
             self.atualizarCargoDepto()
+
+    def excluirDepto(self):
+        if self.comboBox_depto.currentText() is None or self.comboBox_depto.currentText() == "":
+            QMessageBox.warning(self, "Aviso", f"Departamento inexistente.")
+            return
+
+        reply = QMessageBox.question(
+            self,
+            "Confirmação",
+            f"Tem certeza que deseja este departamento?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+        if reply == QMessageBox.Yes:
+            ifdb = bancoDados().conectar()
+            ifCursor = ifdb.cursor()
+
+            query = f"""
+                               DELETE FROM departamento WHERE nome_depto = '{self.comboBox_depto.currentText()}';
+                           """
+            ifCursor.execute(query)
+            ifdb.commit()
+            ifCursor.close()
+            ifdb.close()
+
+            QMessageBox.information(self, "Sucesso", f"Departamento {self.comboBox_depto.currentText()} deletado com sucesso!")
+
+            self.atualizarCargoDepto()
+
 
 
     def alterarLicao(self, user_id):
@@ -480,22 +520,47 @@ class TelaInicial(QMainWindow):
         print(id)
         db = bancoDados().conectar()
         cursor = db.cursor()
-        cursor.execute(f"SELECT nome, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = {id}")
+        cursor.execute(f"SELECT nome, departamento, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = {id}")
 
         row = cursor.fetchone()
 
         if not (row is None):
-            nome, cargo, foto_perfil, sobre_mim, experiencias = row
+            nome, departamento, cargo, foto_perfil, sobre_mim, experiencias = row
 
             self.nome_funcionario.setText(f'<html><head/><body><p><span style=" font-size:22pt;">{nome}</span></p></body></html>')
             self.cargo_func.setText(f'<html><head/><body><p><span style=" font-size:14pt;">{cargo}</span></p></body></html>')
             self.sobre_mim.setText(f'<html><head/><body><p><span style=" font-size:10pt;">{sobre_mim}</span></p></body></html>')
             self.experiencias.setText(f'<html><head/><body><p><span style=" font-size:9pt;">{experiencias}</span></p></body></html>')
 
+            pixmap = QPixmap()
+            pixmap.loadFromData(foto_perfil)  # converte bytes → QPixmap
+
+            if pixmap.isNull():
+                pixmap = QPixmap('../imagens/user.png')
+
+            self.foto_funcionario.setPixmap(pixmap)
 
             if Session.loaded_chat:
                 self.mudarTela(3, False)
                 self.btn_perfil.setChecked(True)
+
+            cursor.execute("SELECT foto_depto FROM departamento WHERE nome_depto = %s", (departamento,))
+            row = cursor.fetchone()
+            if row and row[0]:
+                image_data = row[0]
+                print(type(image_data), len(image_data))
+                print(image_data[:20])
+                pixmap = QPixmap()
+                pixmap.loadFromData(image_data)  # converte bytes → QPixmap
+
+                if pixmap.isNull():
+                    pixmap = QPixmap('../imagens/logo new te.png')
+
+                self.foto_aqui.setPixmap(pixmap)  # coloca na QLabel
+                self.foto_aqui.setScaledContents(True)  # ajusta o tamanho automaticamente
+                print("Imagem carregada com sucesso!")
+            else:
+                print("Nenhuma imagem encontrada para esse departamento.")
 
     def atualizarLicoes(self):
         container = self.scroll_licoes.widget()
@@ -671,7 +736,6 @@ class TelaInicial(QMainWindow):
         # Set button icon
         icon = QIcon(pixmap)
         self.foto_novo_func.setIcon(icon)
-        self.foto_pixmap = pixmap
 
     def updateUserList(self):
         db = bancoDados().conectar()
@@ -828,7 +892,6 @@ class TelaInicial(QMainWindow):
 
                 icon = QIcon(pixmap)
                 self.foto_novo_func.setIcon(icon)
-                self.foto_pixmap = pixmap
 
             cursor.close()
             db.close()
@@ -978,18 +1041,13 @@ class TelaInicial(QMainWindow):
             return
 
         cursor = db.cursor()
-        img_data = None
 
         # Convert pixmap to binary for DB
-        if hasattr(self, "foto_pixmap") and self.foto_pixmap:
-            ba = QByteArray()
-            buffer = QBuffer(ba)
-            buffer.open(QIODevice.WriteOnly)
-            self.foto_pixmap.save(buffer, "PNG")
-            buffer.close()
-            img_data = ba.data()
-        else:
-            img_data = None  # No image selected
+        pixmap = self.foto_novo_func.icon().pixmap(self.foto_novo_func.iconSize())
+        img_data = self.pixmap_to_bytes(pixmap)
+
+        cursor.execute("SELECT permissao_cargo FROM cargo WHERE nome_cargo = %s", (self.comboBox_cargo.currentText(),))
+        row = cursor.fetchone()
 
         valuesDictionaries = {
             "nome": self.lineEdit_nome.text(),
@@ -1005,7 +1063,7 @@ class TelaInicial(QMainWindow):
             "sobre_mim": "Sobre mim...",
             "senha": 1234,
             "endereco": self.lineEdit_endereco.text(),
-            "tipo_usuario": "user",
+            "tipo_usuario": row[0] if row else "user",
             "experiencias": "Experiências..."
         }
 
