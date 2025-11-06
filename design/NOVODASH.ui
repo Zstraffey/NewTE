@@ -568,7 +568,7 @@ QPushButton:checked {
     <item>
      <widget class="QStackedWidget" name="stackedwidget_btns_da_sidebar">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_dashboard">
        <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -1204,7 +1204,7 @@ border-radius:15px;}</string>
                              <x>0</x>
                              <y>0</y>
                              <width>515</width>
-                             <height>292</height>
+                             <height>302</height>
                             </rect>
                            </property>
                            <property name="maximumSize">
@@ -1585,7 +1585,7 @@ QPushButton{
                            <font>
                             <family>Inter 18pt SemiBold</family>
                             <pointsize>8</pointsize>
-                            <weight>8</weight>
+                            <weight>7</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
@@ -1828,8 +1828,8 @@ QComboBox:checked {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1210</width>
-                             <height>562</height>
+                             <width>100</width>
+                             <height>30</height>
                             </rect>
                            </property>
                            <property name="sizePolicy">
@@ -1903,7 +1903,7 @@ border-radius: 9px;</string>
                      <font>
                       <family>Inter 18pt SemiBold</family>
                       <pointsize>8</pointsize>
-                      <weight>8</weight>
+                      <weight>7</weight>
                       <italic>false</italic>
                       <bold>false</bold>
                      </font>
@@ -2455,7 +2455,7 @@ border-radius: 9px;</string>
                         <font>
                          <family>Inter 18pt SemiBold</family>
                          <pointsize>8</pointsize>
-                         <weight>8</weight>
+                         <weight>7</weight>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -2918,7 +2918,7 @@ border-radius: 9px;</string>
                            <font>
                             <family>Inter 18pt SemiBold</family>
                             <pointsize>10</pointsize>
-                            <weight>8</weight>
+                            <weight>7</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
@@ -3047,7 +3047,7 @@ QTextEdit {
                               <font>
                                <family>Inter 18pt SemiBold</family>
                                <pointsize>20</pointsize>
-                               <weight>8</weight>
+                               <weight>7</weight>
                                <italic>false</italic>
                                <bold>false</bold>
                               </font>
@@ -4887,7 +4887,7 @@ Line{
                                  <widget class="QComboBox" name="comboBox_depto">
                                   <property name="minimumSize">
                                    <size>
-                                    <width>500</width>
+                                    <width>116</width>
                                     <height>0</height>
                                    </size>
                                   </property>
@@ -5769,8 +5769,8 @@ QPushButton:hover {
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="btns_sidebar"/>
   <buttongroup name="cancelar_confirmar"/>
-  <buttongroup name="rendimen_func_calen"/>
  </buttongroups>
 </ui>
