@@ -347,6 +347,7 @@ class TelaInicial(QMainWindow):
     def on_alterar(self, user_id):
         print(f"Alterar usuário {user_id}")
         self.alterar = user_id
+        self.btn_cadastro.setChecked(True)
         self.mudarTela(2)
 
     def on_excluir(self, user_id, user_name):
@@ -704,7 +705,7 @@ class TelaInicial(QMainWindow):
         self.adicionar_licao = adicionarLicao()
         layout.addWidget(self.adicionar_licao, row, col)
 
-        self.adicionar_licao.botao.clicked.connect(partial(self.mudarDashboard, 4))
+        self.adicionar_licao.botao.clicked.connect(partial(self.mudarDashboard, 4, True))
 
     def updateUserTable(self):
         self.tabela_usuarios.clear()

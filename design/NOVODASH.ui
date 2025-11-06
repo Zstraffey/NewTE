@@ -3662,7 +3662,7 @@ QPushButton:hover {
 </string>
                           </property>
                           <property name="text">
-                           <string>usuario</string>
+                           <string/>
                           </property>
                           <property name="iconSize">
                            <size>
@@ -4080,14 +4080,14 @@ QPushButton:hover {
                       <item alignment="Qt::AlignHCenter|Qt::AlignTop">
                        <widget class="QLabel" name="nome_func_contato">
                         <property name="text">
-                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;nome_func&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         <string/>
                         </property>
                        </widget>
                       </item>
                       <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
                        <widget class="QLabel" name="carg_func_contato">
                         <property name="text">
-                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;carg_func&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         <string/>
                         </property>
                        </widget>
                       </item>
