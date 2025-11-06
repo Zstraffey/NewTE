@@ -895,7 +895,7 @@ QLineEdit:checked {
            <item>
             <widget class="QStackedWidget" name="stacked_widget_botoes_principais_do_dashboard">
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="rendimento_page">
               <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -1828,8 +1828,8 @@ QComboBox:checked {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>100</width>
-                             <height>30</height>
+                             <width>1210</width>
+                             <height>595</height>
                             </rect>
                            </property>
                            <property name="sizePolicy">
@@ -2850,9 +2850,24 @@ QCalendarWidget {
                        </property>
                        <layout class="QVBoxLayout" name="verticalLayout_42">
                         <item>
-                         <widget class="QCalendarWidget" name="substitua_calendario_aqui">
+                         <widget class="QCalendarWidget" name="widget_calendario">
+                          <property name="font">
+                           <font>
+                            <family>Segoe UI</family>
+                            <pointsize>-1</pointsize>
+                            <weight>7</weight>
+                            <italic>false</italic>
+                            <bold>false</bold>
+                           </font>
+                          </property>
                           <property name="cursor">
                            <cursorShape>PointingHandCursor</cursorShape>
+                          </property>
+                          <property name="autoFillBackground">
+                           <bool>false</bool>
+                          </property>
+                          <property name="gridVisible">
+                           <bool>true</bool>
                           </property>
                          </widget>
                         </item>

@@ -219,6 +219,7 @@ class TelaInicial(QMainWindow):
         self.btn_enviar.clicked.connect(self.sendMessage)
         self.btn_voltar.clicked.connect(partial(self.mudarDashboard, 2))
         self.btn_concluir.clicked.connect(self.concluirAtividade)
+
         self.atualizarLicoes()
 
     def mudarDashboard(self, index):

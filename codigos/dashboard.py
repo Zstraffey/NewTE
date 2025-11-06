@@ -342,7 +342,12 @@ class TelaInicial(QMainWindow):
         self.btn_adicionar_depto.clicked.connect(self.abrirDepto)
         self.btn_excluir_depto.clicked.connect(self.excluirDepto)
 
+        self.widget_calendario.activated.connect(self.calendarioClique)
+
         self.atualizarCargoDepto()
+
+    def calendarioClique(self):
+        print("clicou")
 
     def on_alterar(self, user_id):
         print(f"Alterar usuário {user_id}")
