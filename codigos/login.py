@@ -282,7 +282,7 @@ class EsqueciSenha(QMainWindow):
 
         receiverEmail = self.usuario.text()
         if not receiverEmail:
-            self.verificacao.setText(mudarTexto("Digite um email válido!", "ff0000"))
+            self.verificacao.setText(mudarTexto("Digite um email!", "ff0000"))
             return
 
         db = bancoDados().conectar()

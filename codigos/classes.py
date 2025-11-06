@@ -7,6 +7,8 @@ import imgs_qrc
 from PyQt5.QtGui import QPixmap
 
 import re
+import random
+import string
 
 class Session:
     current_user = None
@@ -219,3 +221,45 @@ class ValidadorSenha:
             return False
 
         return self.senha
+
+class ValidadorEmail:
+    def __init__(self, email: str):
+        self.email = email.strip()
+
+    def validar(self):
+        # Expressão regular simples e segura para e-mails
+        padrao = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
+        if re.match(padrao, self.email):
+            return self.email
+        else:
+            return False
+
+class GeradorSenha:
+    def __init__(self, tamanho=15):
+        self.tamanho = tamanho
+
+    def gerar(self):
+        # Conjuntos de caracteres permitidos
+        letras_minusculas = string.ascii_lowercase
+        letras_maiusculas = string.ascii_uppercase
+        numeros = string.digits
+        especiais = "!@#$%^&*()-_=+[]{};:,.<>?/|\\"
+
+        # Garante que tenha pelo menos 1 de cada tipo
+        senha = [
+            random.choice(letras_minusculas),
+            random.choice(letras_maiusculas),
+            random.choice(numeros),
+            random.choice(especiais),
+        ]
+
+        # Preenche o restante com caracteres aleatórios de todos os tipos
+        todos = letras_minusculas + letras_maiusculas + numeros + especiais
+        senha += random.choices(todos, k=self.tamanho - 4)
+
+        # Embaralha tudo
+        random.shuffle(senha)
+
+        # Junta e retorna como string
+        return ''.join(senha)

@@ -1,9 +1,17 @@
+import random
+
 from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView, \
     QSizePolicy, QGridLayout, QDialog
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion
 from flask import session
+import os
+
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
 
 import imgs_qrc
 import mysql.connector as mc
@@ -11,11 +19,107 @@ import time
 from functools import partial
 from login import quitProgram
 
-from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupCargo, PopupDepto, ValidadorCPF, ValidadorRG
+from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupCargo, PopupDepto, ValidadorCPF, ValidadorRG, ValidadorEmail, GeradorSenha
 
 import re
 import unicodedata
 import difflib
+
+
+class EmailSender(QThread):
+    finished = pyqtSignal(str)
+
+    def __init__(self, receiver_email, senha):
+        super().__init__()
+        self.receiver_email = receiver_email
+        self.senha = senha
+
+    def run(self):
+        try:
+            sender_email = "newtetcc2025@gmail.com"
+            app_password = "bboq pkqm nexm riyv"
+
+            message = MIMEMultipart("related")
+            message["From"] = sender_email
+            message["To"] = self.receiver_email
+            message["Subject"] = "New TE - Cadastro de Usuário"
+
+            html_content = f"""
+            <html>
+            <head>
+                <style>
+                    body {{
+                        font-family: Arial, sans-serif;
+                    }}
+                    .header {{
+                        background-color: #6a1b9a;  /* Cor de fundo roxa */
+                        color: white;
+                        padding: 20px;
+                        text-align: center;
+                        font-size: 24px;
+                        font-weight: bold;
+                    }}
+                    .sub-header {{
+                        font-size: 16px;
+                        color: #333;
+                        text-align: center;
+                        margin-top: 10px;
+                    }}
+                    .code {{
+                        font-size: 20px;
+                        font-weight: bold;
+                        color: #333;
+                        background-color: #f0f0f0;
+                        padding: 10px;
+                        border-radius: 5px;
+                    }}
+                    .centered-img {{
+                        display: block;
+                        margin-left: auto;
+                        margin-right: auto;
+                        width: 5%; /* Ajuste a largura da imagem conforme necessário */
+                    }}
+                </style>
+            </head>
+            <body>
+                <!-- Cabeçalho -->
+
+               <img src="cid:logo_image" alt="Logo da Empresa" class="centered-img" />
+
+                <div class="header">
+                    New TE - Onboarding Digital
+                </div>
+
+                <!-- Subcabeçalho -->
+                <div class="sub-header">
+                    Cadastro de Usuário
+                </div>
+
+                <p>Este e-mail é automaticamente gerado, não responda. A sua conta foi cadastrada com sucesso!</p>
+                <p>O seu e-mail de entrada é: <span class="code">{str(self.receiver_email)}</span></p>
+                <p>A sua senha automaticamente gerada é: <span class="code">{str(self.senha)}</span></p>
+                <p>Caso queira mudar sua senha, entre com uma requisição de Recuperação de Senha.</p>
+            </body>
+            </html>
+            """
+
+            message.attach(MIMEText(html_content, "html"))
+            image_path = "../imagens/logo_new_te.png"
+            if os.path.exists(image_path):
+                with open(image_path, 'rb') as img_file:
+                    img = MIMEImage(img_file.read())
+                    img.add_header('Content-ID', '<logo_image>')
+                    img.add_header('Content-Disposition', 'inline', filename="image.jpg")
+                    message.attach(img)
+
+            # Connect and send
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+                server.login(sender_email, app_password)
+                server.sendmail(sender_email, self.receiver_email, message.as_string())
+
+        except Exception as e:
+            self.finished.emit(f"Erro ao enviar: {str(e)}")
+            print(f"Erro ao enviar: {str(e)}")
 
 leet_map = {
     'a': ['4', '@'],
@@ -1071,9 +1175,23 @@ class TelaInicial(QMainWindow):
                     QMessageBox.warning(self, "Erro", "RG inválido.")
                     return
 
+        senha = GeradorSenha().gerar()
+
+        receiverEmail =  ValidadorEmail(self.lineEdit_email.text()).validar()
+        if not receiverEmail:
+            QMessageBox.warning(self, "Erro", "Email inválido.")
+            return
+        query = f"SELECT email, cpf, rg FROM usuario WHERE email = '{receiverEmail}' or cpf = '{cpf}' or rg = '{rg}';"
+        cursor.execute(query)
+        result = cursor.fetchone()
+
+        if result:
+            QMessageBox.information(self, "Aviso", "Esse E-Mail, CPF ou RG já está cadastrado!")
+            return
+
         valuesDictionaries = {
             "nome": self.lineEdit_nome.text(),
-            "email": self.lineEdit_email.text(),
+            "email": receiverEmail,
             "telefone": ''.join(c for c in self.lineEdit_telefone.text() if c.isdigit()),
             "cpf": cpf,
             "rg": rg,
@@ -1083,7 +1201,7 @@ class TelaInicial(QMainWindow):
             "status": "OFFLINE",
             "data_entrada": "2025-09-12",
             "sobre_mim": "Sobre mim...",
-            "senha": 1234,
+            "senha": senha,
             "endereco": self.lineEdit_endereco.text(),
             "tipo_usuario": row[0] if row else "user",
             "experiencias": "Experiências..."
@@ -1131,6 +1249,9 @@ class TelaInicial(QMainWindow):
             db.commit()
 
             QMessageBox.information(self, "Sucesso", "Usuário alterado com sucesso!" if self.alterar else "Usuário cadastrado com sucesso!" )
+
+            self.email_thread = EmailSender(receiverEmail, senha)
+            self.email_thread.start()
 
             self.limparCampos()
             self.alterar = None
