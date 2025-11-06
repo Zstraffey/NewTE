@@ -6,6 +6,8 @@ from PyQt5.uic import loadUi
 import imgs_qrc
 from PyQt5.QtGui import QPixmap
 
+import re
+
 class Session:
     current_user = None
     loaded_chat = 0
@@ -163,3 +165,57 @@ class PopupDepto(QDialog):
             self.foto_pixmap if self.foto_pixmap is not None else ""
         ]
         self.accept()
+
+class ValidadorCPF:
+    def __init__(self, cpf: str):
+        self.cpf = re.sub(r'\D', '', cpf)
+
+    def validar(self):
+        # CPF precisa ter 11 dígitos
+        if len(self.cpf) != 11 or self.cpf == self.cpf[0] * 11:
+            return False
+
+        for i in range(9, 11):
+            soma = sum(int(self.cpf[num]) * ((i + 1) - num) for num in range(i))
+            digito = (soma * 10) % 11
+            digito = 0 if digito == 10 else digito
+            if digito != int(self.cpf[i]):
+                return False
+
+        return self.cpf
+
+class ValidadorRG:
+    def __init__(self, rg: str):
+        self.rg = re.sub(r'\D', '', rg)
+
+    def validar(self):
+        if not (7 <= len(self.rg) <= 9):
+            return False
+
+        if self.rg == self.rg[0] * len(self.rg):
+            return False
+
+        return self.rg
+
+class ValidadorSenha:
+    def __init__(self, senha: str):
+        self.senha = senha
+
+    def validar(self):
+        # Pelo menos 8 caracteres
+        if len(self.senha) < 8:
+            return False
+
+        # Pelo menos uma letra minúscula
+        if not re.search(r'[a-z]', self.senha):
+            return False
+
+        # Pelo menos uma letra maiúscula
+        if not re.search(r'[A-Z]', self.senha):
+            return False
+
+        # Pelo menos um caractere especial (qualquer coisa que não seja letra ou número)
+        if not re.search(r'[^a-zA-Z0-9]', self.senha):
+            return False
+
+        return self.senha

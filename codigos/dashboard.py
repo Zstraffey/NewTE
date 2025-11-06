@@ -11,7 +11,7 @@ import time
 from functools import partial
 from login import quitProgram
 
-from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupCargo, PopupDepto
+from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupCargo, PopupDepto, ValidadorCPF, ValidadorRG
 
 import re
 import unicodedata
@@ -230,6 +230,7 @@ class TelaInicial(QMainWindow):
         self.btn_concluir.clicked.connect(self.cadastrarLicao)
         self.btn_visualizar_perfil.clicked.connect(lambda: self.atualizarPerfil(Session.loaded_chat))
         self.btn_editar_perfil.clicked.connect(self.abrirSobreMim)
+        self.btn_cancelar.clicked.connect(self.cancelarCadastro)
 
         self.btn_adicionar_cargo.clicked.connect(self.abrirCargo)
         self.btn_excluir_cargo.clicked.connect(self.excluirCargo)
@@ -850,7 +851,10 @@ class TelaInicial(QMainWindow):
         sb.setValue(sb.maximum())
         self.resize(self.width() - 1, self.height())
 
-
+    def cancelarCadastro(self):
+        self.limparCampos()
+        self.alterar = None
+        self.mudarTela(2)
 
     def mudarTela(self, index, update=True):
         if index == 3 and update:
@@ -905,6 +909,7 @@ class TelaInicial(QMainWindow):
 
 
     def mudarDashboard(self, index):
+        self.limparCampos()
         if index == 1:
             self.atualizarLicoes()
         if index == 4 and not (self.licaoAlterar is None):
@@ -929,7 +934,6 @@ class TelaInicial(QMainWindow):
             db.close()
 
         self.dashboardStack.setCurrentIndex(index)
-        self.limparCampos()
 
     def quitProgram(self):
         if Session.current_user is None:
@@ -1053,12 +1057,26 @@ class TelaInicial(QMainWindow):
         cursor.execute("SELECT permissao_cargo FROM cargo WHERE nome_cargo = %s", (self.comboBox_cargo.currentText(),))
         row = cursor.fetchone()
 
+        cpf, rg = ValidadorCPF(self.lineEdit_cpf.text()).validar(), ValidadorRG(self.lineEdit_rg.text()).validar()
+
+        if not cpf and not rg:
+            QMessageBox.warning(self, "Erro", "CPF e RGs inválidos.")
+            return
+        else:
+            if not cpf:
+                QMessageBox.warning(self, "Erro", "CPF inválido.")
+                return
+            else:
+                if not rg:
+                    QMessageBox.warning(self, "Erro", "RG inválido.")
+                    return
+
         valuesDictionaries = {
             "nome": self.lineEdit_nome.text(),
             "email": self.lineEdit_email.text(),
             "telefone": ''.join(c for c in self.lineEdit_telefone.text() if c.isdigit()),
-            "cpf": ''.join(c for c in self.lineEdit_cpf.text() if c.isdigit()),
-            "rg": ''.join(c for c in self.lineEdit_rg.text() if c.isdigit()),
+            "cpf": cpf,
+            "rg": rg,
             "departamento": self.comboBox_depto.currentText(),
             "cargo": self.comboBox_cargo.currentText(),
             "foto_perfil": img_data,

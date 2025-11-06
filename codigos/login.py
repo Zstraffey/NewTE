@@ -14,7 +14,7 @@ import random
 
 import dashboard
 import funcionario
-from codigos.classes import bancoDados, Session
+from codigos.classes import bancoDados, Session, ValidadorSenha
 import imgs_qrc
 
 class EmailSender(QThread):
@@ -147,6 +147,8 @@ class Codigo(QMainWindow):
         loadUi("../design/inserir_codigo.ui", self)
         self.widget = stacked_widget
 
+        QMessageBox.information(self, "Validação de Senha", "Sua senha deve conter no mínimo 8 caracteres, uma letra minúscula e maiúscula, e um caractere especial.")
+
         self.trocar.clicked.connect(self.mudartela)
         self.enviar.clicked.connect(self.trocarsenha)
 
@@ -171,6 +173,10 @@ class Codigo(QMainWindow):
         else:
             if self.senha1.text() != self.senha2.text():
                 QMessageBox.warning(None, "Aviso", "As senhas não se coincidem.")
+                return
+
+            if not ValidadorSenha(self.senha1.text()).validar():
+                QMessageBox.information(self, "Validação de Senha","Sua senha deve conter no mínimo 8 caracteres, uma letra minúscula e maiúscula, e um caractere especial.")
                 return
 
             query = f"""
