@@ -19,7 +19,7 @@ import time
 from functools import partial
 from login import quitProgram
 
-from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupCargo, PopupDepto, PopupCalendario, ValidadorCPF, ValidadorRG, ValidadorEmail, GeradorSenha
+from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupCargo, PopupDepto, PopupCalendario, ValidadorCPF, ValidadorRG, ValidadorEmail, GeradorSenha, PopupVisualizarCal
 
 import re
 import unicodedata
@@ -375,36 +375,83 @@ class TelaInicial(QMainWindow):
             QMessageBox.critical(self, "Erro", f"Erro ao buscar datas: {e}")
 
     def calendarioClique(self, date: QDate):
-        popup = PopupCalendario(self)
-        popup.label_data.setText(date.toString("dd-MM-yyyy"))
-        resultado = popup.exec_()
+        data_str = date.toString("yyyy-MM-dd")
+        db = bancoDados().conectar()
+        if not db:
+            return
 
-        if resultado == QDialog.Accepted:
-            print("eba")
-            valores = popup.valor_retornado
-            db = bancoDados().conectar()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM calendario WHERE data = %s", (data_str,))
+        resultado = cursor.fetchone()
 
-            if valores[0] == "" or valores[1] == "":
-                QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
-                return
+        if resultado is None:
+            popup = PopupCalendario(self)
+            popup.label_data.setText(date.toString("dd-MM-yyyy"))
+            resultado_popup = popup.exec_()
 
-            query = """
-                       INSERT INTO calendario (titulo, descricao, data)
-                       VALUES (%s, %s, %s)
-                   """
-            try:
-                cursor = db.cursor()
-                cursor.execute(query, (valores[0], valores[1], date.toString("yyyy-MM-dd")))
-                db.commit()
-                cursor.close()
-                db.close()
+            if resultado_popup == QDialog.Accepted:
+                valores = popup.valor_retornado
 
-                QMessageBox.information(self, "Sucesso", "Adicionado com sucesso!")
-                self.atualizarCalendario()
-            except mc.Error as err:
-                print("Error:", err)
+                if valores[0] == "" or valores[1] == "":
+                    QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
+                    return
+
+                query_insert = """
+                    INSERT INTO calendario (titulo, descricao, data)
+                    VALUES (%s, %s, %s)
+                """
+                try:
+                    cursor.execute(query_insert, (valores[0], valores[1], data_str))
+                    db.commit()
+                    QMessageBox.information(self, "Sucesso", "Adicionado com sucesso!")
+                    self.atualizarCalendario()
+                except mc.Error as err:
+                    QMessageBox.critical(self, "Erro", f"Erro ao inserir no banco: {err}")
+            else:
+                print("Usuário cancelou o popup.")
+
         else:
-            print("Usuário cancelou o popup.")
+            id_evento, titulo, descricao, data = resultado
+
+            msg = QMessageBox()
+            msg.setWindowTitle("Opção de Calendário")
+            msg.setText(
+                f"Já existe um compromisso nesta data:\n\n📅 {titulo}\n\nVocê gostaria de visualizar ou excluir o compromisso?")
+            msg.setIcon(QMessageBox.Question)
+
+            btn_visualizar = msg.addButton("Visualizar", QMessageBox.ActionRole)
+            btn_excluir = msg.addButton("Excluir", QMessageBox.DestructiveRole)
+            btn_cancelar = msg.addButton("Cancelar", QMessageBox.RejectRole)
+            msg.setDefaultButton(btn_visualizar)
+
+            msg.exec_()
+
+            if msg.clickedButton() == btn_visualizar:
+                print(f"Usuário escolheu visualizar o compromisso {id_evento}")
+                popup = PopupVisualizarCal(self)
+                popup.label_data.setText(date.toString("dd-MM-yyyy"))
+                popup.lineEdit_titulo.setText(titulo)
+                popup.textEdit_descricao.setPlainText(descricao)
+                resultado_popup = popup.exec_()
+
+            elif msg.clickedButton() == btn_excluir:
+                print(f"Usuário escolheu excluir o compromisso {id_evento}")
+                confirmar = QMessageBox.question(
+                    self,
+                    "Confirmação",
+                    "Tem certeza que deseja excluir este compromisso?",
+                    QMessageBox.Yes | QMessageBox.No
+                )
+                if confirmar == QMessageBox.Yes:
+                    cursor.execute("DELETE FROM calendario WHERE id_calendario = %s", (id_evento,))
+                    db.commit()
+                    QMessageBox.information(self, "Sucesso", "Compromisso excluído com sucesso!")
+                    self.atualizarCalendario()
+            else:
+                print("Usuário cancelou a ação.")
+
+        cursor.close()
+        db.close()
 
     def on_alterar(self, user_id):
         print(f"Alterar usuário {user_id}")

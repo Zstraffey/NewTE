@@ -116,6 +116,12 @@ Line{
              <height>25</height>
             </size>
            </property>
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
            <property name="placeholderText">
             <string>Título...</string>
            </property>
@@ -156,7 +162,7 @@ Line{
             </size>
            </property>
            <property name="cursor" stdset="0">
-            <cursorShape>PointingHandCursor</cursorShape>
+            <cursorShape>ArrowCursor</cursorShape>
            </property>
            <property name="focusPolicy">
             <enum>Qt::WheelFocus</enum>
@@ -172,6 +178,9 @@ Line{
     border: 3px solid #ffffff;
   </string>
            </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
            <property name="html">
             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -182,41 +191,6 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
         </layout>
-       </widget>
-      </item>
-      <item alignment="Qt::AlignRight">
-       <widget class="QPushButton" name="btn_adicionar_evento">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>114</width>
-          <height>36</height>
-         </size>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">font: 63 12pt &quot;Inter 18pt SemiBold&quot;;
-background-color: rgb(83, 131, 195);
-border: 3px solid #2196F3;
-color: white;
-    border-radius: 6px;</string>
-        </property>
-        <property name="text">
-         <string>Adicionar</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
        </widget>
       </item>
      </layout>

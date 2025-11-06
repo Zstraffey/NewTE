@@ -134,6 +134,11 @@ class PopupCalendario(QDialog):
         self.valor_retornado = [self.lineEdit_titulo.text(), self.textEdit_descricao.toPlainText()]
         self.accept()
 
+class PopupVisualizarCal(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        uic.loadUi("../design/templates/calendario_visualizar.ui", self)
+
 class PopupDepto(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
