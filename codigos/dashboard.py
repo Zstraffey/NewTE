@@ -1011,9 +1011,11 @@ class TelaInicial(QMainWindow):
             if index == 2 and self.alterar is None:
                 self.titulo_cadastro_2.setText("Cadastrar")
 
+    def mudarDashboard(self, index, cadastrar = False):
+        if cadastrar:
+            self.licaoAlterar = None
+            self.limparCampos()
 
-    def mudarDashboard(self, index):
-        self.limparCampos()
         if index == 1:
             self.atualizarLicoes()
         if index == 4 and not (self.licaoAlterar is None):
@@ -1199,7 +1201,7 @@ class TelaInicial(QMainWindow):
             "cargo": self.comboBox_cargo.currentText(),
             "foto_perfil": img_data,
             "status": "OFFLINE",
-            "data_entrada": "2025-09-12",
+            "data_entrada": "NULL",
             "sobre_mim": "Sobre mim...",
             "senha": senha,
             "endereco": self.lineEdit_endereco.text(),
