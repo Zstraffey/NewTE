@@ -1,10 +1,10 @@
 import random
 
-from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF
+from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF, QDate
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView, \
     QSizePolicy, QGridLayout, QDialog
 from PyQt5.uic import loadUi
-from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion
+from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion, QTextCharFormat, QBrush, QColor
 from flask import session
 import os
 
@@ -19,7 +19,7 @@ import time
 from functools import partial
 from login import quitProgram
 
-from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupCargo, PopupDepto, ValidadorCPF, ValidadorRG, ValidadorEmail, GeradorSenha
+from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupCargo, PopupDepto, PopupCalendario, ValidadorCPF, ValidadorRG, ValidadorEmail, GeradorSenha
 
 import re
 import unicodedata
@@ -345,9 +345,66 @@ class TelaInicial(QMainWindow):
         self.widget_calendario.activated.connect(self.calendarioClique)
 
         self.atualizarCargoDepto()
+        self.atualizarCalendario()
 
-    def calendarioClique(self):
-        print("clicou")
+    def atualizarCalendario(self):
+        db = bancoDados().conectar()
+
+        if not db:
+            return
+
+        try:
+            cursor = db.cursor()
+            cursor.execute("SELECT data FROM calendario")
+            datas = cursor.fetchall()
+            cursor.close()
+            db.close()
+
+            formato_verde = QTextCharFormat()
+            formato_verde.setBackground(QBrush(QColor("#90EE90")))  # Verde claro
+            formato_verde.setForeground(QBrush(QColor("#000000")))
+
+            self.widget_calendario.setDateTextFormat(QDate(), QTextCharFormat())
+
+            # Marca as datas salvas
+            for (data_mysql,) in datas:
+                data_qt = QDate(data_mysql.year, data_mysql.month, data_mysql.day)
+                self.widget_calendario.setDateTextFormat(data_qt, formato_verde)
+
+        except mc.Error as e:
+            QMessageBox.critical(self, "Erro", f"Erro ao buscar datas: {e}")
+
+    def calendarioClique(self, date: QDate):
+        popup = PopupCalendario(self)
+        popup.label_data.setText(date.toString("dd-MM-yyyy"))
+        resultado = popup.exec_()
+
+        if resultado == QDialog.Accepted:
+            print("eba")
+            valores = popup.valor_retornado
+            db = bancoDados().conectar()
+
+            if valores[0] == "" or valores[1] == "":
+                QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
+                return
+
+            query = """
+                       INSERT INTO calendario (titulo, descricao, data)
+                       VALUES (%s, %s, %s)
+                   """
+            try:
+                cursor = db.cursor()
+                cursor.execute(query, (valores[0], valores[1], date.toString("yyyy-MM-dd")))
+                db.commit()
+                cursor.close()
+                db.close()
+
+                QMessageBox.information(self, "Sucesso", "Adicionado com sucesso!")
+                self.atualizarCalendario()
+            except mc.Error as err:
+                print("Error:", err)
+        else:
+            print("Usuário cancelou o popup.")
 
     def on_alterar(self, user_id):
         print(f"Alterar usuário {user_id}")

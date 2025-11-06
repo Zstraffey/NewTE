@@ -122,6 +122,18 @@ class PopupCargo(QDialog):
         self.valor_retornado = [self.lineEdit_funcao.text(), self.comboBox_permissoes.currentText()]
         self.accept()
 
+class PopupCalendario(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        uic.loadUi("../design/templates/calendario_adicionar.ui", self)
+        self.valor_retornado = None
+
+        self.btn_adicionar_evento.clicked.connect(self.onConfirmar)
+
+    def onConfirmar(self):
+        self.valor_retornado = [self.lineEdit_titulo.text(), self.textEdit_descricao.toPlainText()]
+        self.accept()
+
 class PopupDepto(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
