@@ -316,7 +316,6 @@ class EsqueciSenha(QMainWindow):
         self.widget.addWidget(login)
         self.widget.setCurrentIndex(self.widget.currentIndex() + 1)
 
-
 def quitProgram():
     if Session.current_user is None:
         return
