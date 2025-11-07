@@ -1,14 +1,14 @@
-from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF
+from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF, QDate
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView, \
     QSizePolicy, QGridLayout, QDialog
 from PyQt5.uic import loadUi
-from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion
+from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion, QTextCharFormat, QBrush, QColor
 import imgs_qrc
 import mysql.connector as mc
 import time
 from functools import partial
 
-from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim
+from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupVisualizarCal
 
 import re
 import unicodedata
@@ -183,6 +183,9 @@ class TelaInicial(QMainWindow):
         ]
 
         self.foto_func.setPixmap(Session.current_user["foto_perfil"])
+        self.atualizarPerfil(Session.current_user["id_user"])
+        self.btn_editar_perfil.clicked.connect(self.abrirSobreMim)
+        self.btn_visualizar_perfil.clicked.connect(lambda: self.atualizarPerfil(Session.loaded_chat))
 
         from functools import partial
         for i, botao in enumerate(self.stackList):
@@ -204,6 +207,9 @@ class TelaInicial(QMainWindow):
         self.nome_func.setText(f'<html><head/><body><p align="center"><span style=" font-size:14pt;">{Session.current_user["nome"]}</span></p></body></html>')
         self.carg_func.setText(f'<html><head/><body><p align="center"><span style=" font-size:12pt;">{Session.current_user["cargo"]}</span></p></body></html>')
 
+        self.widget_calendario.activated.connect(self.calendarioClique)
+        self.atualizarCalendario()
+
         def callback(user):
             Session.loaded_chat = user["id_user"]
             self.infos_contato.setText(user["nome"])
@@ -222,11 +228,143 @@ class TelaInicial(QMainWindow):
 
         self.atualizarLicoes()
 
+    def atualizarCalendario(self):
+        db = bancoDados().conectar()
+
+        if not db:
+            return
+
+        try:
+            cursor = db.cursor()
+            cursor.execute("SELECT data FROM calendario")
+            datas = cursor.fetchall()
+            cursor.close()
+            db.close()
+
+            formato_verde = QTextCharFormat()
+            formato_verde.setBackground(QBrush(QColor("#90EE90")))  # Verde claro
+            formato_verde.setForeground(QBrush(QColor("#000000")))
+
+            self.widget_calendario.setDateTextFormat(QDate(), QTextCharFormat())
+
+            # Marca as datas salvas
+            for (data_mysql,) in datas:
+                data_qt = QDate(data_mysql.year, data_mysql.month, data_mysql.day)
+                self.widget_calendario.setDateTextFormat(data_qt, formato_verde)
+
+        except mc.Error as e:
+            QMessageBox.critical(self, "Erro", f"Erro ao buscar datas: {e}")
+
+    def calendarioClique(self, date: QDate):
+        data_str = date.toString("yyyy-MM-dd")
+        db = bancoDados().conectar()
+        if not db:
+            return
+
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM calendario WHERE data = %s", (data_str,))
+        resultado = cursor.fetchone()
+
+        if resultado:
+            id_evento, titulo, descricao, data = resultado
+
+            popup = PopupVisualizarCal(self)
+            popup.label_data.setText(date.toString("dd-MM-yyyy"))
+            popup.lineEdit_titulo.setText(titulo)
+            popup.textEdit_descricao.setPlainText(descricao)
+            resultado_popup = popup.exec_()
+
+        cursor.close()
+        db.close()
+
+    def atualizarPerfil(self, id):
+        print(id)
+        db = bancoDados().conectar()
+        cursor = db.cursor()
+        cursor.execute(f"SELECT nome, departamento, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = {id}")
+
+        row = cursor.fetchone()
+
+        if not (row is None):
+            nome, departamento, cargo, foto_perfil, sobre_mim, experiencias = row
+
+            self.nome_funcionario.setText(f'<html><head/><body><p><span style=" font-size:22pt;">{nome}</span></p></body></html>')
+            self.cargo_func.setText(f'<html><head/><body><p><span style=" font-size:14pt;">{cargo}</span></p></body></html>')
+            self.sobre_mim.setText(f'<html><head/><body><p><span style=" font-size:10pt;">{sobre_mim}</span></p></body></html>')
+            self.experiencias.setText(f'<html><head/><body><p><span style=" font-size:9pt;">{experiencias}</span></p></body></html>')
+
+            pixmap = QPixmap()
+            pixmap.loadFromData(foto_perfil)  # converte bytes → QPixmap
+
+            if pixmap.isNull():
+                pixmap = QPixmap('../imagens/user.png')
+
+            self.foto_funcionario.setPixmap(pixmap)
+
+            if Session.loaded_chat:
+                self.mudarTela(2, False)
+                self.btn_perfil.setChecked(True)
+
+            cursor.execute("SELECT foto_depto FROM departamento WHERE nome_depto = %s", (departamento,))
+            row = cursor.fetchone()
+            if row and row[0]:
+                image_data = row[0]
+                print(type(image_data), len(image_data))
+                print(image_data[:20])
+                pixmap = QPixmap()
+                pixmap.loadFromData(image_data)  # converte bytes → QPixmap
+
+                if pixmap.isNull():
+                    pixmap = QPixmap('../imagens/logo new te.png')
+
+                self.foto_aqui.setPixmap(pixmap)  # coloca na QLabel
+                self.foto_aqui.setScaledContents(True)  # ajusta o tamanho automaticamente
+                print("Imagem carregada com sucesso!")
+            else:
+                print("Nenhuma imagem encontrada para esse departamento.")
+                pixmap = QPixmap('../imagens/logo new te.png')
+
+                self.foto_aqui.setPixmap(pixmap)  # coloca na QLabel
+                self.foto_aqui.setScaledContents(True)  # ajusta o tamanho automaticamente
+
+    def abrirSobreMim(self):
+        popup = PopupSobreMim(self)
+        resultado = popup.exec_()  # Abre o popup de forma modal
+
+        # Se o usuário confirmou (clicou em "Confirmar")
+        if resultado == QDialog.Accepted:
+            print("eba")
+            valores = popup.valor_retornado
+            db = bancoDados().conectar()
+
+            if valores[0] == "" or valores[1] == "":
+                QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
+                return
+
+            query = f"""
+                              UPDATE usuario SET sobre_mim = '{valores[0]}', experiencias = '{valores[1]}' WHERE id_user = '{Session.current_user["id_user"]}';
+                         """
+            try:
+                cursor = db.cursor()
+                cursor.execute(query)
+                db.commit()
+                cursor.close()
+                db.close()
+
+                QMessageBox.information(self, "Sucesso", "Perfil atualizado!")
+                self.atualizarPerfil(Session.current_user["id_user"])
+
+            except mc.Error as err:
+                print("Error:", err)
+        else:
+            print("Usuário cancelou o popup.")
+
     def mudarDashboard(self, index):
         if index == 2:
             self.licao_ativa = None
             self.atualizarLicoes()
         self.stacked_widget_botoes_principais_do_dashboard.setCurrentIndex(index)
+        self.atualizarCalendario()
 
     def quitProgram(self):
         if Session.current_user is None:
@@ -503,7 +641,9 @@ class TelaInicial(QMainWindow):
         sb.setValue(sb.maximum())
         self.resize(self.width() - 1, self.height())
 
-    def mudarTela(self, index):
+    def mudarTela(self, index, update=True):
+        if index == 2 and update:
+            self.atualizarPerfil(Session.current_user["id_user"])
         self.stack.setCurrentIndex(index)
 
     def logOut(self):

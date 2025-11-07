@@ -696,8 +696,6 @@ class TelaInicial(QMainWindow):
 
             self.atualizarCargoDepto()
 
-
-
     def alterarLicao(self, user_id):
         print(f"Alterar licao {user_id}")
         self.licaoAlterar = user_id
@@ -1148,7 +1146,7 @@ class TelaInicial(QMainWindow):
 
             cursor.close()
             db.close()
-
+        self.atualizarCalendario()
         self.dashboardStack.setCurrentIndex(index)
 
     def quitProgram(self):

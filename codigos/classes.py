@@ -23,7 +23,7 @@ class ChatBubble(QWidget):
 
         self.label = QLabel(text, self)
         self.label.setWordWrap(True)
-        self.label.setMaximumWidth(self.max_width)
+        #self.label.setMaximumWidth(self.max_width)
         self.label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
 
         # Styling

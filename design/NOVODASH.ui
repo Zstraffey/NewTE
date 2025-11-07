@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1514</width>
-    <height>834</height>
+    <height>820</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>1514</width>
-    <height>799</height>
+    <height>820</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -1204,7 +1204,7 @@ border-radius:15px;}</string>
                              <x>0</x>
                              <y>0</y>
                              <width>515</width>
-                             <height>302</height>
+                             <height>295</height>
                             </rect>
                            </property>
                            <property name="maximumSize">
@@ -1828,8 +1828,8 @@ QComboBox:checked {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1210</width>
-                             <height>595</height>
+                             <width>100</width>
+                             <height>30</height>
                             </rect>
                            </property>
                            <property name="sizePolicy">
@@ -5784,8 +5784,8 @@ QPushButton:hover {
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="btns_sidebar"/>
   <buttongroup name="cancelar_confirmar"/>
+  <buttongroup name="rendimen_func_calen"/>
  </buttongroups>
 </ui>
