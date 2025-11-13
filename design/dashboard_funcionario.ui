@@ -4844,7 +4844,7 @@ border: none;</string>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="btns_sidebar"/>
+  <buttongroup name="rendimen_func_calen"/>
  </buttongroups>
 </ui>
