@@ -1,6 +1,9 @@
+import os
+os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--disable-gpu --disable-software-rasterizer --no-sandbox"
+
 from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF, QDate
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView, \
-    QSizePolicy, QGridLayout, QDialog
+    QSizePolicy, QGridLayout, QDialog, QVBoxLayout, QHBoxLayout, QLabel, QSlider
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion, QTextCharFormat, QBrush, QColor
 import imgs_qrc
@@ -13,6 +16,8 @@ from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, Popu
 import re
 import unicodedata
 import difflib
+import tempfile
+import subprocess
 
 leet_map = {
     'a': ['4', '@'],
@@ -85,6 +90,165 @@ def filtrar_texto(texto_original):
                                     texto_filtrado, flags=re.IGNORECASE)
 
     return texto_filtrado
+
+from PyQt5.QtCore import QUrl
+from PyQt5.QtWebEngineWidgets import QWebEngineView  # Para PDF
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent  # Para vídeo
+from PyQt5.QtMultimediaWidgets import QVideoWidget
+#pip install PyQtWebEngine
+
+class VisualizadorArquivo(QDialog):
+    def __init__(self, caminho_arquivo, tipo, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Visualizador de Arquivo")
+        self.resize(900, 600)
+
+        layout = QVBoxLayout(self)
+        self.setLayout(layout)
+
+        # guarda referências para evitar GC (player etc.)
+        self._player = None
+        self._viewer = None
+
+        try:
+            # Verifica se o arquivo realmente existe
+            if not os.path.exists(caminho_arquivo):
+                raise FileNotFoundError("Arquivo não encontrado.")
+
+            tipo = (tipo or "").lower()
+
+            # -----------------------------
+            # VISUALIZADOR DE PDF
+            # -----------------------------
+            if tipo == "pdf":
+                self._viewer = QWebEngineView()
+                layout.addWidget(self._viewer)
+
+                self._viewer.settings().setAttribute(self._viewer.settings().PluginsEnabled, True)
+                self._viewer.settings().setAttribute(self._viewer.settings().PdfViewerEnabled, True)
+
+                file_url = QUrl.fromLocalFile(caminho_arquivo)
+                print("Carregando:", file_url.toString())
+
+                self._viewer.load(file_url)
+                # forçar zoom/refresh leve após carregamento
+                QTimer.singleShot(300, lambda: self._viewer.setZoomFactor(1.0))
+
+            # -----------------------------
+            # VISUALIZADOR DE VÍDEO
+            # -----------------------------
+            elif tipo in ["mp4", "avi", "mov", "mkv"]:
+                from PyQt5.QtCore import QTime
+
+                self._player = QMediaPlayer(None, QMediaPlayer.VideoSurface)
+                video_widget = QVideoWidget()
+                layout.addWidget(video_widget)
+
+                # conecta o player ao widget de vídeo
+                self._player.setVideoOutput(video_widget)
+                self._player.setMedia(QMediaContent(QUrl.fromLocalFile(caminho_arquivo)))
+                self._player.play()
+
+                # ==== Controles ====
+                controls_layout = QHBoxLayout()
+
+                # Play/pause
+                self.play_btn = QPushButton("⏸ Pausar")
+                self.play_btn.clicked.connect(self.toggle_play_pause)
+                controls_layout.addWidget(self.play_btn)
+
+                # Tempo atual
+                self.label_tempo_atual = QLabel("00:00")
+                controls_layout.addWidget(self.label_tempo_atual)
+
+                # Slider (barra de progresso)
+                self.slider = QSlider(Qt.Horizontal)
+                self.slider.setRange(0, 0)
+                controls_layout.addWidget(self.slider)
+
+                # Tempo total
+                self.label_tempo_total = QLabel("00:00")
+                controls_layout.addWidget(self.label_tempo_total)
+
+                layout.addLayout(controls_layout)
+
+                # ==== Conexões ====
+                # Atualiza o slider conforme o vídeo toca
+                self._player.positionChanged.connect(self._atualizar_slider)
+                self._player.durationChanged.connect(self._atualizar_duracao)
+                self.slider.sliderMoved.connect(self._mudar_posicao)
+
+            # -----------------------------
+            # OUTROS FORMATOS → ABRE NO SISTEMA
+            # -----------------------------
+            else:
+                QMessageBox.information(
+                    self,
+                    "Abrindo Externamente",
+                    f"O formato '{tipo}' não é suportado internamente.\nO arquivo será aberto com o programa padrão do sistema."
+                )
+                self._abrir_externo_e_fechar(caminho_arquivo)
+                return
+
+            # não chama exec_() aqui — deixe quem instanciou chamar exec_()
+            # self.show() opcional: quem chama geralmente faz viewer.exec_()
+
+        except Exception as e:
+            QMessageBox.critical(self, "Erro ao abrir arquivo", str(e))
+            try:
+                self._abrir_externo_e_fechar(caminho_arquivo)
+            except Exception:
+                pass
+            # garante fechamento do diálogo
+            self.close()
+
+    def _abrir_externo_e_fechar(self, caminho):
+        try:
+            if os.name == 'nt':
+                os.startfile(caminho)
+            elif os.name == 'posix':
+                subprocess.call(('xdg-open', caminho))
+            else:
+                QMessageBox.information(self, "Arquivo salvo", f"Arquivo em: {caminho}")
+        except Exception as e:
+            QMessageBox.critical(self, "Erro ao abrir externo", str(e))
+        finally:
+            try:
+                self.accept()
+            except:
+                self.close()
+
+    def _atualizar_slider(self, position):
+        """Atualiza posição do slider e tempo atual"""
+        if not self.slider.isSliderDown():  # não sobrepor se o usuário está arrastando
+            self.slider.setValue(position)
+        self.label_tempo_atual.setText(self._formatar_tempo(position))
+
+    def _atualizar_duracao(self, duration):
+        """Define o range máximo do slider e o tempo total"""
+        self.slider.setRange(0, duration)
+        self.label_tempo_total.setText(self._formatar_tempo(duration))
+
+    def _mudar_posicao(self, position):
+        """Quando o usuário move o slider"""
+        self._player.setPosition(position)
+
+    def _formatar_tempo(self, ms):
+        """Converte milissegundos para mm:ss"""
+        secs = ms // 1000
+        mins = secs // 60
+        secs = secs % 60
+        return f"{mins:02d}:{secs:02d}"
+
+    def toggle_play_pause(self):
+        if self._player is None:
+            return
+        if self._player.state() == QMediaPlayer.PlayingState:
+            self._player.pause()
+            self.play_btn.setText("▶ Reproduzir")
+        else:
+            self._player.play()
+            self.play_btn.setText("⏸ Pausar")
 
 class licao(QWidget):
     def __init__(self):#, callback):
@@ -406,7 +570,7 @@ class TelaInicial(QMainWindow):
 
         i = 0
         print(id_list)
-        for id_licao, id_user, titulo, desc, metas, criacao, validade in rows:
+        for id_licao, id_user, titulo, desc, metas, criacao, validade, nomeArquivo, arquivo, tipo in rows:
             print(id_licao)
             row = i // 4
             col = i % 4
@@ -414,6 +578,7 @@ class TelaInicial(QMainWindow):
             layout.addWidget(template, row, col)
             template.lbl_titulo_curso.setText(titulo)
             template.lbl_desc_curso.setText(desc)
+            template.lbl_tipo_de_arquivo.setText("Nenhum" if (not nomeArquivo or not arquivo) else f"{nomeArquivo}")
             template.btn_visualizar.clicked.connect(partial(self.visualizarLicao, id_licao))
             i = i + 1
 
@@ -431,20 +596,48 @@ class TelaInicial(QMainWindow):
             return
 
         cursor = db.cursor()
-        query = "SELECT titulo, conteudo, metas FROM licoes WHERE id_licao = %s"
+        query = "SELECT titulo, conteudo, metas, nome_arquivo, arquivo, tipo FROM licoes WHERE id_licao = %s"
         cursor.execute(query, (id_licao,))
         result = cursor.fetchone()
 
         self.licao_ativa = id_licao
 
         if not (result is None):
-            titulo, conteudo, metas = result
+            titulo, conteudo, metas, nomeArquivo, arquivo, tipo = result
 
             # self.titulo_cadastro_2.setText(f"Alterando {titulo} ({self.alterar})")
 
             self.lbl_titulo.setText(f'<html><head/><body><p><span style=" font-size:20pt;">{titulo}</span></p></body></html>')
             self.lbl_desc.setText(f'<html><head/><body><p><span style=" font-size:12pt;">{conteudo}</span></p></body></html>')
             self.lbl_metas.setText(f'<html><head/><body><p><span style=" font-size:10pt; font-weight:600; color:#d1d1d1;">{metas}</span></p></body></html>')
+            self.label_anexo.setText(nomeArquivo)
+
+            if arquivo:
+                # nomeArquivo vem do banco (nome original). Para evitar problemas com caracteres,
+                # você pode gerar um nome temporário seguro, mas aqui vamos usar o original.
+                temp_path = os.path.join(tempfile.gettempdir(), nomeArquivo)
+
+                # SALVA o arquivo antes de tentar medir / abrir
+                try:
+                    with open(temp_path, "wb") as f:
+                        f.write(arquivo)
+                except Exception as e:
+                    QMessageBox.critical(self, "Erro ao salvar arquivo temporário", str(e))
+                    cursor.close()
+                    db.close()
+                    return
+
+                # Debug: confirmar que existe e qual tamanho
+                try:
+                    tamanho_bytes = os.path.getsize(temp_path)
+                    print("Arquivo temporário salvo em:", temp_path)
+                    print("Tamanho (bytes):", tamanho_bytes)
+                except Exception as e:
+                    print("Erro ao checar tamanho do temp file:", e)
+
+                # Exibir dentro do app (VisualizadorArquivo fará fallback se necessário)
+                viewer = VisualizadorArquivo(temp_path, tipo)
+                viewer.exec_()
 
         cursor.close()
         db.close()

@@ -88,7 +88,8 @@ class bancoDados:
                 password="",
                 database="newte",
                 use_pure=True,
-                ssl_disabled = False
+                ssl_disabled = False,
+                connection_timeout = 600,  # até 10 minutos
             )
 
             return mydb

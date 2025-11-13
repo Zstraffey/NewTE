@@ -284,6 +284,7 @@ class TelaInicial(QMainWindow):
         self.widget = stacked_widget
         self.alterar = None
         self.licaoAlterar = None
+        self.dados = None
 
         Session.last_message_id = 0
 
@@ -342,10 +343,34 @@ class TelaInicial(QMainWindow):
         self.btn_adicionar_depto.clicked.connect(self.abrirDepto)
         self.btn_excluir_depto.clicked.connect(self.excluirDepto)
 
+        self.btn_anexar.clicked.connect(self.anexarLicao)
+
         self.widget_calendario.activated.connect(self.calendarioClique)
 
         self.atualizarCargoDepto()
         self.atualizarCalendario()
+
+    def anexarLicao(self):
+        file_path, _ = QFileDialog.getOpenFileName(
+            self, "Selecione o arquivo", "", "Arquivos (*.pdf *.mp4 *.mkv *.avi)"
+        )
+
+        if not file_path:
+            return
+
+        tamanho = os.path.getsize(file_path) / (1024 * 1024)
+        if tamanho > 200:
+            QMessageBox.warning(self, "Arquivo grande demais",
+                                f"O arquivo tem {tamanho:.2f} MB.\nO limite é 200 MB.")
+            return
+
+        nome = os.path.basename(file_path)
+        tipo = os.path.splitext(nome)[1].lower().replace('.', '')
+        self.label_anexo.setText(nome)
+
+        with open(file_path, "rb") as f:
+            self.dados = [f.read(), tipo, nome]
+            QMessageBox.information(self, "Sucesso", f"Arquivo '{nome}' enviado com sucesso!")
 
     def atualizarCalendario(self):
         db = bancoDados().conectar()
@@ -699,6 +724,8 @@ class TelaInicial(QMainWindow):
     def alterarLicao(self, user_id):
         print(f"Alterar licao {user_id}")
         self.licaoAlterar = user_id
+        self.label_anexo.setText("PDF;VIDEO_AULA")
+        self.dados = None
         self.mudarDashboard(4)
 
     def excluirLicao(self, user_id, user_name):
@@ -795,13 +822,14 @@ class TelaInicial(QMainWindow):
 
         i = 0
 
-        for id_licao, id_user, titulo, desc, metas, criacao, validade in rows:
+        for id_licao, id_user, titulo, desc, metas, criacao, validade, nomeArquivo, arquivo, tipo in rows:
             row = i // 4
             col = i % 4
             template = licao()
             layout.addWidget(template, row, col)
             template.lbl_titulo_curso.setText(titulo)
             template.lbl_desc_curso.setText(desc)
+            template.lbl_tipo_de_arquivo.setText("Nenhum" if (not nomeArquivo or not arquivo) else f"{nomeArquivo}")
             template.btn_excluir.clicked.connect(partial(self.excluirLicao,id_licao, titulo))
             template.btn_editar.clicked.connect(partial(self.alterarLicao, id_licao))
             i = i + 1
@@ -824,7 +852,7 @@ class TelaInicial(QMainWindow):
         rows = cursor.fetchall()
         col_names = [desc[0] for desc in cursor.description]
 
-        excluded = ["foto_perfil", "experiencias", "sobre_mim"]
+        excluded = ["foto_perfil", "experiencias", "sobre_mim", "senha"]
         exclude_indices = [i for i, name in enumerate(col_names) if name in excluded]
 
         visible_col_names = [name for i, name in enumerate(col_names) if i not in exclude_indices]
@@ -1122,6 +1150,8 @@ class TelaInicial(QMainWindow):
     def mudarDashboard(self, index, cadastrar = False):
         if cadastrar:
             self.licaoAlterar = None
+            self.label_anexo.setText("PDF;VIDEO_AULA")
+            self.dados = None
             self.limparCampos()
 
         if index == 1:
@@ -1132,17 +1162,19 @@ class TelaInicial(QMainWindow):
                 return
 
             cursor = db.cursor()
-            query = "SELECT titulo, conteudo, metas FROM licoes WHERE id_licao = %s"
+            query = "SELECT titulo, conteudo, metas, nome_arquivo, arquivo, tipo FROM licoes WHERE id_licao = %s"
             cursor.execute(query, (self.licaoAlterar,))
             result = cursor.fetchone()
             if not (result is None):
-                titulo, conteudo, metas = result
+                titulo, conteudo, metas, nomeArquivo, arquivo, tipo = result
 
                 # self.titulo_cadastro_2.setText(f"Alterando {titulo} ({self.alterar})")
 
                 self.lineEdit_titulo.setText(titulo)
                 self.textEdit_desc.setPlainText(conteudo)
                 self.textEdit_metas.setPlainText(metas)
+                self.label_anexo.setText("PDF;VIDEO_AULA" if (not nomeArquivo or not arquivo) else f"{nomeArquivo}")
+                self.dados = [arquivo, tipo, nomeArquivo]
 
             cursor.close()
             db.close()
@@ -1190,6 +1222,9 @@ class TelaInicial(QMainWindow):
             "titulo": self.lineEdit_titulo.text(),
             "conteudo": self.textEdit_desc.toPlainText(),
             "metas": self.textEdit_metas.toPlainText(),
+            "nome_arquivo": self.dados[2],
+            "arquivo": self.dados[0],
+            "tipo": self.dados[1]
         }
 
         print("eba")
@@ -1208,17 +1243,23 @@ class TelaInicial(QMainWindow):
                       id_user = %s,
                       titulo = %s,
                       conteudo = %s,
-                      metas = %s
+                      metas = %s,
+                      nome_arquivo = %s,
+                      arquivo = %s,
+                      tipo = %s
                   WHERE id_licao = {self.licaoAlterar};
                   """
         else:
             query = """
                   INSERT INTO licoes
-                  (id_user, titulo, conteudo, metas)
-                  VALUES (%s, %s, %s, %s);
+                  (id_user, titulo, conteudo, metas, nome_arquivo, arquivo, tipo)
+                  VALUES (%s, %s, %s, %s, %s, %s, %s);
                   """
 
         values = tuple(valuesDictionaries.values())
+
+        QMessageBox.information(self, "Carregando...",
+                                "Enviando tarefa... caso seu anexo seja muito grande, por favor aguarde.")
 
         try:
             cursor.execute(query, values)
@@ -1227,6 +1268,8 @@ class TelaInicial(QMainWindow):
             QMessageBox.information(self, "Sucesso", "Tarefa alterada com sucesso!" if self.licaoAlterar else "Tarefa cadastrada com sucesso!")
 
             self.licaoAlterar = None
+            self.dados = None
+            self.label_anexo.setText("PDF;VIDEO_AULA")
             self.mudarDashboard(1)
             self.limparCampos()
         except mc.Error as err:
@@ -1255,6 +1298,8 @@ class TelaInicial(QMainWindow):
 
         self.alterar = None
         self.licaoAlterar = None
+        self.dados = None
+        self.label_anexo.setText("PDF;VIDEO_AULA")
 
     def cadastrarUsuario(self):
 
@@ -1291,11 +1336,11 @@ class TelaInicial(QMainWindow):
         if not receiverEmail:
             QMessageBox.warning(self, "Erro", "Email inválido.")
             return
-        query = f"SELECT email, cpf, rg FROM usuario WHERE email = '{receiverEmail}' or cpf = '{cpf}' or rg = '{rg}';"
+        query = f"SELECT email, cpf, rg, senha FROM usuario WHERE email = '{receiverEmail}' or cpf = '{cpf}' or rg = '{rg}';"
         cursor.execute(query)
         result = cursor.fetchone()
 
-        if result:
+        if result and not self.alterar:
             QMessageBox.information(self, "Aviso", "Esse E-Mail, CPF ou RG já está cadastrado!")
             return
 
@@ -1309,9 +1354,8 @@ class TelaInicial(QMainWindow):
             "cargo": self.comboBox_cargo.currentText(),
             "foto_perfil": img_data,
             "status": "OFFLINE",
-            "data_entrada": "NULL",
             "sobre_mim": "Sobre mim...",
-            "senha": senha,
+            "senha": result[3] if self.alterar else senha,
             "endereco": self.lineEdit_endereco.text(),
             "tipo_usuario": row[0] if row else "user",
             "experiencias": "Experiências..."
@@ -1337,7 +1381,6 @@ class TelaInicial(QMainWindow):
                 cargo = %s,
                 foto_perfil = %s,
                 status = %s,
-                data_entrada = %s,
                 sobre_mim = %s,
                 senha = %s,
                 endereco = %s,
@@ -1348,8 +1391,8 @@ class TelaInicial(QMainWindow):
         else:
             query = """
             INSERT INTO usuario
-            (nome, email, telefone, cpf, rg, departamento, cargo, foto_perfil, status, data_entrada, sobre_mim, senha, endereco, tipo_usuario, experiencias)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            (nome, email, telefone, cpf, rg, departamento, cargo, foto_perfil, status, sobre_mim, senha, endereco, tipo_usuario, experiencias)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
             """
 
         values = tuple(valuesDictionaries.values())
@@ -1360,8 +1403,9 @@ class TelaInicial(QMainWindow):
 
             QMessageBox.information(self, "Sucesso", "Usuário alterado com sucesso!" if self.alterar else "Usuário cadastrado com sucesso!" )
 
-            self.email_thread = EmailSender(receiverEmail, senha)
-            self.email_thread.start()
+            if not self.alterar:
+                self.email_thread = EmailSender(receiverEmail, senha)
+                self.email_thread.start()
 
             self.limparCampos()
             self.alterar = None
