@@ -1103,7 +1103,7 @@ class TelaInicial(QMainWindow):
             print("Error:", err)
 
     def updateChat(self, results):
-
+        self.ListUsers()
         if results:
             Session.last_message_id = results[len(results)-1][0]
 

@@ -402,7 +402,7 @@ class TelaInicial(QMainWindow):
 
         layout = container.layout()
 
-        self.chat_timer = self.DBLoopUdpate()
+        self.chat_timer = self.DBLoopUpdate()
         self.chat_timer.new_data.connect(self.updateChat)
         self.chat_timer.start()
 
@@ -866,7 +866,7 @@ class TelaInicial(QMainWindow):
             print("Error:", err)
 
     def updateChat(self, results):
-
+        self.ListUsers()
         if results:
             Session.last_message_id = results[len(results)-1][0]
 
@@ -910,6 +910,8 @@ class TelaInicial(QMainWindow):
     def mudarTela(self, index, update=True):
         if index == 2 and update:
             self.atualizarPerfil(Session.current_user["id_user"])
+        if index == 1:
+            self.ListUsers()
         self.stack.setCurrentIndex(index)
 
     def logOut(self):
