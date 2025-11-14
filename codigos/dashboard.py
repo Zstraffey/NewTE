@@ -242,6 +242,16 @@ class TelaInicial(QMainWindow):
             cursor.execute(query)
             results = cursor.fetchall()
             if results:
+
+                query = f"""
+                     UPDATE mensagens_chat
+                     SET lida = 1
+                     WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]}
+                 """
+                cursor.execute(query)
+                db.commit()
+                print(query)
+
                 self.new_data.emit(results)
 
         def run(self):
@@ -269,6 +279,15 @@ class TelaInicial(QMainWindow):
                 results = cursor.fetchall()
 
                 if results:
+                    query = f"""
+                         UPDATE mensagens_chat
+                         SET lida = 1
+                         WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]}
+                     """
+                    cursor.execute(query)
+                    db.commit()
+                    print(query)
+
                     self.new_data.emit(results)
 
                 db.close()
@@ -935,12 +954,18 @@ class TelaInicial(QMainWindow):
             btn = usuarioChat(user)
             btn.pushButton.clicked.connect(partial(callback, user))
 
+            btn.mensagens.setVisible(False)
+
+            if user["mensagens"] > 0:
+                btn.mensagens.setVisible(True)
+                btn.mensagens.setText(f'{user["mensagens"]}')
+
             icon = user["foto_perfil"].scaled(btn.foto_cntt.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
             btn.foto_cntt.setFixedSize(60, 60)
             btn.foto_cntt.setPixmap(icon)
 
             path = QPainterPath()
-            path.addEllipse(QRectF(0, 0, 60, 60))  # usa QRectF
+            path.addEllipse(QRectF(0, 0, 60, 60))
             region = QRegion(path.toFillPolygon().toPolygon())
 
             btn.foto_cntt.setMask(region)
@@ -988,14 +1013,33 @@ class TelaInicial(QMainWindow):
             return []
 
         cursor = db.cursor()
-        query = "SELECT id_user, nome, foto_perfil, cargo, status FROM usuario WHERE id_user != %s"
-        cursor.execute(query, (Session.current_user["id_user"],))
+
+        query = """
+              SELECT
+                  u.id_user,
+                  u.nome,
+                  u.foto_perfil,
+                  u.cargo,
+                  u.status,
+                  (
+                      SELECT MAX(m.data_envio)
+                      FROM mensagens_chat m
+                      WHERE 
+                          (m.remetente_id = u.id_user AND m.destinatario_id = %s)
+                          OR
+                          (m.destinatario_id = u.id_user AND m.remetente_id = %s)
+                  ) AS data_envio
+              FROM usuario u
+              WHERE u.id_user != %s
+              ORDER BY data_envio DESC
+          """
+        current_id = Session.current_user["id_user"]
+
+        cursor.execute(query, (current_id, current_id, current_id))
         results = cursor.fetchall()
-        cursor.close()
-        db.close()
 
         users = []
-        for id_user, nome, foto_perfil, cargo, status in results:
+        for id_user, nome, foto_perfil, cargo, status, ultima_msg in results:
             pixmap = QPixmap()
 
             if foto_perfil:
@@ -1004,13 +1048,22 @@ class TelaInicial(QMainWindow):
             if pixmap.isNull():
                 pixmap = QPixmap('../imagens/user.png')
 
+            query = "SELECT COUNT(*) FROM mensagens_chat WHERE destinatario_id = %s AND lida = 0 AND remetente_id = %s"
+            cursor.execute(query, (Session.current_user["id_user"], id_user))
+            mensagens = cursor.fetchone()[0]
+
             users.append({
                 "id_user": id_user,
                 "nome": nome,
                 "foto_perfil": pixmap,
                 "cargo" : cargo,
                 "status" : status,
+                "mensagens" : mensagens,
             })
+            print(ultima_msg)
+
+        cursor.close()
+        db.close()
 
         return users
 
