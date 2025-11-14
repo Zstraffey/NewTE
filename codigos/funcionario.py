@@ -484,12 +484,14 @@ class TelaInicial(QMainWindow):
         print(id)
         db = bancoDados().conectar()
         cursor = db.cursor()
-        cursor.execute(f"SELECT nome, departamento, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = {id}")
+        cursor.execute(f"SELECT id_user, nome, departamento, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = {id}")
 
         row = cursor.fetchone()
 
         if not (row is None):
-            nome, departamento, cargo, foto_perfil, sobre_mim, experiencias = row
+            id_user, nome, departamento, cargo, foto_perfil, sobre_mim, experiencias = row
+
+            self.btn_editar_perfil.setVisible(True if Session.current_user["id_user"] == id_user else False)
 
             self.nome_funcionario.setText(f'<html><head/><body><p><span style=" font-size:22pt;">{nome}</span></p></body></html>')
             self.cargo_func.setText(f'<html><head/><body><p><span style=" font-size:14pt;">{cargo}</span></p></body></html>')
