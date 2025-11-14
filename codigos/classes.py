@@ -157,7 +157,7 @@ class PopupDepto(QDialog):
             self,
             "Selecionar foto",
             "",
-            "Imagens (*.png *.jpg *.jpeg *.bmp *.gif)"
+            "Imagens (*.png *.jpg *.jpeg *.bmp *.gif *.jfif)"
         )
 
         if caminho_foto:

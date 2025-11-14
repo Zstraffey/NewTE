@@ -967,7 +967,7 @@ class TelaInicial(QMainWindow):
 
     def escolherFoto(self):
         file_path, _ = QFileDialog.getOpenFileName(
-            self, "Select Image", "", "Images (*.png *.jpg *.jpeg *.bmp)"
+            self, "Select Image", "", "Images (*.png *.jpg *.jpeg *.bmp *.jfif)"
         )
 
         if not file_path:
