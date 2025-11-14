@@ -1103,7 +1103,7 @@ border-radius:15px;}</string>
                              <x>0</x>
                              <y>0</y>
                              <width>515</width>
-                             <height>295</height>
+                             <height>285</height>
                             </rect>
                            </property>
                            <property name="maximumSize">
@@ -1258,7 +1258,7 @@ QPushButton{
                            <font>
                             <family>Inter 18pt SemiBold</family>
                             <pointsize>8</pointsize>
-                            <weight>7</weight>
+                            <weight>8</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
@@ -1501,8 +1501,8 @@ QComboBox:checked {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1210</width>
-                             <height>581</height>
+                             <width>100</width>
+                             <height>30</height>
                             </rect>
                            </property>
                            <property name="sizePolicy">
@@ -1576,7 +1576,7 @@ border-radius: 9px;</string>
                      <font>
                       <family>Inter 18pt SemiBold</family>
                       <pointsize>8</pointsize>
-                      <weight>7</weight>
+                      <weight>8</weight>
                       <italic>false</italic>
                       <bold>false</bold>
                      </font>
@@ -2128,7 +2128,7 @@ border-radius: 9px;</string>
                         <font>
                          <family>Inter 18pt SemiBold</family>
                          <pointsize>8</pointsize>
-                         <weight>7</weight>
+                         <weight>8</weight>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -2528,7 +2528,7 @@ QCalendarWidget {
                            <font>
                             <family>Segoe UI</family>
                             <pointsize>-1</pointsize>
-                            <weight>7</weight>
+                            <weight>8</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
@@ -2606,7 +2606,7 @@ border-radius: 9px;</string>
                            <font>
                             <family>Inter 18pt SemiBold</family>
                             <pointsize>10</pointsize>
-                            <weight>7</weight>
+                            <weight>8</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
@@ -2735,7 +2735,7 @@ QTextEdit {
                               <font>
                                <family>Inter 18pt SemiBold</family>
                                <pointsize>20</pointsize>
-                               <weight>7</weight>
+                               <weight>8</weight>
                                <italic>false</italic>
                                <bold>false</bold>
                               </font>
@@ -3441,7 +3441,7 @@ QPushButton:hover {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>100</width>
+                             <width>773</width>
                              <height>16</height>
                             </rect>
                            </property>
@@ -4444,7 +4444,7 @@ Line{
                              <item>
                               <widget class="QLineEdit" name="lineEdit_endereco">
                                <property name="placeholderText">
-                                <string>Rua Tapaxanas</string>
+                                <string>Rua Exemplo, Nº 222 Complemento</string>
                                </property>
                               </widget>
                              </item>
@@ -5430,8 +5430,8 @@ QPushButton:hover {
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="btns_sidebar"/>
   <buttongroup name="cancelar_confirmar"/>
+  <buttongroup name="rendimen_func_calen"/>
  </buttongroups>
 </ui>
