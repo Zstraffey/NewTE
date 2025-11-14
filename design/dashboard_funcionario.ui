@@ -301,7 +301,7 @@ QPushButton:icon {
                 <font>
                  <family>Inter 28pt SemiBold</family>
                  <pointsize>12</pointsize>
-                 <weight>7</weight>
+                 <weight>8</weight>
                  <italic>false</italic>
                  <bold>false</bold>
                 </font>
@@ -1042,7 +1042,7 @@ font: 81 26pt &quot;Inter ExtraBold&quot;;</string>
                                        </sizepolicy>
                                       </property>
                                       <property name="text">
-                                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:26pt; font-weight:600;&quot;&gt;65&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;8&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                                       </property>
                                      </widget>
                                     </item>
@@ -1134,7 +1134,7 @@ background-color:rgb(79, 79, 79);</string>
                                     <item>
                                      <widget class="QLabel" name="lbl_novas_mensagens">
                                       <property name="text">
-                                       <string>34</string>
+                                       <string>1</string>
                                       </property>
                                      </widget>
                                     </item>
@@ -1182,7 +1182,7 @@ background-color:rgb(79, 79, 79);</string>
                                        </sizepolicy>
                                       </property>
                                       <property name="text">
-                                       <string>Roberto:vai trabalha arrombado</string>
+                                       <string>Roberto:faça o documento que eu te pedi</string>
                                       </property>
                                      </widget>
                                     </item>
@@ -1290,7 +1290,7 @@ QProgressBar::chunk {
 }</string>
                                 </property>
                                 <property name="value">
-                                 <number>25</number>
+                                 <number>63</number>
                                 </property>
                                 <property name="textVisible">
                                  <bool>false</bool>
@@ -1520,7 +1520,7 @@ background-color: rgb(108, 108, 108);
                                        <font>
                                         <family>Inter 28pt SemiBold</family>
                                         <pointsize>18</pointsize>
-                                        <weight>7</weight>
+                                        <weight>8</weight>
                                         <italic>false</italic>
                                         <bold>false</bold>
                                        </font>
@@ -1893,7 +1893,7 @@ background-color: rgb(108, 108, 108);
                                      <font>
                                       <family>Inter 18pt SemiBold</family>
                                       <pointsize>10</pointsize>
-                                      <weight>7</weight>
+                                      <weight>8</weight>
                                       <italic>false</italic>
                                       <bold>false</bold>
                                      </font>
@@ -2267,7 +2267,7 @@ border-radius:15px;
                                 <x>0</x>
                                 <y>0</y>
                                 <width>480</width>
-                                <height>277</height>
+                                <height>261</height>
                                </rect>
                               </property>
                               <property name="minimumSize">
@@ -2599,7 +2599,7 @@ border-radius: 9px;</string>
                      <font>
                       <family>Inter 28pt SemiBold</family>
                       <pointsize>8</pointsize>
-                      <weight>7</weight>
+                      <weight>8</weight>
                       <italic>false</italic>
                       <bold>false</bold>
                      </font>
@@ -3075,7 +3075,7 @@ QPushButton{
                         <font>
                          <family>Inter 28pt SemiBold</family>
                          <pointsize>8</pointsize>
-                         <weight>7</weight>
+                         <weight>8</weight>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -3375,7 +3375,7 @@ border-radius: 9px;</string>
                            <font>
                             <family>Inter 18pt SemiBold</family>
                             <pointsize>10</pointsize>
-                            <weight>7</weight>
+                            <weight>8</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
