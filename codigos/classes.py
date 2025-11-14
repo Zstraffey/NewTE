@@ -258,13 +258,12 @@ class GeradorSenha:
         self.tamanho = tamanho
 
     def gerar(self):
-        # Conjuntos de caracteres permitidos
+
         letras_minusculas = string.ascii_lowercase
         letras_maiusculas = string.ascii_uppercase
         numeros = string.digits
         especiais = "!@#$%^&*()-_=+[]{};:,.<>?/|\\"
 
-        # Garante que tenha pelo menos 1 de cada tipo
         senha = [
             random.choice(letras_minusculas),
             random.choice(letras_maiusculas),
@@ -272,12 +271,9 @@ class GeradorSenha:
             random.choice(especiais),
         ]
 
-        # Preenche o restante com caracteres aleatórios de todos os tipos
         todos = letras_minusculas + letras_maiusculas + numeros + especiais
         senha += random.choices(todos, k=self.tamanho - 4)
 
-        # Embaralha tudo
         random.shuffle(senha)
 
-        # Junta e retorna como string
         return ''.join(senha)
