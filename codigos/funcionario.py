@@ -1,6 +1,8 @@
 import os
 os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--disable-gpu --disable-software-rasterizer --no-sandbox"
 
+import vlc
+
 from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF, QDate
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView, \
     QSizePolicy, QGridLayout, QDialog, QVBoxLayout, QHBoxLayout, QLabel, QSlider
@@ -106,12 +108,11 @@ class VisualizadorArquivo(QDialog):
         layout = QVBoxLayout(self)
         self.setLayout(layout)
 
-        # guarda referências para evitar GC (player etc.)
         self._player = None
         self._viewer = None
+        self.timer = None
 
         try:
-            # Verifica se o arquivo realmente existe
             if not os.path.exists(caminho_arquivo):
                 raise FileNotFoundError("Arquivo não encontrado.")
 
@@ -128,31 +129,36 @@ class VisualizadorArquivo(QDialog):
                 self._viewer.settings().setAttribute(self._viewer.settings().PdfViewerEnabled, True)
 
                 file_url = QUrl.fromLocalFile(caminho_arquivo)
-                print("Carregando:", file_url.toString())
-
                 self._viewer.load(file_url)
-                # forçar zoom/refresh leve após carregamento
+
                 QTimer.singleShot(300, lambda: self._viewer.setZoomFactor(1.0))
 
             # -----------------------------
-            # VISUALIZADOR DE VÍDEO
+            # VISUALIZADOR DE VÍDEO (VLC)
             # -----------------------------
-            elif tipo in ["mp4", "avi", "mov", "mkv"]:
-                from PyQt5.QtCore import QTime
-
-                self._player = QMediaPlayer(None, QMediaPlayer.VideoSurface)
+            elif tipo in ["mp4", "avi", "mov", "mkv", "webm"]:
                 video_widget = QVideoWidget()
                 layout.addWidget(video_widget)
 
-                # conecta o player ao widget de vídeo
-                self._player.setVideoOutput(video_widget)
-                self._player.setMedia(QMediaContent(QUrl.fromLocalFile(caminho_arquivo)))
+                # VLC
+                self._vlc_instance = vlc.Instance()
+                self._vlc_media = self._vlc_instance.media_new(caminho_arquivo)
+                self._player = self._vlc_instance.media_player_new()
+                self._player.set_media(self._vlc_media)
+
+                # conectar vídeo ao widget
+                winid = int(video_widget.winId())
+                if os.name == "nt":
+                    self._player.set_hwnd(winid)
+                elif os.name == "posix":
+                    self._player.set_xwindow(winid)
+
                 self._player.play()
 
-                # ==== Controles ====
+                # ==== CONTROLES ====
                 controls_layout = QHBoxLayout()
 
-                # Play/pause
+                # Botão play/pause
                 self.play_btn = QPushButton("⏸ Pausar")
                 self.play_btn.clicked.connect(self.toggle_play_pause)
                 controls_layout.addWidget(self.play_btn)
@@ -161,7 +167,7 @@ class VisualizadorArquivo(QDialog):
                 self.label_tempo_atual = QLabel("00:00")
                 controls_layout.addWidget(self.label_tempo_atual)
 
-                # Slider (barra de progresso)
+                # Slider
                 self.slider = QSlider(Qt.Horizontal)
                 self.slider.setRange(0, 0)
                 controls_layout.addWidget(self.slider)
@@ -172,35 +178,36 @@ class VisualizadorArquivo(QDialog):
 
                 layout.addLayout(controls_layout)
 
-                # ==== Conexões ====
-                # Atualiza o slider conforme o vídeo toca
-                self._player.positionChanged.connect(self._atualizar_slider)
-                self._player.durationChanged.connect(self._atualizar_duracao)
+                # Quando mover o slider
                 self.slider.sliderMoved.connect(self._mudar_posicao)
 
-            # -----------------------------
-            # OUTROS FORMATOS → ABRE NO SISTEMA
-            # -----------------------------
+                # Timer para atualizar UI
+                self.timer = QTimer()
+                self.timer.setInterval(200)
+                self.timer.timeout.connect(self._update_vlc_ui)
+                self.timer.start()
+
             else:
                 QMessageBox.information(
                     self,
                     "Abrindo Externamente",
-                    f"O formato '{tipo}' não é suportado internamente.\nO arquivo será aberto com o programa padrão do sistema."
+                    f"O formato '{tipo}' não é suportado internamente.\n"
+                    f"O arquivo será aberto com o programa padrão."
                 )
                 self._abrir_externo_e_fechar(caminho_arquivo)
                 return
-
-            # não chama exec_() aqui — deixe quem instanciou chamar exec_()
-            # self.show() opcional: quem chama geralmente faz viewer.exec_()
 
         except Exception as e:
             QMessageBox.critical(self, "Erro ao abrir arquivo", str(e))
             try:
                 self._abrir_externo_e_fechar(caminho_arquivo)
-            except Exception:
+            except:
                 pass
-            # garante fechamento do diálogo
             self.close()
+
+    # ----------------------------------------------
+    # Métodos auxiliares
+    # ----------------------------------------------
 
     def _abrir_externo_e_fechar(self, caminho):
         try:
@@ -210,40 +217,46 @@ class VisualizadorArquivo(QDialog):
                 subprocess.call(('xdg-open', caminho))
             else:
                 QMessageBox.information(self, "Arquivo salvo", f"Arquivo em: {caminho}")
-        except Exception as e:
-            QMessageBox.critical(self, "Erro ao abrir externo", str(e))
         finally:
             try:
                 self.accept()
             except:
                 self.close()
 
-    def _atualizar_slider(self, position):
-        """Atualiza posição do slider e tempo atual"""
-        if not self.slider.isSliderDown():  # não sobrepor se o usuário está arrastando
-            self.slider.setValue(position)
-        self.label_tempo_atual.setText(self._formatar_tempo(position))
+    # ---------- VLC UI UPDATE ----------
+    def _update_vlc_ui(self):
+        if self._player is None:
+            return
 
-    def _atualizar_duracao(self, duration):
-        """Define o range máximo do slider e o tempo total"""
-        self.slider.setRange(0, duration)
-        self.label_tempo_total.setText(self._formatar_tempo(duration))
+        length = self._player.get_length()  # ms
+        if length > 0 and self.slider.maximum() != length:
+            self.slider.setRange(0, length)
+            self.label_tempo_total.setText(self._formatar_tempo(length))
 
+        pos = self._player.get_time()  # ms
+        if not self.slider.isSliderDown():
+            self.slider.setValue(pos)
+
+        self.label_tempo_atual.setText(self._formatar_tempo(pos))
+
+    # ---------- SLIDER / SEEK ----------
     def _mudar_posicao(self, position):
-        """Quando o usuário move o slider"""
-        self._player.setPosition(position)
+        if self._player:
+            self._player.set_time(position)
 
+    # ---------- FORMATAR TEMPO ----------
     def _formatar_tempo(self, ms):
-        """Converte milissegundos para mm:ss"""
         secs = ms // 1000
         mins = secs // 60
         secs = secs % 60
         return f"{mins:02d}:{secs:02d}"
 
+    # ---------- PLAY / PAUSE ----------
     def toggle_play_pause(self):
         if self._player is None:
             return
-        if self._player.state() == QMediaPlayer.PlayingState:
+
+        if self._player.is_playing():
             self._player.pause()
             self.play_btn.setText("▶ Reproduzir")
         else:
