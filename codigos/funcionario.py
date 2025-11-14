@@ -1,4 +1,6 @@
 import os
+from encodings import normalize_encoding
+
 os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--disable-gpu --disable-software-rasterizer --no-sandbox"
 
 import vlc
@@ -276,6 +278,23 @@ class usuarioChat(QWidget):
 
         self.nome_salvo.setText(user["nome"])
 
+class agendaListada(QWidget):
+    def __init__(self, agenda):#, callback):
+        print(agenda)
+        super().__init__()
+        loadUi("../design/templates/compromisso_marcado_agenda.ui", self)
+
+        dias = [
+            "Seg", "Ter", "Qua",
+            "Qui", "Sex", "Sáb", "Dom"
+        ]
+
+        dia_semana = dias[agenda["data"].weekday()]
+
+        self.lbl_nome_compromisso.setText(agenda["nome"])
+        self.lbl_data.setText(agenda["data"].strftime("%d/%m"))
+        self.lbl_dia_semanal.setText(dia_semana)
+
 class TelaInicial(QMainWindow):
     class DBLoopUpdate(QThread):
         new_data = pyqtSignal(list)
@@ -429,7 +448,41 @@ class TelaInicial(QMainWindow):
         self.btn_voltar.clicked.connect(partial(self.mudarDashboard, 2))
         self.btn_concluir.clicked.connect(self.concluirAtividade)
 
+        self.listarCalendario()
+
         self.atualizarLicoes()
+
+    def listarCalendario(self):
+        container = self.scroll_agenda.widget()
+        self.scroll_agenda.setWidgetResizable(True)
+
+        layout = container.layout()
+        self.clearLayout(layout)
+
+        db = bancoDados().conectar()
+
+        if not db:
+            return
+
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM calendario")
+        datas = cursor.fetchall()
+        cursor.close()
+        db.close()
+
+        for id_calendario, titulo, descricao, data in datas:
+            lista = {
+                "nome" : titulo,
+                "data" : data,
+            }
+
+            btn = agendaListada(lista)
+
+            layout.addWidget(btn)
+
+        layout.addStretch()
+
+
 
     def atualizarCalendario(self):
         db = bancoDados().conectar()

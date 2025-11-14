@@ -1501,8 +1501,8 @@ QComboBox:checked {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1193</width>
-                             <height>18</height>
+                             <width>100</width>
+                             <height>30</height>
                             </rect>
                            </property>
                            <property name="sizePolicy">
@@ -4367,7 +4367,7 @@ Line{
                                </property>
                                <property name="maximumSize">
                                 <size>
-                                 <width>700</width>
+                                 <width>500</width>
                                  <height>40</height>
                                 </size>
                                </property>
@@ -4394,7 +4394,7 @@ Line{
                               <widget class="QLineEdit" name="lineEdit_email">
                                <property name="maximumSize">
                                 <size>
-                                 <width>700</width>
+                                 <width>500</width>
                                  <height>40</height>
                                 </size>
                                </property>
@@ -4427,7 +4427,7 @@ Line{
                               <widget class="QLineEdit" name="lineEdit_telefone">
                                <property name="maximumSize">
                                 <size>
-                                 <width>700</width>
+                                 <width>500</width>
                                  <height>40</height>
                                 </size>
                                </property>
@@ -4463,7 +4463,7 @@ Line{
                               <widget class="QLineEdit" name="lineEdit_endereco">
                                <property name="maximumSize">
                                 <size>
-                                 <width>700</width>
+                                 <width>500</width>
                                  <height>40</height>
                                 </size>
                                </property>
@@ -4490,7 +4490,7 @@ Line{
                               <widget class="QLineEdit" name="lineEdit_cpf">
                                <property name="maximumSize">
                                 <size>
-                                 <width>700</width>
+                                 <width>500</width>
                                  <height>40</height>
                                 </size>
                                </property>
@@ -4520,7 +4520,7 @@ Line{
                               <widget class="QLineEdit" name="lineEdit_rg">
                                <property name="maximumSize">
                                 <size>
-                                 <width>700</width>
+                                 <width>500</width>
                                  <height>40</height>
                                 </size>
                                </property>
@@ -5520,8 +5520,8 @@ QPushButton:hover {
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="cancelar_confirmar"/>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="btns_sidebar"/>
+  <buttongroup name="rendimen_func_calen"/>
+  <buttongroup name="cancelar_confirmar"/>
  </buttongroups>
 </ui>
