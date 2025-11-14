@@ -1501,8 +1501,8 @@ QComboBox:checked {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>100</width>
-                             <height>30</height>
+                             <width>1193</width>
+                             <height>18</height>
                             </rect>
                            </property>
                            <property name="sizePolicy">
@@ -4365,6 +4365,12 @@ Line{
                                  <height>25</height>
                                 </size>
                                </property>
+                               <property name="maximumSize">
+                                <size>
+                                 <width>700</width>
+                                 <height>40</height>
+                                </size>
+                               </property>
                                <property name="placeholderText">
                                 <string>Nome</string>
                                </property>
@@ -4386,6 +4392,12 @@ Line{
                              </item>
                              <item>
                               <widget class="QLineEdit" name="lineEdit_email">
+                               <property name="maximumSize">
+                                <size>
+                                 <width>700</width>
+                                 <height>40</height>
+                                </size>
+                               </property>
                                <property name="inputMask">
                                 <string/>
                                </property>
@@ -4413,6 +4425,12 @@ Line{
                              </item>
                              <item>
                               <widget class="QLineEdit" name="lineEdit_telefone">
+                               <property name="maximumSize">
+                                <size>
+                                 <width>700</width>
+                                 <height>40</height>
+                                </size>
+                               </property>
                                <property name="inputMask">
                                 <string>(00)00000-0000;_</string>
                                </property>
@@ -4443,6 +4461,12 @@ Line{
                              </item>
                              <item>
                               <widget class="QLineEdit" name="lineEdit_endereco">
+                               <property name="maximumSize">
+                                <size>
+                                 <width>700</width>
+                                 <height>40</height>
+                                </size>
+                               </property>
                                <property name="placeholderText">
                                 <string>Rua Exemplo, Nº 222 Complemento</string>
                                </property>
@@ -4464,6 +4488,12 @@ Line{
                              </item>
                              <item>
                               <widget class="QLineEdit" name="lineEdit_cpf">
+                               <property name="maximumSize">
+                                <size>
+                                 <width>700</width>
+                                 <height>40</height>
+                                </size>
+                               </property>
                                <property name="inputMask">
                                 <string>000.000.000-00;_</string>
                                </property>
@@ -4488,6 +4518,12 @@ Line{
                              </item>
                              <item>
                               <widget class="QLineEdit" name="lineEdit_rg">
+                               <property name="maximumSize">
+                                <size>
+                                 <width>700</width>
+                                 <height>40</height>
+                                </size>
+                               </property>
                                <property name="inputMask">
                                 <string>00.000.000-0;_</string>
                                </property>
@@ -4524,6 +4560,12 @@ Line{
                                  <height>0</height>
                                 </size>
                                </property>
+                               <property name="maximumSize">
+                                <size>
+                                 <width>16777215</width>
+                                 <height>40</height>
+                                </size>
+                               </property>
                                <property name="styleSheet">
                                 <string notr="true">    border-radius: 6px;
 	border: none;</string>
@@ -4546,15 +4588,21 @@ Line{
                                 </property>
                                 <item>
                                  <widget class="QComboBox" name="comboBox_depto">
+                                  <property name="sizePolicy">
+                                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                   </sizepolicy>
+                                  </property>
                                   <property name="minimumSize">
                                    <size>
-                                    <width>116</width>
-                                    <height>0</height>
+                                    <width>181</width>
+                                    <height>41</height>
                                    </size>
                                   </property>
                                   <property name="maximumSize">
                                    <size>
-                                    <width>506</width>
+                                    <width>700</width>
                                     <height>41</height>
                                    </size>
                                   </property>
@@ -4564,15 +4612,26 @@ Line{
                                   <property name="styleSheet">
                                    <string notr="true">	color: #000000;
     background-color: rgb(255, 255, 255);
-	max-height: 35px;   /* largura mínima */
-	max-width: 500px;   /* largura mínima */
+
     border-radius: 6px;
 	border: none;
 
 
     border-radius: 6px;
     border: 3px solid #ffffff;
-    min-width: 110px;   /* largura mínima */</string>
+</string>
+                                  </property>
+                                  <property name="maxVisibleItems">
+                                   <number>10</number>
+                                  </property>
+                                  <property name="insertPolicy">
+                                   <enum>QComboBox::InsertAtBottom</enum>
+                                  </property>
+                                  <property name="sizeAdjustPolicy">
+                                   <enum>QComboBox::AdjustToContents</enum>
+                                  </property>
+                                  <property name="minimumContentsLength">
+                                   <number>0</number>
                                   </property>
                                   <property name="duplicatesEnabled">
                                    <bool>true</bool>
@@ -4669,29 +4728,47 @@ border: 3px solid #F44336;
                              </item>
                              <item alignment="Qt::AlignLeft">
                               <widget class="QWidget" name="widget_13" native="true">
+                               <property name="minimumSize">
+                                <size>
+                                 <width>592</width>
+                                 <height>0</height>
+                                </size>
+                               </property>
+                               <property name="maximumSize">
+                                <size>
+                                 <width>16777215</width>
+                                 <height>40</height>
+                                </size>
+                               </property>
                                <property name="styleSheet">
                                 <string notr="true">    border-radius: 6px;
 	border: none;</string>
                                </property>
-                               <layout class="QHBoxLayout" name="horizontalLayout_17">
+                               <layout class="QHBoxLayout" name="horizontalLayout_13">
                                 <property name="leftMargin">
                                  <number>0</number>
                                 </property>
                                 <property name="topMargin">
                                  <number>0</number>
                                 </property>
-                                <property name="rightMargin">
-                                 <number>0</number>
-                                </property>
-                                <property name="bottomMargin">
-                                 <number>0</number>
-                                </property>
                                 <item>
                                  <widget class="QComboBox" name="comboBox_cargo">
+                                  <property name="sizePolicy">
+                                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                   </sizepolicy>
+                                  </property>
                                   <property name="minimumSize">
                                    <size>
-                                    <width>500</width>
-                                    <height>0</height>
+                                    <width>186</width>
+                                    <height>41</height>
+                                   </size>
+                                  </property>
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>700</width>
+                                    <height>41</height>
                                    </size>
                                   </property>
                                   <property name="cursor">
@@ -4699,14 +4776,27 @@ border: 3px solid #F44336;
                                   </property>
                                   <property name="styleSheet">
                                    <string notr="true">	color: #000000;
-	background-color: rgb(255, 255, 255);
-	max-height: 35px;   /* largura mínima */
-	max-width: 500px;   /* largura mínima */
+    background-color: rgb(255, 255, 255);
+
     border-radius: 6px;
 	border: none;
+
+
     border-radius: 6px;
     border: 3px solid #ffffff;
-  </string>
+</string>
+                                  </property>
+                                  <property name="maxVisibleItems">
+                                   <number>10</number>
+                                  </property>
+                                  <property name="insertPolicy">
+                                   <enum>QComboBox::InsertAtBottom</enum>
+                                  </property>
+                                  <property name="sizeAdjustPolicy">
+                                   <enum>QComboBox::AdjustToContents</enum>
+                                  </property>
+                                  <property name="minimumContentsLength">
+                                   <number>0</number>
                                   </property>
                                   <property name="duplicatesEnabled">
                                    <bool>true</bool>
@@ -5430,8 +5520,8 @@ QPushButton:hover {
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="btns_sidebar"/>
   <buttongroup name="cancelar_confirmar"/>
   <buttongroup name="rendimen_func_calen"/>
+  <buttongroup name="btns_sidebar"/>
  </buttongroups>
 </ui>
