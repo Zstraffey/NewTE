@@ -18,6 +18,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
+from openpyxl import Workbook
+
 import calendar
 
 class GraficoCanvas(FigureCanvas):
@@ -209,6 +211,9 @@ def filtrar_texto(texto_original):
                                     palavra_texto[0] + "#" * (len(palavra_texto) - 1),
                                     texto_filtrado, flags=re.IGNORECASE)
 
+    if texto_filtrado != texto_original:
+        QMessageBox.warning(None, "Aviso", "O termo utilizado na sua mensagem não se enquadra na Política de Linguagem e Conduta no ambiente de trabalho.")
+
     return texto_filtrado
 
 class usuarioChat(QWidget):
@@ -263,7 +268,7 @@ class TelaInicial(QMainWindow):
                 query = f"""
                      UPDATE mensagens_chat
                      SET lida = 1
-                     WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]}
+                     WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]} AND remetente_id = {Session.loaded_chat}
                  """
                 cursor.execute(query)
                 db.commit()
@@ -299,7 +304,7 @@ class TelaInicial(QMainWindow):
                     query = f"""
                          UPDATE mensagens_chat
                          SET lida = 1
-                         WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]}
+                         WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]} AND remetente_id = {Session.loaded_chat}
                      """
                     cursor.execute(query)
                     db.commit()
@@ -382,6 +387,7 @@ class TelaInicial(QMainWindow):
         self.btn_anexar.clicked.connect(self.anexarLicao)
 
         self.widget_calendario.activated.connect(self.calendarioClique)
+        self.btn_baixar_tabela.clicked.connect(self.exportar_para_excel)
 
         self.proximo.clicked.connect(self.proximaPagina)
         self.voltar.clicked.connect(self.paginaAnterior)
@@ -390,6 +396,46 @@ class TelaInicial(QMainWindow):
         self.atualizarCalendario()
         self.atualizarDashboard()
         self.atualizarGrafico()
+
+
+    def exportar_para_excel(self):
+        # Se sua tabela for QTableWidget:
+        table = self.tabela_usuarios
+
+        # Abrir janela para escolher onde salvar
+        caminho, _ = QFileDialog.getSaveFileName(
+            self,
+            "Salvar como Excel",
+            "",
+            "Arquivo Excel (*.xlsx)"
+        )
+
+        if not caminho:
+            return
+
+        wb = Workbook()
+        ws = wb.active
+
+        # ------ Cabeçalhos ------
+        col_count = table.columnCount()
+        row_count = table.rowCount()
+
+        for col in range(col_count):
+            header = table.horizontalHeaderItem(col)
+            ws.cell(row=1, column=col + 1).value = header.text() if header else ""
+
+        # ------ Dados ------
+        for row in range(row_count):
+            for col in range(col_count):
+                item = table.item(row, col)
+                ws.cell(row=row + 2, column=col + 1).value = item.text() if item else ""
+
+        # Salvar arquivo
+        try:
+            wb.save(caminho)
+            QMessageBox.information(self, "Sucesso", "Arquivo Excel salvo com sucesso!")
+        except Exception as e:
+            QMessageBox.warning(self, "Erro", f"Erro ao salvar arquivo:\n{e}")
 
     def updateDashboardList(self):
         db = bancoDados().conectar()
@@ -566,17 +612,18 @@ class TelaInicial(QMainWindow):
         ax.xaxis.label.set_color("white")
         ax.yaxis.label.set_color("white")
 
-        ax.tick_params(axis='x', colors='white')
-        ax.tick_params(axis='y', colors='white')
+        # Texto branco e NEGRITO
+        ax.set_xlabel("Meses", color="white", fontweight="bold")
+        ax.set_ylabel("Lições", color="white", fontweight="bold")
+        ax.set_title("Progresso Mensal", color="white", fontweight="bold")
 
-        # Bordas brancas (ou invisíveis)
+        # Eixos em branco e negrito
+        ax.tick_params(axis='x', colors='white', labelsize=9)
+        ax.tick_params(axis='y', colors='white', labelsize=9)
+
+        # Bordas brancas
         for spine in ax.spines.values():
-            spine.set_color("white")  # ou: spine.set_visible(False)
-
-        # Título e labels
-        ax.set_xlabel("Meses")
-        ax.set_ylabel("Lições")
-        ax.set_title("Progresso Mensal")
+            spine.set_color("white")
 
         fig.tight_layout()
 

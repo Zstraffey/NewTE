@@ -330,7 +330,7 @@ class TelaInicial(QMainWindow):
                 query = f"""
                      UPDATE mensagens_chat
                      SET lida = 1
-                     WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]}
+                     WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]} AND remetente_id = {Session.loaded_chat}
                  """
                 cursor.execute(query)
                 db.commit()
@@ -366,7 +366,7 @@ class TelaInicial(QMainWindow):
                     query = f"""
                          UPDATE mensagens_chat
                          SET lida = 1
-                         WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]}
+                         WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]} AND remetente_id = {Session.loaded_chat}
                      """
                     cursor.execute(query)
                     db.commit()
