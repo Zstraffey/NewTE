@@ -1,3 +1,4 @@
+import math
 import os
 from encodings import normalize_encoding
 
@@ -449,8 +450,93 @@ class TelaInicial(QMainWindow):
         self.btn_concluir.clicked.connect(self.concluirAtividade)
 
         self.listarCalendario()
+        self.atualizarProgresso()
 
         self.atualizarLicoes()
+
+    def atualizarProgresso(self):
+        db = bancoDados().conectar()
+
+        if not db:
+            return
+
+        cursor = db.cursor()
+
+        cursor.execute("SELECT COUNT(*) FROM licoes")
+        total = cursor.fetchone()[0]
+        cursor.execute(f"SELECT COUNT(*) FROM usuario_licao_realizada WHERE id_usuario = {Session.current_user['id_user']}")
+        realizadas = cursor.fetchone()[0]
+
+        self.lbl_progresso.setText(f"{realizadas}/{total}")
+        self.barra_progresso.setValue(math.floor(realizadas/total)*100)
+
+        self.lbl_novas_licoes.setText(f"{total-realizadas}")
+
+        query = """
+            SELECT id_licao, titulo
+            FROM licoes
+            WHERE id_licao NOT IN (
+                SELECT id_licao
+                FROM usuario_licao_realizada
+                WHERE id_usuario = %s
+            )
+        """
+
+        cursor.execute(query, (Session.current_user['id_user'],))
+        resultados = cursor.fetchall()
+
+        container = self.dash_licoes.widget()
+        self.dash_licoes.setWidgetResizable(True)
+
+        layout = container.layout()
+        self.clearLayout(layout)
+
+        for id_licao, titulo in resultados:
+            label = QLabel(titulo)
+            label.setStyleSheet("""
+                 QLabel {
+                     font-size: 14px;
+                     color: white;
+                     padding: 6px;
+                 }
+             """)
+            layout.addWidget(label)
+
+        cursor.execute(f"SELECT COUNT(*) FROM mensagens_chat WHERE destinatario_id = {Session.current_user['id_user']} AND lida = 0")
+        contagem = cursor.fetchone()[0]
+        self.lbl_novas_mensagens.setText(f"{contagem}")
+
+        query = """
+            SELECT DISTINCT u.id_user, u.nome
+            FROM usuario u
+            JOIN mensagens_chat m 
+                ON m.remetente_id = u.id_user
+            WHERE m.destinatario_id = %s
+              AND m.lida = 0
+        """
+
+        cursor.execute(query, (Session.current_user['id_user'],))
+        resultados = cursor.fetchall()
+
+        container = self.dash_mensagens.widget()
+        self.dash_mensagens.setWidgetResizable(True)
+
+        layout = container.layout()
+        self.clearLayout(layout)
+
+        for id_user, nome in resultados:
+            label = QLabel(nome)
+            label.setStyleSheet("""
+                 QLabel {
+                     font-size: 14px;
+                     color: white;
+                     padding: 6px;
+                 }
+             """)
+            layout.addWidget(label)
+
+        cursor.close()
+        db.close()
 
     def listarCalendario(self):
         container = self.scroll_agenda.widget()
@@ -618,6 +704,9 @@ class TelaInicial(QMainWindow):
             print("Usuário cancelou o popup.")
 
     def mudarDashboard(self, index):
+        if index == 0:
+            self.listarCalendario()
+            self.atualizarProgresso()
         if index == 2:
             self.licao_ativa = None
             self.atualizarLicoes()
@@ -967,6 +1056,8 @@ class TelaInicial(QMainWindow):
             self.atualizarPerfil(Session.current_user["id_user"])
         if index == 1:
             self.ListUsers()
+        if index == 0:
+            self.atualizarProgresso()
         self.stack.setCurrentIndex(index)
 
     def logOut(self):
