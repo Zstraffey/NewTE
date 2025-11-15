@@ -940,17 +940,95 @@ QLineEdit:checked {
                       </widget>
                      </item>
                      <item>
-                      <spacer name="substitua_aqui_grafico">
-                       <property name="orientation">
-                        <enum>Qt::Vertical</enum>
+                      <widget class="QPushButton" name="proximo">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
                        </property>
-                       <property name="sizeHint" stdset="0">
+                       <property name="minimumSize">
                         <size>
-                         <width>20</width>
-                         <height>40</height>
+                         <width>300</width>
+                         <height>0</height>
                         </size>
                        </property>
-                      </spacer>
+                       <property name="font">
+                        <font>
+                         <family>MS Shell Dlg 2</family>
+                         <pointsize>12</pointsize>
+                         <weight>9</weight>
+                         <italic>false</italic>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                       </property>
+                       <property name="autoFillBackground">
+                        <bool>false</bool>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">border-radius:6px;
+background-color: rgb(108, 108, 108);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
+                       </property>
+                       <property name="text">
+                        <string>Próxima Página</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="voltar">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>300</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">border-radius:6px;
+background-color: rgb(108, 108, 108);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
+                       </property>
+                       <property name="text">
+                        <string>Voltar Página</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="grafico_dash" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>245</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">border-radius:15px;
+background-color: rgb(108, 108, 108);
+
+</string>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_51"/>
+                      </widget>
                      </item>
                     </layout>
                    </widget>
@@ -992,8 +1070,8 @@ QLineEdit:checked {
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>508</width>
-                            <height>233</height>
+                            <width>0</width>
+                            <height>0</height>
                            </size>
                           </property>
                           <property name="maximumSize">
@@ -1011,45 +1089,87 @@ background-color: rgb(108, 108, 108);
 </string>
                           </property>
                           <layout class="QVBoxLayout" name="verticalLayout_35">
-                           <property name="rightMargin">
-                            <number>0</number>
-                           </property>
-                           <item alignment="Qt::AlignLeft|Qt::AlignTop">
+                           <item>
                             <widget class="QLabel" name="label_57">
                              <property name="text">
-                              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Entre em contato com alguns funcionarios&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Funcionários Pendentes (Menos de 60%)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                              </property>
                             </widget>
                            </item>
                            <item>
-                            <widget class="QWidget" name="widget_82" native="true">
-                             <property name="sizePolicy">
-                              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                               <horstretch>0</horstretch>
-                               <verstretch>0</verstretch>
-                              </sizepolicy>
+                            <widget class="QScrollArea" name="scrollArea_inativos">
+                             <property name="minimumSize">
+                              <size>
+                               <width>0</width>
+                               <height>0</height>
+                              </size>
                              </property>
-                             <layout class="QVBoxLayout" name="verticalLayout_108">
-                              <property name="leftMargin">
-                               <number>0</number>
+                             <property name="maximumSize">
+                              <size>
+                               <width>16777215</width>
+                               <height>16777215</height>
+                              </size>
+                             </property>
+                             <property name="layoutDirection">
+                              <enum>Qt::LeftToRight</enum>
+                             </property>
+                             <property name="widgetResizable">
+                              <bool>true</bool>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                             </property>
+                             <widget class="QWidget" name="scrollAreaWidgetContents_5">
+                              <property name="geometry">
+                               <rect>
+                                <x>0</x>
+                                <y>0</y>
+                                <width>16</width>
+                                <height>16</height>
+                               </rect>
                               </property>
-                              <property name="rightMargin">
-                               <number>0</number>
+                              <property name="sizePolicy">
+                               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                               </sizepolicy>
                               </property>
-                              <item>
-                               <spacer name="verticalSpacer_19">
-                                <property name="orientation">
-                                 <enum>Qt::Vertical</enum>
-                                </property>
-                                <property name="sizeHint" stdset="0">
-                                 <size>
-                                  <width>20</width>
-                                  <height>40</height>
-                                 </size>
-                                </property>
-                               </spacer>
-                              </item>
-                             </layout>
+                              <property name="minimumSize">
+                               <size>
+                                <width>0</width>
+                                <height>0</height>
+                               </size>
+                              </property>
+                              <property name="maximumSize">
+                               <size>
+                                <width>16777215</width>
+                                <height>16777215</height>
+                               </size>
+                              </property>
+                              <property name="layoutDirection">
+                               <enum>Qt::LeftToRight</enum>
+                              </property>
+                              <layout class="QVBoxLayout" name="verticalLayout_45">
+                               <property name="spacing">
+                                <number>0</number>
+                               </property>
+                               <property name="sizeConstraint">
+                                <enum>QLayout::SetFixedSize</enum>
+                               </property>
+                               <property name="leftMargin">
+                                <number>0</number>
+                               </property>
+                               <property name="topMargin">
+                                <number>0</number>
+                               </property>
+                               <property name="rightMargin">
+                                <number>0</number>
+                               </property>
+                               <property name="bottomMargin">
+                                <number>0</number>
+                               </property>
+                              </layout>
+                             </widget>
                             </widget>
                            </item>
                           </layout>
@@ -1062,70 +1182,96 @@ background-color: rgb(108, 108, 108);
                       <widget class="QWidget" name="solicitar_ajuda" native="true">
                        <property name="maximumSize">
                         <size>
-                         <width>515</width>
+                         <width>16777215</width>
                          <height>16777215</height>
                         </size>
                        </property>
                        <property name="styleSheet">
-                        <string notr="true">#solicitar_ajuda{background-color: rgb(204, 204, 204);
-border-radius:15px;}</string>
+                        <string notr="true">border-radius:15px;
+background-color: rgb(108, 108, 108);
+
+</string>
                        </property>
-                       <layout class="QVBoxLayout" name="verticalLayout_36">
-                        <property name="spacing">
-                         <number>0</number>
-                        </property>
-                        <property name="leftMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="rightMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="bottomMargin">
-                         <number>0</number>
-                        </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_9">
                         <item>
-                         <widget class="QScrollArea" name="scrollArea_solicitar_ajuda">
+                         <widget class="QLabel" name="label_58">
+                          <property name="text">
+                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Funcionários Ativos (Mais de 60%)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QScrollArea" name="scrollArea_ativos">
+                          <property name="minimumSize">
+                           <size>
+                            <width>0</width>
+                            <height>0</height>
+                           </size>
+                          </property>
                           <property name="maximumSize">
                            <size>
-                            <width>515</width>
+                            <width>16777215</width>
                             <height>16777215</height>
                            </size>
                           </property>
+                          <property name="layoutDirection">
+                           <enum>Qt::LeftToRight</enum>
+                          </property>
                           <property name="widgetResizable">
                            <bool>true</bool>
+                          </property>
+                          <property name="alignment">
+                           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                           </property>
                           <widget class="QWidget" name="scrollAreaWidgetContents_3">
                            <property name="geometry">
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>515</width>
-                             <height>285</height>
+                             <width>16</width>
+                             <height>16</height>
                             </rect>
+                           </property>
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>0</height>
+                            </size>
                            </property>
                            <property name="maximumSize">
                             <size>
-                             <width>515</width>
+                             <width>16777215</width>
                              <height>16777215</height>
                             </size>
                            </property>
-                           <layout class="QVBoxLayout" name="verticalLayout_54">
-                            <item>
-                             <spacer name="verticalSpacer_2">
-                              <property name="orientation">
-                               <enum>Qt::Vertical</enum>
-                              </property>
-                              <property name="sizeHint" stdset="0">
-                               <size>
-                                <width>20</width>
-                                <height>40</height>
-                               </size>
-                              </property>
-                             </spacer>
-                            </item>
+                           <property name="layoutDirection">
+                            <enum>Qt::LeftToRight</enum>
+                           </property>
+                           <layout class="QVBoxLayout" name="verticalLayout_36">
+                            <property name="spacing">
+                             <number>0</number>
+                            </property>
+                            <property name="sizeConstraint">
+                             <enum>QLayout::SetFixedSize</enum>
+                            </property>
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>0</number>
+                            </property>
                            </layout>
                           </widget>
                          </widget>
@@ -1258,7 +1404,7 @@ QPushButton{
                            <font>
                             <family>Inter 18pt SemiBold</family>
                             <pointsize>8</pointsize>
-                            <weight>8</weight>
+                            <weight>7</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
@@ -1501,8 +1647,8 @@ QComboBox:checked {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>100</width>
-                             <height>30</height>
+                             <width>1210</width>
+                             <height>581</height>
                             </rect>
                            </property>
                            <property name="sizePolicy">
@@ -1576,7 +1722,7 @@ border-radius: 9px;</string>
                      <font>
                       <family>Inter 18pt SemiBold</family>
                       <pointsize>8</pointsize>
-                      <weight>8</weight>
+                      <weight>7</weight>
                       <italic>false</italic>
                       <bold>false</bold>
                      </font>
@@ -2128,7 +2274,7 @@ border-radius: 9px;</string>
                         <font>
                          <family>Inter 18pt SemiBold</family>
                          <pointsize>8</pointsize>
-                         <weight>8</weight>
+                         <weight>7</weight>
                          <italic>false</italic>
                          <bold>false</bold>
                         </font>
@@ -2528,7 +2674,7 @@ QCalendarWidget {
                            <font>
                             <family>Segoe UI</family>
                             <pointsize>-1</pointsize>
-                            <weight>8</weight>
+                            <weight>7</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
@@ -2606,7 +2752,7 @@ border-radius: 9px;</string>
                            <font>
                             <family>Inter 18pt SemiBold</family>
                             <pointsize>10</pointsize>
-                            <weight>8</weight>
+                            <weight>7</weight>
                             <italic>false</italic>
                             <bold>false</bold>
                            </font>
@@ -2735,7 +2881,7 @@ QTextEdit {
                               <font>
                                <family>Inter 18pt SemiBold</family>
                                <pointsize>20</pointsize>
-                               <weight>8</weight>
+                               <weight>7</weight>
                                <italic>false</italic>
                                <bold>false</bold>
                               </font>
@@ -3441,7 +3587,7 @@ QPushButton:hover {
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>773</width>
+                             <width>16</width>
                              <height>16</height>
                             </rect>
                            </property>
@@ -5521,7 +5667,7 @@ QPushButton:hover {
  <connections/>
  <buttongroups>
   <buttongroup name="btns_sidebar"/>
-  <buttongroup name="rendimen_func_calen"/>
   <buttongroup name="cancelar_confirmar"/>
+  <buttongroup name="rendimen_func_calen"/>
  </buttongroups>
 </ui>
