@@ -156,7 +156,7 @@ leet_map = {
 # Lista de palavras ofensivas
 palavras_bloqueadas = [
     "nigger", "nigga", "merda", "cu", "cus", "cuzao", "cuzão", "cv", "pcc",
-    "foda", "fodo", "fodao", "fodão", "ass", "bundao", "bundão", "bunda", "bundinha",
+    "foda", "fodo", "fodao", "fodão", "bundao", "bundão", "bunda", "bundinha",
     "viado", "bicha", "traveco", "tranny", "puto", "puta", "fdp", "filho da puta",
     "filha da puta", "urtiga", "desgraçado", "desgracado", "vai tomar no cu",
     "retardado", "mongol", "imbecil", "caralho", "krl", "putinho", "putinha",
@@ -1010,7 +1010,7 @@ class TelaInicial(QMainWindow):
         reply = QMessageBox.question(
             self,
             "Confirmação",
-            f"Tem certeza que deseja este cargo?",
+            f"Tem certeza que deseja excluir este cargo?",
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.No
         )
@@ -1038,7 +1038,7 @@ class TelaInicial(QMainWindow):
         reply = QMessageBox.question(
             self,
             "Confirmação",
-            f"Tem certeza que deseja este departamento?",
+            f"Tem certeza que deseja excluir este departamento?",
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.No
         )

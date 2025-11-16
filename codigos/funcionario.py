@@ -94,6 +94,9 @@ def filtrar_texto(texto_original):
                                     palavra_texto[0] + "#" * (len(palavra_texto) - 1),
                                     texto_filtrado, flags=re.IGNORECASE)
 
+    if texto_filtrado != texto_original:
+        QMessageBox.warning(None, "Aviso", "O termo utilizado na sua mensagem não se enquadra na Política de Linguagem e Conduta no ambiente de trabalho.")
+
     return texto_filtrado
 
 from PyQt5.QtCore import QUrl
@@ -551,7 +554,7 @@ class TelaInicial(QMainWindow):
             return
 
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM calendario WHERE data_evento >= CURDATE() ORDER BY data_evento ASC")
+        cursor.execute("SELECT * FROM calendario WHERE data >= CURDATE() ORDER BY data ASC")
         datas = cursor.fetchall()
         cursor.close()
         db.close()
@@ -567,8 +570,6 @@ class TelaInicial(QMainWindow):
             layout.addWidget(btn)
 
         layout.addStretch()
-
-
 
     def atualizarCalendario(self):
         db = bancoDados().conectar()
