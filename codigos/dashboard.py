@@ -1083,6 +1083,11 @@ class TelaInicial(QMainWindow):
                                DELETE FROM licoes WHERE id_licao = {user_id};
                            """
             ifCursor.execute(query)
+
+            query = f"""
+                               DELETE FROM usuario_licao_realizada WHERE id_licao = {user_id};
+                           """
+            ifCursor.execute(query)
             ifdb.commit()
             ifCursor.close()
             ifdb.close()

@@ -39,7 +39,7 @@ leet_map = {
 
 palavras_bloqueadas = [
     "nigger", "nigga", "merda", "cu", "cus", "cuzao", "cuzão", "cv", "pcc",
-    "foda", "fodo", "fodao", "fodão", "ass", "bundao", "bundão", "bunda", "bundinha",
+    "foda", "fodo", "fodao", "fodão", "bundao", "bundão", "bunda", "bundinha",
     "viado", "bicha", "traveco", "tranny", "puto", "puta", "fdp", "filho da puta",
     "filha da puta", "urtiga", "desgraçado", "desgracado", "vai tomar no cu",
     "retardado", "mongol", "imbecil", "caralho", "krl", "putinho", "putinha",
@@ -551,7 +551,7 @@ class TelaInicial(QMainWindow):
             return
 
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM calendario")
+        cursor.execute("SELECT * FROM calendario WHERE data_evento >= CURDATE() ORDER BY data_evento ASC")
         datas = cursor.fetchall()
         cursor.close()
         db.close()
