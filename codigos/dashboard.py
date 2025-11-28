@@ -1,8 +1,9 @@
 import random
+from datetime import datetime
 
 from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF, QDate
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView, \
-    QSizePolicy, QGridLayout, QDialog
+    QSizePolicy, QGridLayout, QDialog, QVBoxLayout
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QIcon, QPainterPath, QRegion, QTextCharFormat, QBrush, QColor
 from flask import session
@@ -12,6 +13,25 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
+
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
+
+from openpyxl import Workbook
+
+import calendar
+
+class GraficoCanvas(FigureCanvas):
+    def __init__(self, parent=None):
+        self.fig = Figure(figsize=(5, 4), tight_layout=True)
+        self.ax = self.fig.add_subplot(111)
+
+        super().__init__(self.fig)
+        self.setParent(parent)
+
+        # Permite resize automático dentro do widget
+        self.fig.set_facecolor("#FFFFFF")
 
 import imgs_qrc
 import mysql.connector as mc
@@ -24,7 +44,6 @@ from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, Popu
 import re
 import unicodedata
 import difflib
-
 
 class EmailSender(QThread):
     finished = pyqtSignal(str)
@@ -137,7 +156,7 @@ leet_map = {
 # Lista de palavras ofensivas
 palavras_bloqueadas = [
     "nigger", "nigga", "merda", "cu", "cus", "cuzao", "cuzão", "cv", "pcc",
-    "foda", "fodo", "fodao", "fodão", "ass", "bundao", "bundão", "bunda", "bundinha",
+    "foda", "fodo", "fodao", "fodão", "bundao", "bundão", "bunda", "bundinha",
     "viado", "bicha", "traveco", "tranny", "puto", "puta", "fdp", "filho da puta",
     "filha da puta", "urtiga", "desgraçado", "desgracado", "vai tomar no cu",
     "retardado", "mongol", "imbecil", "caralho", "krl", "putinho", "putinha",
@@ -192,12 +211,15 @@ def filtrar_texto(texto_original):
                                     palavra_texto[0] + "#" * (len(palavra_texto) - 1),
                                     texto_filtrado, flags=re.IGNORECASE)
 
+    if texto_filtrado != texto_original:
+        QMessageBox.warning(None, "Aviso", "O termo utilizado na sua mensagem não se enquadra na Política de Linguagem e Conduta no ambiente de trabalho.")
+
     return texto_filtrado
 
 class usuarioChat(QWidget):
     def __init__(self, user):#, callback):
         super().__init__()
-        loadUi("../design/templates/contatos.ui", self)  # your .ui file with a QPushButton
+        loadUi("../design/templates/contatos.ui", self)
 
         self.nome_salvo.setText(user["nome"])
 
@@ -246,7 +268,7 @@ class TelaInicial(QMainWindow):
                 query = f"""
                      UPDATE mensagens_chat
                      SET lida = 1
-                     WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]}
+                     WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]} AND remetente_id = {Session.loaded_chat}
                  """
                 cursor.execute(query)
                 db.commit()
@@ -282,7 +304,7 @@ class TelaInicial(QMainWindow):
                     query = f"""
                          UPDATE mensagens_chat
                          SET lida = 1
-                         WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]}
+                         WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]} AND remetente_id = {Session.loaded_chat}
                      """
                     cursor.execute(query)
                     db.commit()
@@ -365,9 +387,305 @@ class TelaInicial(QMainWindow):
         self.btn_anexar.clicked.connect(self.anexarLicao)
 
         self.widget_calendario.activated.connect(self.calendarioClique)
+        self.btn_baixar_tabela.clicked.connect(self.exportar_para_excel)
+
+        self.proximo.clicked.connect(self.proximaPagina)
+        self.voltar.clicked.connect(self.paginaAnterior)
 
         self.atualizarCargoDepto()
         self.atualizarCalendario()
+        self.atualizarDashboard()
+        self.atualizarGrafico()
+
+
+    def exportar_para_excel(self):
+        # Se sua tabela for QTableWidget:
+        table = self.tabela_usuarios
+
+        # Abrir janela para escolher onde salvar
+        caminho, _ = QFileDialog.getSaveFileName(
+            self,
+            "Salvar como Excel",
+            "",
+            "Arquivo Excel (*.xlsx)"
+        )
+
+        if not caminho:
+            return
+
+        wb = Workbook()
+        ws = wb.active
+
+        # ------ Cabeçalhos ------
+        col_count = table.columnCount()
+        row_count = table.rowCount()
+
+        for col in range(col_count):
+            header = table.horizontalHeaderItem(col)
+            ws.cell(row=1, column=col + 1).value = header.text() if header else ""
+
+        # ------ Dados ------
+        for row in range(row_count):
+            for col in range(col_count):
+                item = table.item(row, col)
+                ws.cell(row=row + 2, column=col + 1).value = item.text() if item else ""
+
+        # Salvar arquivo
+        try:
+            wb.save(caminho)
+            QMessageBox.information(self, "Sucesso", "Arquivo Excel salvo com sucesso!")
+        except Exception as e:
+            QMessageBox.warning(self, "Erro", f"Erro ao salvar arquivo:\n{e}")
+
+    def updateDashboardList(self):
+        db = bancoDados().conectar()
+        if not db:
+            return []
+
+        cursor = db.cursor()
+
+        # pegar total de licoes
+        cursor.execute("SELECT COUNT(*) FROM licoes")
+        total_licoes = cursor.fetchone()[0]
+
+        # menos de 75%
+        query_menos = """
+            SELECT 
+                u.id_user,
+                u.nome,
+                u.foto_perfil,
+                COUNT(ul.id_licao) AS concluidas,
+                ROUND((COUNT(ul.id_licao) / %s) * 100, 2) AS porcentagem
+            FROM usuario u
+            LEFT JOIN usuario_licao_realizada ul
+                   ON u.id_user = ul.id_usuario
+            WHERE u.tipo_usuario = 'user'
+            GROUP BY u.id_user
+            HAVING porcentagem < 60
+            ORDER BY porcentagem DESC
+        """
+        cursor.execute(query_menos, (total_licoes,))
+        usuarios_menos_75 = cursor.fetchall()
+
+        # mais de 75%
+        query_mais = """
+            SELECT 
+                u.id_user,
+                u.nome,
+                u.foto_perfil,
+                COUNT(ul.id_licao) AS concluidas,
+                ROUND((COUNT(ul.id_licao) / %s) * 100, 2) AS porcentagem
+            FROM usuario u
+            LEFT JOIN usuario_licao_realizada ul
+                   ON u.id_user = ul.id_usuario
+            WHERE u.tipo_usuario = 'user'
+            GROUP BY u.id_user
+            HAVING porcentagem >= 60
+            ORDER BY porcentagem DESC
+        """
+        cursor.execute(query_mais, (total_licoes,))
+        usuarios_mais_75 = cursor.fetchall()
+
+        cursor.close()
+        db.close()
+
+        usersAcima = []
+        usersAbaixo = []
+
+        for id, nome, foto, concluidas, porcentagem in usuarios_mais_75:
+            pixmap = QPixmap()
+
+            if foto:
+                pixmap.loadFromData(foto)
+
+            if pixmap.isNull():
+                pixmap = QPixmap('../imagens/user.png')
+
+            usersAcima.append({
+                "id_user": id,
+                "nome": nome,
+                "foto_perfil": pixmap,
+                "concluidas" : concluidas,
+                "porcentagem" : porcentagem,
+            })
+
+        for id, nome, foto, concluidas, porcentagem in usuarios_menos_75:
+            pixmap = QPixmap()
+
+            if foto:
+                pixmap.loadFromData(foto)
+
+            if pixmap.isNull():
+                pixmap = QPixmap('../imagens/user.png')
+
+            usersAbaixo.append({
+                "id_user": id,
+                "nome": nome,
+                "foto_perfil": pixmap,
+                "concluidas" : concluidas,
+                "porcentagem" : porcentagem,
+            })
+
+        return usersAcima, usersAbaixo
+
+    def atualizarGrafico(self):
+        db = bancoDados().conectar()
+        cursor = db.cursor()
+
+        query = """
+            SELECT DATE_FORMAT(data_registro, '%m/%Y') AS mes, COUNT(*) AS total
+            FROM usuario_licao_realizada
+            GROUP BY mes
+            ORDER BY mes;
+        """
+        cursor.execute(query)
+        dados = cursor.fetchall()
+
+        cursor.close()
+        db.close()
+
+        self.meses = [linha[0] for linha in dados]
+        self.totais = [linha[1] for linha in dados]
+
+        self.items_por_pagina = 6
+        self.pagina_atual = 0
+
+        self.desenharGrafico()
+
+    def proximaPagina(self):
+        max_paginas = len(self.meses) // self.items_por_pagina
+        if self.pagina_atual < max_paginas:
+            self.pagina_atual += 1
+            self.desenharGrafico()
+
+    def paginaAnterior(self):
+        if self.pagina_atual > 0:
+            self.pagina_atual -= 1
+            self.desenharGrafico()
+
+    def desenharGrafico(self):
+        inicio = self.pagina_atual * self.items_por_pagina
+        fim = inicio + self.items_por_pagina
+
+        meses_pagina = self.meses[inicio:fim]
+        totais_pagina = self.totais[inicio:fim]
+
+        # Remover gráfico antigo
+        layout = self.grafico_dash.layout()
+        if layout is None:
+            layout = QVBoxLayout(self.grafico_dash)
+            self.grafico_dash.setLayout(layout)
+
+        for i in reversed(range(layout.count())):
+            widget = layout.itemAt(i).widget()
+            if widget:
+                widget.setParent(None)
+
+        fig = Figure(figsize=(6, 3), facecolor="none")
+        ax = fig.add_subplot(111, facecolor="none")
+
+        # ====================
+        #     CORES DAS BARRAS
+        # ====================
+
+        cores = plt.cm.tab20(range(len(totais_pagina)))
+
+        ax.bar(meses_pagina, totais_pagina, width=0.15, color=cores)
+
+        # Impedir esticar horizontal
+        ax.set_xlim(-1, len(meses_pagina))
+
+        # Ajustar eixo Y sempre 1 acima do máximo
+        max_val = max(totais_pagina) if totais_pagina else 0
+        ax.set_ylim(0, max_val + 1)
+
+        # ====================
+        #       ESTILO
+        # ====================
+
+        # Fundo invisível
+        fig.patch.set_alpha(0)
+        ax.patch.set_alpha(0)
+
+        # Texto branco
+        ax.title.set_color("white")
+        ax.xaxis.label.set_color("white")
+        ax.yaxis.label.set_color("white")
+
+        # Texto branco e NEGRITO
+        ax.set_xlabel("Meses", color="white", fontweight="bold")
+        ax.set_ylabel("Lições", color="white", fontweight="bold")
+        ax.set_title("Progresso Mensal", color="white", fontweight="bold")
+
+        # Eixos em branco e negrito
+        ax.tick_params(axis='x', colors='white', labelsize=9)
+        ax.tick_params(axis='y', colors='white', labelsize=9)
+
+        # Bordas brancas
+        for spine in ax.spines.values():
+            spine.set_color("white")
+
+        fig.tight_layout()
+
+        canvas = FigureCanvas(fig)
+        layout.addWidget(canvas)
+
+    def atualizarDashboard(self):
+        container = self.scrollArea_inativos.widget()
+        self.scrollArea_inativos.setWidgetResizable(True)
+
+        layout = container.layout()
+        self.clearLayout(layout)
+
+        usersAcima, usersAbaixo = self.updateDashboardList()
+
+        for user in usersAbaixo:
+            btn = usuarioChat(user)
+
+            btn.mensagens.setVisible(False)
+
+            icon = user["foto_perfil"].scaled(btn.foto_cntt.size(), Qt.KeepAspectRatioByExpanding,
+                                              Qt.SmoothTransformation)
+            btn.foto_cntt.setFixedSize(60, 60)
+            btn.foto_cntt.setPixmap(icon)
+
+            path = QPainterPath()
+            path.addEllipse(QRectF(0, 0, 60, 60))
+            region = QRegion(path.toFillPolygon().toPolygon())
+
+            btn.foto_cntt.setMask(region)
+            btn.online.setText(f'Concluídas: {user["concluidas"]} ({user["porcentagem"]}%)')
+
+            layout.addWidget(btn)
+
+        layout.addStretch()
+
+        container = self.scrollArea_ativos.widget()
+        self.scrollArea_ativos.setWidgetResizable(True)
+
+        layout = container.layout()
+        self.clearLayout(layout)
+
+        for user in usersAcima:
+            btn = usuarioChat(user)
+
+            btn.mensagens.setVisible(False)
+
+            icon = user["foto_perfil"].scaled(btn.foto_cntt.size(), Qt.KeepAspectRatioByExpanding,
+                                              Qt.SmoothTransformation)
+            btn.foto_cntt.setFixedSize(60, 60)
+            btn.foto_cntt.setPixmap(icon)
+
+            path = QPainterPath()
+            path.addEllipse(QRectF(0, 0, 60, 60))
+            region = QRegion(path.toFillPolygon().toPolygon())
+
+            btn.foto_cntt.setMask(region)
+            btn.online.setText(f'Concluídas: {user["concluidas"]} ({user["porcentagem"]}%)')
+
+            layout.addWidget(btn)
+
+        layout.addStretch()
 
     def anexarLicao(self):
         file_path, _ = QFileDialog.getOpenFileName(
@@ -692,7 +1010,7 @@ class TelaInicial(QMainWindow):
         reply = QMessageBox.question(
             self,
             "Confirmação",
-            f"Tem certeza que deseja este cargo?",
+            f"Tem certeza que deseja excluir este cargo?",
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.No
         )
@@ -720,7 +1038,7 @@ class TelaInicial(QMainWindow):
         reply = QMessageBox.question(
             self,
             "Confirmação",
-            f"Tem certeza que deseja este departamento?",
+            f"Tem certeza que deseja excluir este departamento?",
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.No
         )
@@ -763,6 +1081,11 @@ class TelaInicial(QMainWindow):
 
             query = f"""
                                DELETE FROM licoes WHERE id_licao = {user_id};
+                           """
+            ifCursor.execute(query)
+
+            query = f"""
+                               DELETE FROM usuario_licao_realizada WHERE id_licao = {user_id};
                            """
             ifCursor.execute(query)
             ifdb.commit()

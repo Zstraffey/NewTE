@@ -82,13 +82,6 @@ background-color: rgb(109, 109, 109);
        <property name="topMargin">
         <number>0</number>
        </property>
-       <item alignment="Qt::AlignLeft">
-        <widget class="QLabel" name="lbl_carg_func">
-         <property name="text">
-          <string>cag_func</string>
-         </property>
-        </widget>
-       </item>
        <item alignment="Qt::AlignTop">
         <widget class="QLabel" name="lbl_situacao_licao">
          <property name="styleSheet">
