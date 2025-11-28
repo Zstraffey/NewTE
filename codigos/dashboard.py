@@ -1,6 +1,7 @@
 import random
 from datetime import datetime
 
+import bcrypt
 from PyQt5.QtCore import QTimer, Qt, QThread, pyqtSignal, QByteArray, QBuffer, QIODevice, QSize, QRect, QRectF, QDate
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QMessageBox, QFileDialog, QTableWidgetItem, QHeaderView, \
     QSizePolicy, QGridLayout, QDialog, QVBoxLayout
@@ -1709,6 +1710,8 @@ class TelaInicial(QMainWindow):
                     return
 
         senha = GeradorSenha().gerar()
+        senha_bytes = senha.encode("utf-8")
+        hash_senha = bcrypt.hashpw(senha_bytes, bcrypt.gensalt())
 
         receiverEmail =  ValidadorEmail(self.lineEdit_email.text()).validar()
         if not receiverEmail:
@@ -1733,7 +1736,7 @@ class TelaInicial(QMainWindow):
             "foto_perfil": img_data,
             "status": "OFFLINE",
             "sobre_mim": "Sobre mim...",
-            "senha": result[3] if self.alterar else senha,
+            "senha": result[3] if self.alterar else hash_senha,
             "endereco": self.lineEdit_endereco.text(),
             "tipo_usuario": row[0] if row else "user",
             "experiencias": "Experiências..."

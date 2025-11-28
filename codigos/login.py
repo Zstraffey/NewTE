@@ -8,6 +8,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
+import bcrypt
 import os
 
 import random
@@ -177,14 +178,17 @@ class Codigo(QMainWindow):
                 return
 
             if not ValidadorSenha(self.senha1.text()).validar():
-                QMessageBox.information(self, "Validação de Senha","Sua senha deve conter no mínimo 8 caracteres, uma letra minúscula e maiúscula, "
-                                                                   "e um caractere especial.")
+                QMessageBox.information(self, "Validação de Senha","Sua senha deve conter no mínimo 8 caracteres, uma letra minúscula e maiúscula, e um caractere especial.")
                 return
+
+            # ---- HASH da senha antes de salvar ----
+            senha_plana = self.senha1.text().encode("utf-8")
+            senha_hash = bcrypt.hashpw(senha_plana, bcrypt.gensalt())
 
             query = """
                  UPDATE usuario SET senha = %s WHERE email = %s;
             """
-            cursor.execute(query, (self.senha1.text(), self.email.text()))
+            cursor.execute(query, (senha_hash, self.email.text()))
 
             query = """
                 DELETE FROM recuperacao_senha WHERE email_usuario = %s;
@@ -221,39 +225,62 @@ class Login(QMainWindow):
 
         cursor = db.cursor()
 
-        query = "SELECT id_user, nome, email, senha, tipo_usuario, foto_perfil, cargo FROM usuario WHERE email = %s AND senha = %s"
-        cursor.execute(query, (email, senha))
+        # Buscar apenas pelo email (não mais email+senha)
+        query = "SELECT id_user, nome, email, senha, tipo_usuario, foto_perfil, cargo FROM usuario WHERE email = %s"
+        cursor.execute(query, (email,))
         result = cursor.fetchone()
 
         if result is None:
             QMessageBox.warning(None, "Aviso", "Usuário ou senha incorretos.")
-        else:
-            pixmap = QPixmap()
+            cursor.close()
+            db.close()
+            return
 
-            if result[5]:
-                pixmap.loadFromData(result[5])
+        # result[3] é o hash salvo no banco; pode ser bytes ou str dependendo do tipo da coluna
+        hash_no_banco = result[3]
+        if isinstance(hash_no_banco, str):
+            hash_no_banco = hash_no_banco.encode("utf-8")
 
-            # If pixmap is invalid, use a default avatar
-            if pixmap.isNull():
-                pixmap = QPixmap('../imagens/user.png')
+        senha_digitada = senha.encode("utf-8")
 
-            Session.current_user = {
-                "id_user": int(result[0]),
-                "nome": result[1],
-                "email": result[2],
-                "login": result[4],
-                "foto_perfil" : pixmap,
-                "cargo": result[6],
-            }
+        # comparação segura com bcrypt
+        try:
+            if not bcrypt.checkpw(senha_digitada, hash_no_banco):
+                QMessageBox.warning(None, "Aviso", "Usuário ou senha incorretos.")
+                cursor.close()
+                db.close()
+                return
+        except ValueError:
+            # se hash no banco estiver em formato inesperado (migration incompleta), falha segura
+            QMessageBox.warning(None, "Aviso", "Erro ao verificar senha. Entre em contato com o administrador.")
+            cursor.close()
+            db.close()
+            return
 
-            query = """
-                        UPDATE usuario SET status = 'ONLINE' WHERE email = %s;
-                   """
-            cursor.execute(query, (Session.current_user["email"], ))
-            db.commit()
+        # Se chegou aqui → senha correta
+        pixmap = QPixmap()
+        if result[5]:
+            pixmap.loadFromData(result[5])
+        if pixmap.isNull():
+            pixmap = QPixmap('../imagens/user.png')
 
-            QMessageBox.information(None, "Bem-Vindo!", "Logado com sucesso!")
-            self.logarAplicativo()
+        Session.current_user = {
+            "id_user": int(result[0]),
+            "nome": result[1],
+            "email": result[2],
+            "login": result[4],
+            "foto_perfil": pixmap,
+            "cargo": result[6],
+        }
+
+        query = """
+                    UPDATE usuario SET status = 'ONLINE' WHERE email = %s;
+               """
+        cursor.execute(query, (Session.current_user["email"],))
+        db.commit()
+
+        QMessageBox.information(None, "Bem-Vindo!", "Logado com sucesso!")
+        self.logarAplicativo()
 
         cursor.close()
         db.close()
