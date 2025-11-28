@@ -177,7 +177,8 @@ class Codigo(QMainWindow):
                 return
 
             if not ValidadorSenha(self.senha1.text()).validar():
-                QMessageBox.information(self, "Validação de Senha","Sua senha deve conter no mínimo 8 caracteres, uma letra minúscula e maiúscula, e um caractere especial.")
+                QMessageBox.information(self, "Validação de Senha","Sua senha deve conter no mínimo 8 caracteres, uma letra minúscula e maiúscula, "
+                                                                   "e um caractere especial.")
                 return
 
             query = """
