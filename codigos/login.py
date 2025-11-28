@@ -147,7 +147,7 @@ class EmailSender(QThread):
 class Codigo(QMainWindow):
     def __init__(self, stacked_widget):
         super().__init__()
-        loadUi("../design/inserir_codigo.ui", self)
+        loadUi(resource_path("design/inserir_codigo.ui"), self)
         self.widget = stacked_widget
 
         QMessageBox.information(self, "Validação de Senha", "Sua senha deve conter no mínimo 8 caracteres, uma letra minúscula e maiúscula, e um caractere especial.")
@@ -205,7 +205,7 @@ class Codigo(QMainWindow):
 class Login(QMainWindow):
     def __init__(self, stacked_widget):
         super().__init__()
-        loadUi("../design/login.ui", self)
+        loadUi(resource_path("design/login.ui"), self)
         self.widget = stacked_widget
 
         self.logar.clicked.connect(self.loginfunction)
@@ -299,7 +299,7 @@ class Login(QMainWindow):
 class EsqueciSenha(QMainWindow):
     def __init__(self, stacked_widget):
         super().__init__()
-        loadUi("../design/senha.ui", self)
+        loadUi(resource_path("design/senha.ui"), self)
         self.widget = stacked_widget
 
         self.trocar.clicked.connect(self.trocartela)

@@ -272,13 +272,13 @@ class VisualizadorArquivo(QDialog):
 class licao(QWidget):
     def __init__(self):#, callback):
         super().__init__()
-        loadUi("../design/templates/aula_funcionario.ui", self)
+        loadUi(resource_path("design/templates/aula_funcionario.ui"), self)
 
 class usuarioChat(QWidget):
     def __init__(self, user):#, callback):
         print(user)
         super().__init__()
-        loadUi("../design/templates/contatos.ui", self)
+        loadUi(resource_path("design/templates/contatos.ui"), self)
 
         self.nome_salvo.setText(user["nome"])
 
@@ -286,7 +286,7 @@ class agendaListada(QWidget):
     def __init__(self, agenda):#, callback):
         print(agenda)
         super().__init__()
-        loadUi("../design/templates/compromisso_marcado_agenda.ui", self)
+        loadUi(resource_path("design/templates/compromisso_marcado_agenda.ui"), self)
 
         dias = [
             "Seg", "Ter", "Qua",
@@ -388,7 +388,7 @@ class TelaInicial(QMainWindow):
     def __init__(self, stacked_widget):
         super().__init__()
         print("oi")
-        loadUi("../design/dashboard_funcionario.ui", self)
+        loadUi(resource_path("design/dashboard_funcionario.ui"), self)
         self.widget = stacked_widget
 
         Session.last_message_id = 0

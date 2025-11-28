@@ -220,19 +220,19 @@ def filtrar_texto(texto_original):
 class usuarioChat(QWidget):
     def __init__(self, user):#, callback):
         super().__init__()
-        loadUi("../design/templates/contatos.ui", self)
+        loadUi(resource_path("design/templates/contatos.ui"), self)
 
         self.nome_salvo.setText(user["nome"])
 
 class licao(QWidget):
     def __init__(self):#, callback):
         super().__init__()
-        loadUi("../design/templates/template_aula.ui", self)
+        loadUi(resource_path("design/templates/template_aula.ui"), self)
 
 class adicionarLicao(QWidget):
     def __init__(self):#, callback):
         super().__init__()
-        loadUi("../design/templates/aula_adicionar.ui", self)
+        loadUi(resource_path("design/templates/aula_adicionar.ui"), self)
 
 class TelaInicial(QMainWindow):
     class DBLoopUpdate(QThread):
@@ -322,7 +322,7 @@ class TelaInicial(QMainWindow):
 
     def __init__(self, stacked_widget):
         super().__init__()
-        loadUi("../design/NOVODASH.ui", self)
+        loadUi(resource_path("design/NOVODASH.ui"), self)
         self.widget = stacked_widget
         self.alterar = None
         self.licaoAlterar = None
