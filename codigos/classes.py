@@ -84,7 +84,7 @@ class bancoDados:
         if bancoDados.pool is None:
             bancoDados.pool = pooling.MySQLConnectionPool(
                 pool_name="mypool",
-                pool_size=10,                      # até 10 conexões simultâneas
+                pool_size=24,                      # até 10 conexões simultâneas
                 pool_reset_session=True,
                 host="srv1897.hstgr.io", #""
                 user="u416468954_NEWTE", #""
