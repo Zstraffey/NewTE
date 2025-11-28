@@ -10,6 +10,15 @@ import re
 import random
 import string
 
+import sys, os
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
 class Session:
     current_user = None
     loaded_chat = 0
@@ -74,23 +83,23 @@ class bancoDados:
     def conectar(self):
 
         try:
-            #mydb = mc.connect(
-            #    host="srv1897.hstgr.io",
-            #    user="u416468954_NEWTE",
-            #    password="Newte2025",
-            #    database="u416468954_newtebd",
-            #    use_pure=True
-            #)
-
             mydb = mc.connect(
-                host="localhost",
-                user="root",
-                password="",
-                database="newte",
-                use_pure=True,
-                ssl_disabled = False,
-                connection_timeout = 600,  # até 10 minutos
+                host="srv1897.hstgr.io",
+                user="u416468954_NEWTE",
+                password="Newte2025",
+                database="u416468954_newtebd",
+                use_pure=True
             )
+
+            #mydb = mc.connect(
+            #    host="localhost",
+            #    user="root",
+            #    password="",
+            #    database="newte",
+            #    use_pure=True,
+            #    ssl_disabled = False,
+            #    connection_timeout = 600,  # até 10 minutos
+            #)
 
             return mydb
         except mc.Error as err:
@@ -102,7 +111,7 @@ class bancoDados:
 class PopupSobreMim(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        uic.loadUi("../design/templates/sobre_mim.ui", self)
+        uic.loadUi(resource_path("design/sobre_mim.ui"), self)
         self.valor_retornado = None
 
         self.btn_confirmar_sobremim.clicked.connect(self.onConfirmar)
@@ -114,7 +123,7 @@ class PopupSobreMim(QDialog):
 class PopupCargo(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        uic.loadUi("../design/templates/cargo.ui", self)
+        uic.loadUi(resource_path("design/cargo.ui"), self)
         self.valor_retornado = None
 
         self.btn_adicionar_cargo.clicked.connect(self.onConfirmar)
@@ -126,7 +135,7 @@ class PopupCargo(QDialog):
 class PopupCalendario(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        uic.loadUi("../design/templates/calendario_adicionar.ui", self)
+        uic.loadUi(resource_path("design/calendario_adicionar.ui"), self)
         self.valor_retornado = None
 
         self.btn_adicionar_evento.clicked.connect(self.onConfirmar)
@@ -138,12 +147,12 @@ class PopupCalendario(QDialog):
 class PopupVisualizarCal(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        uic.loadUi("../design/templates/calendario_visualizar.ui", self)
+        uic.loadUi(resource_path("design/calendario_visualizar.ui"), self)
 
 class PopupDepto(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        uic.loadUi("../design/templates/departamento.ui", self)
+        uic.loadUi(resource_path("design/departamento.ui"), self)
         self.valor_retornado = None
         self.foto_pixmap = None  # Para guardar a imagem carregada
 

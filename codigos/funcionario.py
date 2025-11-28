@@ -16,7 +16,7 @@ import mysql.connector as mc
 import time
 from functools import partial
 
-from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupVisualizarCal
+from codigos.classes import Session, bancoDados, ChatBubble, PopupSobreMim, PopupVisualizarCal, resource_path
 
 import re
 import unicodedata
@@ -643,7 +643,7 @@ class TelaInicial(QMainWindow):
             pixmap.loadFromData(foto_perfil)  # converte bytes → QPixmap
 
             if pixmap.isNull():
-                pixmap = QPixmap('../imagens/user.png')
+                pixmap = QPixmap(resource_path("imagens/user.png"))
 
             self.foto_funcionario.setPixmap(pixmap)
 
@@ -661,14 +661,14 @@ class TelaInicial(QMainWindow):
                 pixmap.loadFromData(image_data)  # converte bytes → QPixmap
 
                 if pixmap.isNull():
-                    pixmap = QPixmap('../imagens/logo new te.png')
+                    pixmap = QPixmap(resource_path("imagens/logo new te.png"))
 
                 self.foto_aqui.setPixmap(pixmap)  # coloca na QLabel
                 self.foto_aqui.setScaledContents(True)  # ajusta o tamanho automaticamente
                 print("Imagem carregada com sucesso!")
             else:
                 print("Nenhuma imagem encontrada para esse departamento.")
-                pixmap = QPixmap('../imagens/logo new te.png')
+                pixmap = QPixmap(resource_path("imagens/logo new te.png"))
 
                 self.foto_aqui.setPixmap(pixmap)  # coloca na QLabel
                 self.foto_aqui.setScaledContents(True)  # ajusta o tamanho automaticamente
@@ -937,7 +937,7 @@ class TelaInicial(QMainWindow):
                 pixmap.loadFromData(foto_perfil)
 
             if pixmap.isNull():
-                pixmap = QPixmap('../imagens/user.png')
+                pixmap = QPixmap(resource_path("imagens/user.png"))
 
             query = "SELECT COUNT(*) FROM mensagens_chat WHERE destinatario_id = %s AND lida = 0 AND remetente_id = %s"
             cursor.execute(query, (Session.current_user["id_user"], id_user))

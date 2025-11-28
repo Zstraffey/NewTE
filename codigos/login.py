@@ -15,8 +15,9 @@ import random
 
 import dashboard
 import funcionario
-from codigos.classes import bancoDados, Session, ValidadorSenha
+from codigos.classes import bancoDados, Session, ValidadorSenha, resource_path
 import imgs_qrc
+
 
 class EmailSender(QThread):
     finished = pyqtSignal(str)
@@ -95,7 +96,7 @@ class EmailSender(QThread):
             """
 
             message.attach(MIMEText(html_content, "html"))
-            image_path = "../imagens/logo_new_te.png"
+            image_path = resource_path("imagens/logo_new_te.png")
             if os.path.exists(image_path):
                 with open(image_path, 'rb') as img_file:
                     img = MIMEImage(img_file.read())
@@ -262,7 +263,7 @@ class Login(QMainWindow):
         if result[5]:
             pixmap.loadFromData(result[5])
         if pixmap.isNull():
-            pixmap = QPixmap('../imagens/user.png')
+            pixmap = QPixmap(resource_path("imagens/user.png"))
 
         Session.current_user = {
             "id_user": int(result[0]),
