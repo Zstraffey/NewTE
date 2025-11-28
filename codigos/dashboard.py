@@ -251,26 +251,25 @@ class TelaInicial(QMainWindow):
                 return
             cursor = db.cursor()
 
-            query = f"""
+            query = """
                  SELECT *
                  FROM mensagens_chat
-                 WHERE id_mensagem > {Session.last_message_id} AND (
-                     (remetente_id = {Session.current_user["id_user"]} AND destinatario_id = {Session.loaded_chat})
+                 WHERE id_mensagem > %s AND (
+                     (remetente_id = %s AND destinatario_id = %s)
                      OR
-                     (remetente_id = {Session.loaded_chat} AND destinatario_id = {Session.current_user["id_user"]})
+                     (remetente_id = %s AND destinatario_id = %s)
                  )
                  ORDER BY data_envio ASC;
              """
-            cursor.execute(query)
+            cursor.execute(query, (Session.last_message_id, Session.current_user["id_user"], Session.loaded_chat, Session.loaded_chat, Session.current_user["id_user"]))
             results = cursor.fetchall()
             if results:
-
-                query = f"""
+                query = """
                      UPDATE mensagens_chat
                      SET lida = 1
-                     WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]} AND remetente_id = {Session.loaded_chat}
+                     WHERE lida = 0 AND destinatario_id = %s AND remetente_id = %s
                  """
-                cursor.execute(query)
+                cursor.execute(query, (Session.current_user["id_user"], Session.loaded_chat))
                 db.commit()
                 print(query)
 
@@ -287,26 +286,27 @@ class TelaInicial(QMainWindow):
                     return
                 cursor = db.cursor()
 
-                query = f"""
+                query = """
                      SELECT *
                      FROM mensagens_chat
-                     WHERE id_mensagem > {Session.last_message_id} AND (
-                         (remetente_id = {Session.current_user["id_user"]} AND destinatario_id = {Session.loaded_chat})
+                     WHERE id_mensagem > %s AND (
+                         (remetente_id = %s AND destinatario_id = %s)
                          OR
-                         (remetente_id = {Session.loaded_chat} AND destinatario_id = {Session.current_user["id_user"]})
+                         (remetente_id = %s AND destinatario_id = %s)
                      )
                      ORDER BY data_envio ASC;
                  """
-                cursor.execute(query)
+                cursor.execute(query, (
+                Session.last_message_id, Session.current_user["id_user"], Session.loaded_chat, Session.loaded_chat,
+                Session.current_user["id_user"]))
                 results = cursor.fetchall()
-
                 if results:
-                    query = f"""
+                    query = """
                          UPDATE mensagens_chat
                          SET lida = 1
-                         WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]} AND remetente_id = {Session.loaded_chat}
+                         WHERE lida = 0 AND destinatario_id = %s AND remetente_id = %s
                      """
-                    cursor.execute(query)
+                    cursor.execute(query, (Session.current_user["id_user"], Session.loaded_chat))
                     db.commit()
                     print(query)
 
@@ -835,10 +835,10 @@ class TelaInicial(QMainWindow):
             ifdb = bancoDados().conectar()
             ifCursor = ifdb.cursor()
 
-            query = f"""
-                        DELETE FROM usuario WHERE id_user = {user_id};
+            query = """
+                        DELETE FROM usuario WHERE id_user = %s;
                     """
-            ifCursor.execute(query)
+            ifCursor.execute(query, (user_id,))
             ifdb.commit()
             ifCursor.close()
             ifdb.close()
@@ -921,21 +921,21 @@ class TelaInicial(QMainWindow):
 
             cursor = db.cursor()
 
-            query = f"SELECT * FROM cargo WHERE nome_cargo = '{valores[0]}'"
-            cursor.execute(query)
+            query = f"SELECT * FROM cargo WHERE nome_cargo = %s"
+            cursor.execute(query, (valores[0],))
             result = cursor.fetchone()
 
             if result is None:
                 values = {"Usuário": "user", "Administrador": "admin"}
 
-                query = f"""
+                query = """
                                                      INSERT INTO cargo
                                                      (nome_cargo, permissao_cargo) 
-                                                     VALUES ('{valores[0]}','{values[valores[1]]}');
+                                                     VALUES (%s, %s);
                                                    """
                 try:
                     cursor = db.cursor()
-                    cursor.execute(query)
+                    cursor.execute(query, (valores[0], values[valores[1]]))
                     db.commit()
                     cursor.close()
                     db.close()
@@ -965,12 +965,12 @@ class TelaInicial(QMainWindow):
                 QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
                 return
 
-            query = f"""
-                           UPDATE usuario SET sobre_mim = '{valores[0]}', experiencias = '{valores[1]}' WHERE id_user = '{Session.current_user["id_user"]}';
+            query = """
+                           UPDATE usuario SET sobre_mim = %s, experiencias = %s WHERE id_user = %s;
                       """
             try:
                 cursor = db.cursor()
-                cursor.execute(query)
+                cursor.execute(query, (valores[0], valores[1], Session.current_user["id_user"]))
                 db.commit()
                 cursor.close()
                 db.close()
@@ -1018,10 +1018,10 @@ class TelaInicial(QMainWindow):
             ifdb = bancoDados().conectar()
             ifCursor = ifdb.cursor()
 
-            query = f"""
-                               DELETE FROM cargo WHERE nome_cargo = '{self.comboBox_cargo.currentText()}';
+            query = """
+                               DELETE FROM cargo WHERE nome_cargo = %s;
                            """
-            ifCursor.execute(query)
+            ifCursor.execute(query, (self.comboBox_cargo.currentText(), ))
             ifdb.commit()
             ifCursor.close()
             ifdb.close()
@@ -1046,10 +1046,10 @@ class TelaInicial(QMainWindow):
             ifdb = bancoDados().conectar()
             ifCursor = ifdb.cursor()
 
-            query = f"""
-                               DELETE FROM departamento WHERE nome_depto = '{self.comboBox_depto.currentText()}';
+            query = """
+                               DELETE FROM departamento WHERE nome_depto = %s;
                            """
-            ifCursor.execute(query)
+            ifCursor.execute(query, (self.comboBox_depto.currentText(),))
             ifdb.commit()
             ifCursor.close()
             ifdb.close()
@@ -1079,15 +1079,15 @@ class TelaInicial(QMainWindow):
             ifdb = bancoDados().conectar()
             ifCursor = ifdb.cursor()
 
-            query = f"""
-                               DELETE FROM licoes WHERE id_licao = {user_id};
+            query = """
+                               DELETE FROM licoes WHERE id_licao = %s;
                            """
-            ifCursor.execute(query)
+            ifCursor.execute(query, (user_id, ))
 
-            query = f"""
-                               DELETE FROM usuario_licao_realizada WHERE id_licao = {user_id};
+            query = """
+                               DELETE FROM usuario_licao_realizada WHERE id_licao = %s;
                            """
-            ifCursor.execute(query)
+            ifCursor.execute(query, (user_id, ))
             ifdb.commit()
             ifCursor.close()
             ifdb.close()
@@ -1102,7 +1102,7 @@ class TelaInicial(QMainWindow):
         print(id)
         db = bancoDados().conectar()
         cursor = db.cursor()
-        cursor.execute(f"SELECT id_user, nome, departamento, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = {id}")
+        cursor.execute("SELECT id_user, nome, departamento, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = %s", (id, ))
 
         row = cursor.fetchone()
 
@@ -1411,14 +1411,14 @@ class TelaInicial(QMainWindow):
 
         self.lineEdit_mensagem.setText("")
 
-        query = f"""
+        query = """
           INSERT INTO mensagens_chat
           (remetente_id, destinatario_id, mensagem) 
-          VALUES ({Session.current_user["id_user"]}, {Session.loaded_chat}, '{text}');
+          VALUES (%s, %s, %s);
           """
         try:
             cursor = db.cursor()
-            cursor.execute(query)
+            cursor.execute(query, (Session.current_user["id_user"], Session.loaded_chat, text))
             db.commit()
             cursor.close()
             db.close()
@@ -1568,10 +1568,10 @@ class TelaInicial(QMainWindow):
 
         cursor = db.cursor()
 
-        query = f"""
-                       UPDATE usuario SET status = 'OFFLINE' WHERE email = '{Session.current_user["email"]}';
+        query = """
+                       UPDATE usuario SET status = 'OFFLINE' WHERE email = %s;
                   """
-        cursor.execute(query)
+        cursor.execute(query, (Session.current_user["email"],))
         db.commit()
 
         cursor.close()
@@ -1714,8 +1714,8 @@ class TelaInicial(QMainWindow):
         if not receiverEmail:
             QMessageBox.warning(self, "Erro", "Email inválido.")
             return
-        query = f"SELECT email, cpf, rg, senha FROM usuario WHERE email = '{receiverEmail}' or cpf = '{cpf}' or rg = '{rg}';"
-        cursor.execute(query)
+        query = f"SELECT email, cpf, rg, senha FROM usuario WHERE email = %s or cpf = %s or rg = %s;"
+        cursor.execute(query, (receiverEmail, cpf, rg))
         result = cursor.fetchone()
 
         if result and not self.alterar:

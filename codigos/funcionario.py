@@ -317,25 +317,25 @@ class TelaInicial(QMainWindow):
                 return
             cursor = db.cursor()
 
-            query = f"""
+            query = """
                  SELECT *
                  FROM mensagens_chat
-                 WHERE id_mensagem > {Session.last_message_id} AND (
-                     (remetente_id = {Session.current_user["id_user"]} AND destinatario_id = {Session.loaded_chat})
+                 WHERE id_mensagem > %s AND (
+                     (remetente_id = %s AND destinatario_id = %s)
                      OR
-                     (remetente_id = {Session.loaded_chat} AND destinatario_id = {Session.current_user["id_user"]})
+                     (remetente_id = %s AND destinatario_id = %s)
                  )
                  ORDER BY data_envio ASC;
              """
-            cursor.execute(query)
+            cursor.execute(query, (Session.last_message_id, Session.current_user["id_user"], Session.loaded_chat, Session.loaded_chat, Session.current_user["id_user"]))
             results = cursor.fetchall()
             if results:
-                query = f"""
+                query = """
                      UPDATE mensagens_chat
                      SET lida = 1
-                     WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]} AND remetente_id = {Session.loaded_chat}
+                     WHERE lida = 0 AND destinatario_id = %s AND remetente_id = %s
                  """
-                cursor.execute(query)
+                cursor.execute(query, (Session.current_user["id_user"], Session.loaded_chat))
                 db.commit()
                 print(query)
 
@@ -352,26 +352,27 @@ class TelaInicial(QMainWindow):
                     return
                 cursor = db.cursor()
 
-                query = f"""
+                query = """
                      SELECT *
                      FROM mensagens_chat
-                     WHERE id_mensagem > {Session.last_message_id} AND (
-                         (remetente_id = {Session.current_user["id_user"]} AND destinatario_id = {Session.loaded_chat})
+                     WHERE id_mensagem > %s AND (
+                         (remetente_id = %s AND destinatario_id = %s)
                          OR
-                         (remetente_id = {Session.loaded_chat} AND destinatario_id = {Session.current_user["id_user"]})
+                         (remetente_id = %s AND destinatario_id = %s)
                      )
                      ORDER BY data_envio ASC;
                  """
-                cursor.execute(query)
+                cursor.execute(query, (
+                Session.last_message_id, Session.current_user["id_user"], Session.loaded_chat, Session.loaded_chat,
+                Session.current_user["id_user"]))
                 results = cursor.fetchall()
-
                 if results:
-                    query = f"""
+                    query = """
                          UPDATE mensagens_chat
                          SET lida = 1
-                         WHERE lida = 0 AND destinatario_id = {Session.current_user["id_user"]} AND remetente_id = {Session.loaded_chat}
+                         WHERE lida = 0 AND destinatario_id = %s AND remetente_id = %s
                      """
-                    cursor.execute(query)
+                    cursor.execute(query, (Session.current_user["id_user"], Session.loaded_chat))
                     db.commit()
                     print(query)
 
@@ -467,7 +468,7 @@ class TelaInicial(QMainWindow):
 
         cursor.execute("SELECT COUNT(*) FROM licoes")
         total = cursor.fetchone()[0]
-        cursor.execute(f"SELECT COUNT(*) FROM usuario_licao_realizada WHERE id_usuario = {Session.current_user['id_user']}")
+        cursor.execute(f"SELECT COUNT(*) FROM usuario_licao_realizada WHERE id_usuario = %s", (Session.current_user['id_user'],))
         realizadas = cursor.fetchone()[0]
 
         self.lbl_progresso.setText(f"{realizadas}/{total}")
@@ -505,7 +506,7 @@ class TelaInicial(QMainWindow):
              """)
             layout.addWidget(label)
 
-        cursor.execute(f"SELECT COUNT(*) FROM mensagens_chat WHERE destinatario_id = {Session.current_user['id_user']} AND lida = 0")
+        cursor.execute(f"SELECT COUNT(*) FROM mensagens_chat WHERE destinatario_id = %s AND lida = 0", (Session.current_user['id_user'], ))
         contagem = cursor.fetchone()[0]
         self.lbl_novas_mensagens.setText(f"{contagem}")
 
@@ -624,7 +625,7 @@ class TelaInicial(QMainWindow):
         print(id)
         db = bancoDados().conectar()
         cursor = db.cursor()
-        cursor.execute(f"SELECT id_user, nome, departamento, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = {id}")
+        cursor.execute(f"SELECT id_user, nome, departamento, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = %s", (id,))
 
         row = cursor.fetchone()
 
@@ -686,12 +687,12 @@ class TelaInicial(QMainWindow):
                 QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
                 return
 
-            query = f"""
-                              UPDATE usuario SET sobre_mim = '{valores[0]}', experiencias = '{valores[1]}' WHERE id_user = '{Session.current_user["id_user"]}';
+            query = """
+                              UPDATE usuario SET sobre_mim = %s, experiencias = %s WHERE id_user = %s;
                          """
             try:
                 cursor = db.cursor()
-                cursor.execute(query)
+                cursor.execute(query, (valores[0], valores[1], Session.current_user["id_user"]))
                 db.commit()
                 cursor.close()
                 db.close()
@@ -723,10 +724,10 @@ class TelaInicial(QMainWindow):
 
         cursor = db.cursor()
 
-        query = f"""
-                    UPDATE usuario SET status = 'OFFLINE' WHERE email = '{Session.current_user["email"]}';
+        query = """
+                    UPDATE usuario SET status = 'OFFLINE' WHERE email = %s;
                """
-        cursor.execute(query)
+        cursor.execute(query, (Session.current_user["email"], ))
         db.commit()
 
         cursor.close()
@@ -969,14 +970,14 @@ class TelaInicial(QMainWindow):
     def concluirAtividade(self):
         db = bancoDados().conectar()
 
-        query = f"""
+        query = """
                   INSERT INTO usuario_licao_realizada
                   (id_usuario, id_licao) 
-                  VALUES ({Session.current_user["id_user"]}, {self.licao_ativa});
+                  VALUES (%s, %s);
                   """
         try:
             cursor = db.cursor()
-            cursor.execute(query)
+            cursor.execute(query, (Session.current_user["id_user"], self.licao_ativa))
             db.commit()
             cursor.close()
             db.close()
@@ -994,14 +995,14 @@ class TelaInicial(QMainWindow):
 
         self.lineEdit_mensagem.setText("")
 
-        query = f"""
+        query = """
           INSERT INTO mensagens_chat
           (remetente_id, destinatario_id, mensagem) 
-          VALUES ({Session.current_user["id_user"]}, {Session.loaded_chat}, '{text}');
+          VALUES (%s, %s, %s);
           """
         try:
             cursor = db.cursor()
-            cursor.execute(query)
+            cursor.execute(query, (Session.current_user["id_user"], Session.loaded_chat, text))
             db.commit()
             cursor.close()
             db.close()

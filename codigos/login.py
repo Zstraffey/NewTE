@@ -117,19 +117,20 @@ class EmailSender(QThread):
 
             cursor = db.cursor()
 
-            query = f"""
-                DELETE FROM recuperacao_senha WHERE email_usuario = '{self.receiver_email}';
+            query = """
+                DELETE FROM recuperacao_senha WHERE email_usuario = %s;
             """
-            cursor.execute(query)
+            cursor.execute(query, (self.receiver_email,))
 
             print("ola")
 
-            query = f"""
+            query = """
                 INSERT INTO recuperacao_senha
                 (email_usuario, codigo) 
-                VALUES ('{self.receiver_email}', '{passCode}');
+                VALUES (%s, %s);
             """
-            cursor.execute(query)
+
+            cursor.execute(query, (self.receiver_email, passCode))
 
             print("eba")
 
@@ -179,15 +180,15 @@ class Codigo(QMainWindow):
                 QMessageBox.information(self, "Validação de Senha","Sua senha deve conter no mínimo 8 caracteres, uma letra minúscula e maiúscula, e um caractere especial.")
                 return
 
-            query = f"""
-                 UPDATE usuario SET senha = '{self.senha1.text()}' WHERE email = '{self.email.text()}';
+            query = """
+                 UPDATE usuario SET senha = %s WHERE email = %s;
             """
-            cursor.execute(query)
+            cursor.execute(query, (self.senha1.text(), self.email.text()))
 
-            query = f"""
-                DELETE FROM recuperacao_senha WHERE email_usuario = '{self.email.text()}';
+            query = """
+                DELETE FROM recuperacao_senha WHERE email_usuario = %s;
             """
-            cursor.execute(query)
+            cursor.execute(query, (self.email.text(), ))
             db.commit()
 
             QMessageBox.information(None, "Sucesso", "Senha trocada com sucesso!")
@@ -244,10 +245,10 @@ class Login(QMainWindow):
                 "cargo": result[6],
             }
 
-            query = f"""
-                        UPDATE usuario SET status = 'ONLINE' WHERE email = '{Session.current_user["email"]}';
+            query = """
+                        UPDATE usuario SET status = 'ONLINE' WHERE email = %s;
                    """
-            cursor.execute(query)
+            cursor.execute(query, (Session.current_user["email"], ))
             db.commit()
 
             QMessageBox.information(None, "Bem-Vindo!", "Logado com sucesso!")
@@ -290,8 +291,8 @@ class EsqueciSenha(QMainWindow):
             return
 
         cursor = db.cursor()
-        query = f"SELECT email FROM usuario WHERE email = '{receiverEmail}'"
-        cursor.execute(query)
+        query = "SELECT email FROM usuario WHERE email = %s"
+        cursor.execute(query, (receiverEmail,))
         result = cursor.fetchone()
 
         if result is None:
@@ -325,10 +326,10 @@ def quitProgram():
 
     cursor = db.cursor()
 
-    query = f"""
-                UPDATE usuario SET status = 'OFFLINE' WHERE email = '{Session.current_user["email"]}';
+    query = """
+                UPDATE usuario SET status = 'OFFLINE' WHERE email = %s;
            """
-    cursor.execute(query)
+    cursor.execute(query, (Session.current_user["email"], ))
     db.commit()
 
     cursor.close()
