@@ -86,12 +86,11 @@ class bancoDados:
                 pool_name="mypool",
                 pool_size=10,                      # até 10 conexões simultâneas
                 pool_reset_session=True,
-                host="srv1897.hstgr.io",
-                user="u416468954_NEWTE",
-                password="Newte2025",
-                database="u416468954_newtebd",
+                host="localhost", #"srv1897.hstgr.io"
+                user="root", #"u416468954_NEWTE"
+                password="", #"Newte2025"
+                database="newte", #"u416468954_newtebd"
                 use_pure=True,
-                ssl_disabled=True
             )
             print("POOL criado!")
 
