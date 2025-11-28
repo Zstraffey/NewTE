@@ -113,7 +113,7 @@ class EmailSender(QThread):
 
             print("oi")
 
-            db = bancoDados().conectar()
+            db = bancoDados.conectar()
             if not db:
                 return
 
@@ -161,7 +161,7 @@ class Codigo(QMainWindow):
         self.widget.setCurrentIndex(self.widget.currentIndex() - 1)
 
     def trocarsenha(self):
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return
 
@@ -220,7 +220,7 @@ class Login(QMainWindow):
             QMessageBox.warning(None, "Aviso", "Por favor, preencha todos os campos.")
             return
 
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return
 
@@ -315,7 +315,7 @@ class EsqueciSenha(QMainWindow):
             self.verificacao.setText(mudarTexto("Digite um email!", "ff0000"))
             return
 
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return
 
@@ -349,7 +349,7 @@ class EsqueciSenha(QMainWindow):
 def quitProgram():
     if Session.current_user is None:
         return
-    db = bancoDados().conectar()
+    db = bancoDados.conectar()
     if not db:
         return
 
@@ -365,6 +365,8 @@ def quitProgram():
     db.close()
 
 def main():
+    bancoDados.inicializar_pool()
+
     app = QApplication(sys.argv)
     app.aboutToQuit.connect(quitProgram)
 

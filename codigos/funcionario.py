@@ -312,7 +312,7 @@ class TelaInicial(QMainWindow):
                 self.stop()
                 return
 
-            db = bancoDados().conectar()
+            db = bancoDados.conectar()
             if not db:
                 return
             cursor = db.cursor()
@@ -347,7 +347,7 @@ class TelaInicial(QMainWindow):
                     self.stop()
                     return
 
-                db = bancoDados().conectar()
+                db = bancoDados.conectar()
                 if not db:
                     return
                 cursor = db.cursor()
@@ -459,7 +459,7 @@ class TelaInicial(QMainWindow):
         self.atualizarLicoes()
 
     def atualizarProgresso(self):
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
 
         if not db:
             return
@@ -549,7 +549,7 @@ class TelaInicial(QMainWindow):
         layout = container.layout()
         self.clearLayout(layout)
 
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
 
         if not db:
             return
@@ -573,7 +573,7 @@ class TelaInicial(QMainWindow):
         layout.addStretch()
 
     def atualizarCalendario(self):
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
 
         if not db:
             return
@@ -601,7 +601,7 @@ class TelaInicial(QMainWindow):
 
     def calendarioClique(self, date: QDate):
         data_str = date.toString("yyyy-MM-dd")
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return
 
@@ -623,7 +623,7 @@ class TelaInicial(QMainWindow):
 
     def atualizarPerfil(self, id):
         print(id)
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         cursor = db.cursor()
         cursor.execute(f"SELECT id_user, nome, departamento, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = %s", (id,))
 
@@ -681,7 +681,7 @@ class TelaInicial(QMainWindow):
         if resultado == QDialog.Accepted:
             print("eba")
             valores = popup.valor_retornado
-            db = bancoDados().conectar()
+            db = bancoDados.conectar()
 
             if valores[0] == "" or valores[1] == "":
                 QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
@@ -718,7 +718,7 @@ class TelaInicial(QMainWindow):
     def quitProgram(self):
         if Session.current_user is None:
             return
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return
 
@@ -742,7 +742,7 @@ class TelaInicial(QMainWindow):
 
         self.clearLayout(layout)
 
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         cursor = db.cursor()
 
         query = "SELECT id_licao FROM usuario_licao_realizada WHERE id_usuario = %s"
@@ -776,7 +776,7 @@ class TelaInicial(QMainWindow):
     def visualizarLicao(self, id_licao):
         self.mudarDashboard(3)
 
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return
 
@@ -899,7 +899,7 @@ class TelaInicial(QMainWindow):
         layout.addStretch()
 
     def updateUserList(self):
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return []
 
@@ -968,7 +968,7 @@ class TelaInicial(QMainWindow):
                 else:
                     self.clearLayout(item.layout())  # if it’s a nested layout
     def concluirAtividade(self):
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
 
         query = """
                   INSERT INTO usuario_licao_realizada
@@ -988,7 +988,7 @@ class TelaInicial(QMainWindow):
 
     def sendMessage(self):
         text = filtrar_texto(self.lineEdit_mensagem.text())
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
 
         if text == "" or text is None:
             return

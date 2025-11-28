@@ -247,7 +247,7 @@ class TelaInicial(QMainWindow):
                 self.stop()
                 return
 
-            db = bancoDados().conectar()
+            db = bancoDados.conectar()
             if not db:
                 return
             cursor = db.cursor()
@@ -282,7 +282,7 @@ class TelaInicial(QMainWindow):
                     self.stop()
                     return
 
-                db = bancoDados().conectar()
+                db = bancoDados.conectar()
                 if not db:
                     return
                 cursor = db.cursor()
@@ -439,7 +439,7 @@ class TelaInicial(QMainWindow):
             QMessageBox.warning(self, "Erro", f"Erro ao salvar arquivo:\n{e}")
 
     def updateDashboardList(self):
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return []
 
@@ -530,7 +530,7 @@ class TelaInicial(QMainWindow):
         return usersAcima, usersAbaixo
 
     def atualizarGrafico(self):
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         cursor = db.cursor()
 
         query = """
@@ -711,7 +711,7 @@ class TelaInicial(QMainWindow):
             QMessageBox.information(self, "Sucesso", f"Arquivo '{nome}' enviado com sucesso!")
 
     def atualizarCalendario(self):
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
 
         if not db:
             return
@@ -739,7 +739,7 @@ class TelaInicial(QMainWindow):
 
     def calendarioClique(self, date: QDate):
         data_str = date.toString("yyyy-MM-dd")
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return
 
@@ -833,7 +833,7 @@ class TelaInicial(QMainWindow):
         if reply == QMessageBox.Yes:
             print(f"Usuário {user_id} excluído")
 
-            ifdb = bancoDados().conectar()
+            ifdb = bancoDados.conectar()
             ifCursor = ifdb.cursor()
 
             query = """
@@ -868,7 +868,7 @@ class TelaInicial(QMainWindow):
         if resultado == QDialog.Accepted:
             print("eba")
             valores = popup.valor_retornado
-            db = bancoDados().conectar()
+            db = bancoDados.conectar()
 
             if valores[0] == "" or valores[1] == "":
                 QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
@@ -914,7 +914,7 @@ class TelaInicial(QMainWindow):
         if resultado == QDialog.Accepted:
             print("eba")
             valores = popup.valor_retornado
-            db = bancoDados().conectar()
+            db = bancoDados.conectar()
 
             if valores[0] == "" or valores[1] == "":
                 QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
@@ -960,7 +960,7 @@ class TelaInicial(QMainWindow):
         if resultado == QDialog.Accepted:
             print("eba")
             valores = popup.valor_retornado
-            db = bancoDados().conectar()
+            db = bancoDados.conectar()
 
             if valores[0] == "" or valores[1] == "":
                 QMessageBox.warning(self, "Aviso", "Preencha todos os campos!")
@@ -985,7 +985,7 @@ class TelaInicial(QMainWindow):
             print("Usuário cancelou o popup.")
 
     def atualizarCargoDepto(self):
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         cursor = db.cursor()
         cursor.execute("SELECT * FROM cargo")
 
@@ -1016,7 +1016,7 @@ class TelaInicial(QMainWindow):
             QMessageBox.No
         )
         if reply == QMessageBox.Yes:
-            ifdb = bancoDados().conectar()
+            ifdb = bancoDados.conectar()
             ifCursor = ifdb.cursor()
 
             query = """
@@ -1044,7 +1044,7 @@ class TelaInicial(QMainWindow):
             QMessageBox.No
         )
         if reply == QMessageBox.Yes:
-            ifdb = bancoDados().conectar()
+            ifdb = bancoDados.conectar()
             ifCursor = ifdb.cursor()
 
             query = """
@@ -1077,7 +1077,7 @@ class TelaInicial(QMainWindow):
         if reply == QMessageBox.Yes:
             print(f"Usuário {user_id} excluído")
 
-            ifdb = bancoDados().conectar()
+            ifdb = bancoDados.conectar()
             ifCursor = ifdb.cursor()
 
             query = """
@@ -1101,7 +1101,7 @@ class TelaInicial(QMainWindow):
 
     def atualizarPerfil(self, id):
         print(id)
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         cursor = db.cursor()
         cursor.execute("SELECT id_user, nome, departamento, cargo, foto_perfil, sobre_mim, experiencias FROM usuario WHERE id_user = %s", (id, ))
 
@@ -1159,7 +1159,7 @@ class TelaInicial(QMainWindow):
 
         self.clearLayout(layout)
 
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         cursor = db.cursor()
         cursor.execute("SELECT * FROM licoes")
 
@@ -1190,7 +1190,7 @@ class TelaInicial(QMainWindow):
     def updateUserTable(self):
         self.tabela_usuarios.clear()
 
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         cursor = db.cursor()
         cursor.execute("SELECT * FROM usuario WHERE tipo_usuario = 'user'")
 
@@ -1334,7 +1334,7 @@ class TelaInicial(QMainWindow):
         self.foto_novo_func.setIcon(icon)
 
     def updateUserList(self):
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return []
 
@@ -1405,7 +1405,7 @@ class TelaInicial(QMainWindow):
 
     def sendMessage(self):
         text =  filtrar_texto(self.lineEdit_mensagem.text())
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
 
         if text == "" or text is None:
             return
@@ -1485,7 +1485,7 @@ class TelaInicial(QMainWindow):
         if index == 2 and not (self.alterar is None):
             print(f"alterar: {self.alterar}")
 
-            db = bancoDados().conectar()
+            db = bancoDados.conectar()
             if not db:
                 return
 
@@ -1536,7 +1536,7 @@ class TelaInicial(QMainWindow):
         if index == 1:
             self.atualizarLicoes()
         if index == 4 and not (self.licaoAlterar is None):
-            db = bancoDados().conectar()
+            db = bancoDados.conectar()
             if not db:
                 return
 
@@ -1563,7 +1563,7 @@ class TelaInicial(QMainWindow):
     def quitProgram(self):
         if Session.current_user is None:
             return
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return
 
@@ -1588,7 +1588,7 @@ class TelaInicial(QMainWindow):
         self.widget.show()
 
     def cadastrarLicao(self):
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return
 
@@ -1682,7 +1682,7 @@ class TelaInicial(QMainWindow):
 
     def cadastrarUsuario(self):
 
-        db = bancoDados().conectar()
+        db = bancoDados.conectar()
         if not db:
             return
 
