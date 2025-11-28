@@ -222,19 +222,15 @@ class ValidadorSenha:
         self.senha = senha
 
     def validar(self):
-        # Pelo menos 8 caracteres
         if len(self.senha) < 8:
             return False
 
-        # Pelo menos uma letra minúscula
         if not re.search(r'[a-z]', self.senha):
             return False
 
-        # Pelo menos uma letra maiúscula
         if not re.search(r'[A-Z]', self.senha):
             return False
 
-        # Pelo menos um caractere especial (qualquer coisa que não seja letra ou número)
         if not re.search(r'[^a-zA-Z0-9]', self.senha):
             return False
 
@@ -245,7 +241,6 @@ class ValidadorEmail:
         self.email = email.strip()
 
     def validar(self):
-        # Expressão regular simples e segura para e-mails
         padrao = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
         if re.match(padrao, self.email):
