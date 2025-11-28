@@ -1372,7 +1372,7 @@ class TelaInicial(QMainWindow):
                 pixmap.loadFromData(foto_perfil)
 
             if pixmap.isNull():
-                pixmap = QPixmap(resource_path("imagens/logo new te.png"))
+                pixmap = QPixmap(resource_path("imagens/user.png"))
 
             query = "SELECT COUNT(*) FROM mensagens_chat WHERE destinatario_id = %s AND lida = 0 AND remetente_id = %s"
             cursor.execute(query, (Session.current_user["id_user"], id_user))
